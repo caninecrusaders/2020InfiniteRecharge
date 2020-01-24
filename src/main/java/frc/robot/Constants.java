@@ -34,4 +34,9 @@ public final class Constants {
     public static final int angleMotorFR = 7;
     public static final int driveMotorBR = 8;
     public static final int angleMotorBR = 9;
+    
+    public static final int climbExtendMotorID = 10;
+    public static final int climbRetractMotorID = 11;
+    public static final int collectorMotorID = 12;
+    public static final int shooterMotorID = 13;
 }

@@ -7,18 +7,33 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
+
 
 public class ClimberSubsystem extends SubsystemBase {
+  private final TalonSRX motorClimb = new TalonSRX(Constants.climbExtendMotorID);
+  private final TalonSRX motorExtend= new TalonSRX(Constants.climbRetractMotorID);
+
   /**
    * Creates a new ClimberSubsystem.
    */
   public ClimberSubsystem() {
+   
 
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+  }
+
+  public void motorClimb(){
+
+  }
+  public void motorExtend(){
+
   }
 }

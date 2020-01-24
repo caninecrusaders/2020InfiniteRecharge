@@ -8,12 +8,15 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.ShooterSubsystem;
 
-public class cmdLowShoot extends CommandBase {
+public class cmdShoot extends CommandBase {
   /**
    * Creates a new cmdLowShoot.
    */
-  public cmdLowShoot() {
+  public cmdShoot(ShooterSubsystem ShootSubsystem) {
+    addRequirements(ShootSubsystem);
+
     // Use addRequirements() here to declare subsystem dependencies.
   }
 

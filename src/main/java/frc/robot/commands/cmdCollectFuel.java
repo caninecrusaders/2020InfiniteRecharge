@@ -8,12 +8,15 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.CollectorSubsystem;
 
 public class cmdCollectFuel extends CommandBase {
   /**
    * Creates a new cmdCollectFuel.
    */
-  public cmdCollectFuel() {
+  public cmdCollectFuel(CollectorSubsystem CollectSubsystem) {
+    addRequirements(CollectSubsystem);
+   
     // Use addRequirements() here to declare subsystem dependencies.
   }
 

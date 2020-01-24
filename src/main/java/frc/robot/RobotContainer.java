@@ -11,7 +11,11 @@ import edu.wpi.first.wpilibj.GenericHID;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.input.JoystickX3D;
 import frc.robot.input.XboxController;
+import frc.robot.subsystems.ClimberSubsystem;
+import frc.robot.subsystems.CollectorSubsystem;
 import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.subsystems.HopperSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 
 /**
@@ -22,9 +26,14 @@ import edu.wpi.first.wpilibj2.command.Command;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
+  private final ExampleSubsystem mExampleSubsystem = new ExampleSubsystem();
+  private final ClimberSubsystem mClimberSubsystem = new ClimberSubsystem();
+  private final CollectorSubsystem mCollectorSubsystem = new CollectorSubsystem();
+  private final ShooterSubsystem mShooterSubsystem = new ShooterSubsystem();
+  private final HopperSubsystem mHopperSubsystem = new HopperSubsystem();
+  
 
-  private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
+  private final ExampleCommand mAutoCommand = new ExampleCommand(mExampleSubsystem);
 
   public XboxController xboxDriver = new XboxController(1);
   public JoystickX3D joystickDriver = new JoystickX3D(0);
@@ -54,6 +63,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return m_autoCommand;
+    return mAutoCommand;
   }
 }
