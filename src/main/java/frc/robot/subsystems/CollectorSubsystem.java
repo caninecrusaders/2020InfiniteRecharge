@@ -7,22 +7,43 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+//import edu.wpi.first.wpilibj.Relay.Value;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class CollectorSubsystem extends SubsystemBase {
   private final TalonSRX collectorMotor = new TalonSRX(Constants.collectorMotorID);
+  private final DoubleSolenoid actuatorSolenoid = new DoubleSolenoid(Constants.actuatorModuleID,
+  Constants.actuatorExtendID,Constants.actuatorRetractID);
+  private double speed = 0;
   /**
    * Creates a new CollectorSubsystem.
    */
   public CollectorSubsystem() {
 
   }
-
-  @Override
+  public void collectFuel(){
+    speed = 1;
+  }
+  public void releaseFuel(){
+    speed = -0.5;
+  }
+  public void stopFuel(){
+    speed = 0;
+  }
+  public void extendActuator(){
+    actuatorSolenoid.set(Value.kForward);
+  }
+  public void retractActuator(){
+    actuatorSolenoid.set(Value.kReverse);
+  }
   public void periodic() {
+    collectorMotor.set(ControlMode.PercentOutput, speed);
     // This method will be called once per scheduler run
   }
 }

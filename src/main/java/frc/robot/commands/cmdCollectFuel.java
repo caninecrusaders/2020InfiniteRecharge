@@ -11,11 +11,13 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.CollectorSubsystem;
 
 public class cmdCollectFuel extends CommandBase {
+  private CollectorSubsystem collectorSubsystem;
   /**
    * Creates a new cmdCollectFuel.
    */
-  public cmdCollectFuel(CollectorSubsystem CollectSubsystem) {
-    addRequirements(CollectSubsystem);
+  public cmdCollectFuel(CollectorSubsystem collectSubsystem) {
+    addRequirements(collectSubsystem);
+    collectorSubsystem = collectSubsystem;
    
     // Use addRequirements() here to declare subsystem dependencies.
   }
@@ -23,11 +25,14 @@ public class cmdCollectFuel extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    collectorSubsystem.collectFuel();
+    collectorSubsystem.releaseFuel();
   }
 
   // Called once the command ends or is interrupted.

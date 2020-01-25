@@ -8,25 +8,29 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.HopperSubsystem;
+import frc.robot.subsystems.ClimberSubsystem;
 
-public class cmdHopper extends CommandBase {
+public class cmdDeployHook extends CommandBase {
+  private ClimberSubsystem climbSubsystem;
   /**
-   * Creates a new cmdHopper.
+   * Creates a new cmdDeployHook.
    */
-  public cmdHopper(HopperSubsystem HopSubsystem) {
-    addRequirements(HopSubsystem);
+  public cmdDeployHook(ClimberSubsystem ClimberSubsystem) {
+    addRequirements(ClimberSubsystem);
+    climbSubsystem = ClimberSubsystem;
     // Use addRequirements() here to declare subsystem dependencies.
   }
-
+  
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    climbSubsystem.extendActuator();
   }
 
   // Called once the command ends or is interrupted.
