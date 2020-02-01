@@ -30,7 +30,7 @@ public class cmdDeployHook extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    climbSubsystem.extendActuator();
+    climbSubsystem.extendClimbActuator();
   }
 
   // Called once the command ends or is interrupted.

@@ -19,7 +19,7 @@ import frc.robot.Constants;
 public class CollectorSubsystem extends SubsystemBase {
   private final TalonSRX collectorMotor = new TalonSRX(Constants.collectorMotorID);
   private final DoubleSolenoid actuatorSolenoid = new DoubleSolenoid(Constants.actuatorModuleID,
-  Constants.actuatorExtendID,Constants.actuatorRetractID);
+  Constants.actuatorCollectorExtendID,Constants.actuatorCollectorRetractID);
   private double speed = 0;
   /**
    * Creates a new CollectorSubsystem.
@@ -36,10 +36,10 @@ public class CollectorSubsystem extends SubsystemBase {
   public void stopFuel(){
     speed = 0;
   }
-  public void extendActuator(){
+  public void extendCollectorActuator(){
     actuatorSolenoid.set(Value.kForward);
   }
-  public void retractActuator(){
+  public void retractCollectorActuator(){
     actuatorSolenoid.set(Value.kReverse);
   }
   public void periodic() {

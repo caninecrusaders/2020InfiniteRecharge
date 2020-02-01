@@ -20,8 +20,8 @@ import frc.robot.Constants;
 public class ClimberSubsystem extends SubsystemBase {
   private final TalonSRX motorClimb = new TalonSRX(Constants.climbExtendMotorID);
   private final TalonSRX motorExtend= new TalonSRX(Constants.climbRetractMotorID);
-  private final DoubleSolenoid actuatorSolenoid = new DoubleSolenoid(Constants.actuatorModuleID, Constants.actuatorExtendID,
-  Constants.actuatorRetractID);
+  private final DoubleSolenoid actuatorSolenoid = new DoubleSolenoid(Constants.actuatorModuleID,
+   Constants.actuatorClimbExtendID, Constants.actuatorClimbRetractID);
   private double speed = 0;
   private double speed2 = 0;
   /**
@@ -43,7 +43,7 @@ public class ClimberSubsystem extends SubsystemBase {
   public void motorExtend(){
     speed2 = 0.5;
   }
-  public void extendActuator(){
+  public void extendClimbActuator(){
     actuatorSolenoid.set(Value.kForward);
   }
 }

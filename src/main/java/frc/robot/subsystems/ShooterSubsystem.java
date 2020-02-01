@@ -10,13 +10,18 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class ShooterSubsystem extends SubsystemBase {
-  private final TalonSRX shootMotor = new TalonSRX(Constants.shooterMotorID);
-  private final TalonSRX shootMotor2 = new TalonSRX(Constants.shootMotorID);
-  private double speed = 0;
+  private final TalonSRX shootMotorLeft = new TalonSRX(Constants.shootRightMotorID);
+  private final TalonSRX shootMotorRight = new TalonSRX(Constants.shootLeftMotorID);
+  private final DoubleSolenoid actuatorSolenoid = new DoubleSolenoid(Constants.actuatorModuleID, 
+  Constants.actuatorHatchExtendID, Constants.actuatorHatchRetractID);
+  private double speedLeft = 0;
+  private double speedRight = 0;
   /**
    * Creates a new ShooterSubsystem.
    */
@@ -24,18 +29,26 @@ public class ShooterSubsystem extends SubsystemBase {
 
   }
   public void shoot(){
-    speed = 0.7;
+    speedLeft = 0.7;
+    speedRight = 0.7;
   }
-  public void shooter(){
-    speed = 0.7;
-  }
+  // public void shootRight(){
+  //   speed = 0.7;
+  // }
   public void stop(){
-    speed = 0;
+    speedLeft = 0;
+    speedRight = 0;
+  }
+  public void extendHatchActuator(){
+    actuatorSolenoid.set(Value.kForward);
+  }
+  public void retractHatchActuator(){
+    actuatorSolenoid.set(Value.kReverse);
   }
   @Override
   public void periodic() {
-    shootMotor.set(ControlMode.PercentOutput, speed);
-    shootMotor2.set(ControlMode.PercentOutput, speed);
+    shootMotorLeft.set(ControlMode.PercentOutput, speedLeft);
+    shootMotorRight.set(ControlMode.PercentOutput, speedRight);
     // This method will be called once per scheduler run
   }
 }

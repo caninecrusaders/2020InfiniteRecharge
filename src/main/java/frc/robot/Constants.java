@@ -38,10 +38,14 @@ public final class Constants {
     public static final int climbExtendMotorID = 10;
     public static final int climbRetractMotorID = 11;
     public static final int collectorMotorID = 12;
-    public static final int shooterMotorID = 13;
-    public static final int shootMotorID = 14;
+    public static final int shootRightMotorID = 13;
+    public static final int shootLeftMotorID = 14;
 
     public static final int actuatorModuleID = 1;
-    public static final int actuatorExtendID = 6;
-    public static final int actuatorRetractID = 7;
+    public static final int actuatorHatchExtendID = 0;
+    public static final int actuatorHatchRetractID = 1;
+    public static final int actuatorCollectorExtendID = 2;
+    public static final int actuatorCollectorRetractID = 3;
+    public static final int actuatorClimbExtendID = 4;
+    public static final int actuatorClimbRetractID = 5;
 }
