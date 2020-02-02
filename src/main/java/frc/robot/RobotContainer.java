@@ -7,12 +7,16 @@
 
 package frc.robot;
 
+import com.kauailabs.navx.frc.AHRS;
+
 import edu.wpi.first.wpilibj.GenericHID;
-import frc.robot.commands.ExampleCommand;
+import frc.robot.commands.cmdJoystickHolonomic;
+import frc.robot.commands.cmdTwoJoystickHolonomic;
+import frc.robot.commands.cmdXboxHolonomic;
 import frc.robot.input.JoystickX3D;
 import frc.robot.input.XboxController;
-import frc.robot.subsystems.ExampleSubsystem;
-import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.DriveTrainSubsystem;
+
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -22,17 +26,36 @@ import edu.wpi.first.wpilibj2.command.Command;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
 
-  private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
+  public XboxController xboxDriverOne = new XboxController(2);
+  public XboxController xboxDriverTwo = new XboxController(3);
 
-  public XboxController xboxDriver = new XboxController(1);
-  public JoystickX3D joystickDriver = new JoystickX3D(0);
+  public JoystickX3D joystickDriverOne = new JoystickX3D(0);
+  public JoystickX3D joystickDriverTwo = new JoystickX3D(1);
+  
+  public AHRS ahrs;
+
+  private final DriveTrainSubsystem driveTrainSubsystem;
+  private final cmdJoystickHolonomic mCmdJoystickHolonomic;
+  private final cmdTwoJoystickHolonomic mCmdTwoJoystickHolonomic;
+  private final cmdXboxHolonomic mCmdXboxHolonomic;
+
+  public DriveTrainSubsystem getDriveTrainSubsystem() {
+    return driveTrainSubsystem;
+  }
 
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
+    driveTrainSubsystem = new DriveTrainSubsystem();
+
+    mCmdJoystickHolonomic = new cmdJoystickHolonomic(joystickDriverOne);
+    mCmdTwoJoystickHolonomic = new cmdTwoJoystickHolonomic(joystickDriverOne, joystickDriverTwo);
+    mCmdXboxHolonomic = new cmdXboxHolonomic(xboxDriverOne);
+    driveTrainSubsystem.setDefaultCommand(mCmdJoystickHolonomic);
+    // driveTrainSubsystem.setDefaultCommand(mCmdTwoJoystickHolonomic);
+    // driveTrainSubsystem.setDefaultCommand(mCmdXboxHolonomic);
     // Configure the button bindings
     configureButtonBindings();
   }
@@ -52,8 +75,8 @@ public class RobotContainer {
    *
    * @return the command to run in autonomous
    */
-  public Command getAutonomousCommand() {
-    // An ExampleCommand will run in autonomous
-    return m_autoCommand;
-  }
+  // public Command getAutonomousCommand() {
+  //   // An ExampleCommand will run in autonomous
+  //   return m_autoCommand;
+  // }
 }
