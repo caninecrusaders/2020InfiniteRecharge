@@ -23,6 +23,6 @@ public class cgClimb extends SequentialCommandGroup {
     super(new cmdClimb(climbSubsystem),
     new cmdDeployHook(climbSubsystem),
     new cmdExtendClimb(climbSubsystem),
-    new cmdRetractClimb(climbSubsystem));
+    new cmdWinchClimb(climbSubsystem));
   }
 }

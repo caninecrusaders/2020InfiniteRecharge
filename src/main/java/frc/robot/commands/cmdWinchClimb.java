@@ -10,12 +10,12 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ClimberSubsystem;
 
-public class cmdRetractClimb extends CommandBase {
+public class cmdWinchClimb extends CommandBase {
   private ClimberSubsystem climbSubsystem;
   /**
    * Creates a new cmdRetractClimb.
    */
-  public cmdRetractClimb(ClimberSubsystem ClimberSubsystem) {
+  public cmdWinchClimb(ClimberSubsystem ClimberSubsystem) {
     addRequirements(ClimberSubsystem);
     climbSubsystem = ClimberSubsystem;
     // Use addRequirements() here to declare subsystem dependencies.
@@ -29,7 +29,7 @@ public class cmdRetractClimb extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    climbSubsystem.motorClimb();
+    climbSubsystem.motorWinch();
   }
 
   // Called once the command ends or is interrupted.
