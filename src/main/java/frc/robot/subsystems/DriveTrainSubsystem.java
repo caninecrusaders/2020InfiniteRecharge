@@ -23,19 +23,24 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import org.frcteam2910.common.drivers.Gyroscope;
 import org.frcteam2910.common.drivers.SwerveModule;
+import org.frcteam2910.common.robot.drivers.Mk2SwerveModule;
 import org.frcteam2910.common.math.Vector2;
 import org.frcteam2910.common.robot.drivers.Mk2SwerveModuleBuilder;
 import org.frcteam2910.common.robot.drivers.NavX;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.TimedRobot;
 
-
 public class DriveTrainSubsystem extends SubsystemBase {
 
   public static final double WHEELBASE = 18;
   public static final double TRACKWIDTH = 18;
 
+  public boolean enableDrive = true;
+  public boolean enableAngle = true;
+
   public static DriveTrainSubsystem instance;
+  public static Mk2SwerveModule mk2SwerveModule;
+  public static SwerveModule swerveModule;
 
   private final SwerveModule frontLeftModule = new Mk2SwerveModuleBuilder(
       new Vector2(TRACKWIDTH / 2.0, WHEELBASE / 2.0))
@@ -83,7 +88,7 @@ public class DriveTrainSubsystem extends SubsystemBase {
 
   public DriveTrainSubsystem() {
     gyroscope.calibrate();
-    gyroscope.setInverted(true); //might not need to be inverted
+    gyroscope.setInverted(true); // might not need to be inverted
 
     frontLeftModule.setName("Front Left");
     frontRightModule.setName("Front Right");
@@ -114,25 +119,33 @@ public class DriveTrainSubsystem extends SubsystemBase {
   }
 
   public void drive(Translation2d translation, double rotation, boolean fieldOriented) {
-    rotation *= 2.0 / Math.hypot(WHEELBASE, TRACKWIDTH);
-    ChassisSpeeds speeds;
-    if (fieldOriented) {
+    if (enableAngle && enableDrive) {
+      rotation *= 2.0 / Math.hypot(WHEELBASE, TRACKWIDTH);
+      ChassisSpeeds speeds;
+      if (fieldOriented) {
         speeds = ChassisSpeeds.fromFieldRelativeSpeeds(translation.getX(), translation.getY(), rotation,
-                Rotation2d.fromDegrees(gyroscope.getAngle().toDegrees()));
-    } else {
+            Rotation2d.fromDegrees(gyroscope.getAngle().toDegrees()));
+      } else {
         speeds = new ChassisSpeeds(translation.getX(), translation.getY(), rotation);
+      }
+
+      SwerveModuleState[] states = kinematics.toSwerveModuleStates(speeds);
+      frontLeftModule.setTargetVelocity(states[0].speedMetersPerSecond, states[0].angle.getRadians());
+      frontRightModule.setTargetVelocity(states[1].speedMetersPerSecond, states[1].angle.getRadians());
+      backLeftModule.setTargetVelocity(states[2].speedMetersPerSecond, states[2].angle.getRadians());
+      backRightModule.setTargetVelocity(states[3].speedMetersPerSecond, states[3].angle.getRadians());
+    } else {
+      frontLeftModule.setTargetVelocity(0, 0);
+      frontRightModule.setTargetVelocity(0, 0);
+      backLeftModule.setTargetVelocity(0, 0);
+      backRightModule.setTargetVelocity(0, 0);
     }
 
-    SwerveModuleState[] states = kinematics.toSwerveModuleStates(speeds);
-    frontLeftModule.setTargetVelocity(states[0].speedMetersPerSecond, states[0].angle.getRadians());
-    frontRightModule.setTargetVelocity(states[1].speedMetersPerSecond, states[1].angle.getRadians());
-    backLeftModule.setTargetVelocity(states[2].speedMetersPerSecond, states[2].angle.getRadians());
-    backRightModule.setTargetVelocity(states[3].speedMetersPerSecond, states[3].angle.getRadians());
-}
+  }
 
-public void resetGyroscope() {
+  public void resetGyroscope() {
     gyroscope.setAdjustmentAngle(gyroscope.getUnadjustedAngle());
-}
+  }
 
   public void saveAllZeroOffsets() {
     double offsetFL = frontLeftModule.getCurrentAngle();

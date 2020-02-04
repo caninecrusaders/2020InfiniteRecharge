@@ -100,8 +100,11 @@ public class Robot extends TimedRobot {
 
   @Override
   public void testInit() {
-    // Cancels all running commands at the start of test mode.
     CommandScheduler.getInstance().cancelAll();
+
+    m_robotContainer.getDriveTrainSubsystem().enableDrive = false;
+    m_robotContainer.getDriveTrainSubsystem().enableAngle = false;
+    // Cancels all running commands at the start of test mode.
   }
 
   /**
