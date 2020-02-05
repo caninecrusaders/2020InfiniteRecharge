@@ -8,6 +8,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
+import frc.robot.commands.cgClimb;
 import frc.robot.input.JoystickX3D;
 import frc.robot.input.XboxController;
 import frc.robot.subsystems.ClimberSubsystem;
@@ -28,13 +29,15 @@ public class RobotContainer {
   private final ShooterSubsystem mShooterSubsystem = new ShooterSubsystem();
   
 
-  public XboxController xboxDriver = new XboxController(1);
-  public JoystickX3D joystickDriver = new JoystickX3D(0);
-
+  public XboxController xboxDriverOne = new XboxController(2);
+  public JoystickX3D joystickDriverOne = new JoystickX3D(0);
+  private final cgClimb mCgClimb;
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
+    mCgClimb = new cgClimb(mClimberSubsystem); 
+
     // Configure the button bindings
     configureButtonBindings();
   }
@@ -46,6 +49,7 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
+    
   }
 
 
