@@ -10,13 +10,13 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ShooterSubsystem;
 
-public class cmdShooterPiston extends CommandBase {
+public class cmdRetractShooterPiston extends CommandBase {
   ShooterSubsystem mShooterSubsystem;
 
   /**
    * Creates a new cmdShooterPiston.
    */
-  public cmdShooterPiston(ShooterSubsystem shooterSubsystem) {
+  public cmdRetractShooterPiston(ShooterSubsystem shooterSubsystem) {
     addRequirements(shooterSubsystem);
     mShooterSubsystem = shooterSubsystem;
     // Use addRequirements() here to declare subsystem dependencies.
@@ -30,7 +30,8 @@ public class cmdShooterPiston extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    mShooterSubsystem.retractHatchActuator();
+    mShooterSubsystem.retractRightPistonActuator();
+    mShooterSubsystem.retractLeftPistonActuator();
   }
 
   // Called once the command ends or is interrupted.

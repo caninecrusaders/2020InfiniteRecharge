@@ -7,23 +7,20 @@
 
 package frc.robot.commands;
 
-//import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.subsystems.ClimberSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
-public class cgClimb extends SequentialCommandGroup {
+public class cgShooter extends SequentialCommandGroup {
   /**
-   * Creates a new cgClimb.
+   * Creates a new cgShooter.
    */
-  public cgClimb(ClimberSubsystem climbSubsystem) {
+  public cgShooter(ShooterSubsystem shooterSubsystem) {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());
-    super(new cmdClimb(climbSubsystem),
-    new cmdDeployHook(climbSubsystem),
-    new cmdExtendClimb(climbSubsystem),
-    new cmdWinchClimb(climbSubsystem));
+    super( new cmdRetractShooterPiston(shooterSubsystem),
+    new cmdShoot(shooterSubsystem, 10.0, 1));
   }
 }

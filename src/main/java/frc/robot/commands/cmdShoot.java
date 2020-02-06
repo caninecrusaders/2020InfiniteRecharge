@@ -7,16 +7,25 @@
 
 package frc.robot.commands;
 
+import com.fasterxml.jackson.databind.deser.SettableAnyProperty;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ShooterSubsystem;
 
 public class cmdShoot extends CommandBase {
+  ShooterSubsystem mShooterSubsystem;
+  double time;
+  double speed;
   /**
    * Creates a new cmdLowShoot.
    */
-  public cmdShoot(ShooterSubsystem ShootSubsystem) {
-    addRequirements(ShootSubsystem);
+  public cmdShoot(ShooterSubsystem shootSubsystem, double Time, double Speed) {
+    addRequirements(shootSubsystem);
+    mShooterSubsystem = shootSubsystem;
 
+    time = Time;
+    speed = Speed;
+    setTimeout(Time);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -28,6 +37,7 @@ public class cmdShoot extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    mShooterSubsystem.runMotors();
   }
 
   // Called once the command ends or is interrupted.
@@ -38,6 +48,7 @@ public class cmdShoot extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    //return false;
+    return isTimedOut();
   }
 }

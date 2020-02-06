@@ -19,7 +19,9 @@ public class ShooterSubsystem extends SubsystemBase {
   private final TalonSRX shootMotorLeft = new TalonSRX(Constants.shootRightMotorID);
   private final TalonSRX shootMotorRight = new TalonSRX(Constants.shootLeftMotorID);
   private final DoubleSolenoid actuatorSolenoid = new DoubleSolenoid(Constants.actuatorModuleID, 
-  Constants.actuatorHatchExtendID, Constants.actuatorHatchRetractID);
+  Constants.actuatorRightPistonExtendID, Constants.actuatorRightPistonRetractID);
+  private final DoubleSolenoid actuatorSolenoid2 = new DoubleSolenoid(Constants.actuatorModuleID,
+  Constants.actuatorLeftPistonExtendID, Constants.actuatorLeftPistonRetractID);
   private double speedLeft = 0;
   private double speedRight = 0;
   /**
@@ -39,11 +41,21 @@ public class ShooterSubsystem extends SubsystemBase {
     speedLeft = 0;
     speedRight = 0;
   }
-  public void extendHatchActuator(){
+  public void extendRightPistonActuator() {
     actuatorSolenoid.set(Value.kForward);
   }
-  public void retractHatchActuator(){
+  public void retractRightPistonActuator() {
     actuatorSolenoid.set(Value.kReverse);
+  }
+  public void extendLeftPistonActuator() {
+    actuatorSolenoid2.set(Value.kForward);
+  }
+  public void retractLeftPistonActuator() {
+    actuatorSolenoid2.set(Value.kReverse);
+  }
+  public void runMotors() {
+    shootMotorLeft.set(ControlMode.PercentOutput, speedLeft);
+    shootMotorRight.set(ControlMode.PercentOutput, speedRight);
   }
   @Override
   public void periodic() {
@@ -51,4 +63,5 @@ public class ShooterSubsystem extends SubsystemBase {
     shootMotorRight.set(ControlMode.PercentOutput, speedRight);
     // This method will be called once per scheduler run
   }
+  
 }

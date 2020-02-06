@@ -42,10 +42,12 @@ public final class Constants {
     public static final int shootLeftMotorID = 14;
 
     public static final int actuatorModuleID = 1;
-    public static final int actuatorHatchExtendID = 0;
-    public static final int actuatorHatchRetractID = 1;
+    public static final int actuatorRightPistonExtendID = 0;
+    public static final int actuatorRightPistonRetractID = 1;
     public static final int actuatorCollectorExtendID = 2;
     public static final int actuatorCollectorRetractID = 3;
     public static final int actuatorClimbExtendID = 4;
     public static final int actuatorClimbRetractID = 5;
+    public static final int actuatorLeftPistonExtendID = 6;
+    public static final int actuatorLeftPistonRetractID = 7;
 }
