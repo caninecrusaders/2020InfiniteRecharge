@@ -31,7 +31,6 @@ import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.TimedRobot;
 
 public class DriveTrainSubsystem extends SubsystemBase {
-
   public static final double WHEELBASE = 18;
   public static final double TRACKWIDTH = 18;
 
@@ -119,7 +118,7 @@ public class DriveTrainSubsystem extends SubsystemBase {
   }
 
   public void drive(Translation2d translation, double rotation, boolean fieldOriented) {
-    if (enableAngle && enableDrive) {
+    // if (enableAngle && enableDrive) {
       rotation *= 2.0 / Math.hypot(WHEELBASE, TRACKWIDTH);
       ChassisSpeeds speeds;
       if (fieldOriented) {
@@ -131,15 +130,16 @@ public class DriveTrainSubsystem extends SubsystemBase {
 
       SwerveModuleState[] states = kinematics.toSwerveModuleStates(speeds);
       frontLeftModule.setTargetVelocity(states[0].speedMetersPerSecond, states[0].angle.getRadians());
-      frontRightModule.setTargetVelocity(states[1].speedMetersPerSecond, states[1].angle.getRadians());
+      frontRightModule.setTargetVelocity(-states[1].speedMetersPerSecond, states[1].angle.getRadians());
       backLeftModule.setTargetVelocity(states[2].speedMetersPerSecond, states[2].angle.getRadians());
-      backRightModule.setTargetVelocity(states[3].speedMetersPerSecond, states[3].angle.getRadians());
-    } else {
-      frontLeftModule.setTargetVelocity(0, 0);
-      frontRightModule.setTargetVelocity(0, 0);
-      backLeftModule.setTargetVelocity(0, 0);
-      backRightModule.setTargetVelocity(0, 0);
-    }
+      backRightModule.setTargetVelocity(-states[3].speedMetersPerSecond, states[3].angle.getRadians());
+    // } else {
+      
+    //   frontLeftModule.setTargetVelocity(0);
+    //   frontRightModule.setTargetVelocity(0);
+    //   backLeftModule.setTargetVelocity(0);
+    //   backRightModule.setTargetVelocity(0);
+    // }
 
   }
 
@@ -158,4 +158,6 @@ public class DriveTrainSubsystem extends SubsystemBase {
     Preferences.getInstance().putDouble("Back Right Offset", offsetBR);
 
   }
+
+  
 }

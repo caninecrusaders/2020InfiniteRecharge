@@ -7,6 +7,9 @@
 
 package frc.robot;
 
+
+import edu.wpi.first.wpilibj.AnalogInput;
+import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -28,9 +31,14 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
+
+
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
-    m_robotContainer = new RobotContainer();
+    // if(!isTest())
+    // {
+      m_robotContainer = new RobotContainer(isTest());
+    // }
   }
 
   /**
@@ -101,9 +109,7 @@ public class Robot extends TimedRobot {
   @Override
   public void testInit() {
     CommandScheduler.getInstance().cancelAll();
-
-    m_robotContainer.getDriveTrainSubsystem().enableDrive = false;
-    m_robotContainer.getDriveTrainSubsystem().enableAngle = false;
+    
     // Cancels all running commands at the start of test mode.
   }
 
@@ -113,8 +119,9 @@ public class Robot extends TimedRobot {
   @Override
   public void testPeriodic() {
     CommandScheduler.getInstance().run();
-    if (m_robotContainer.joystickDriverOne.getRawButton(2) == true) {
-      m_robotContainer.getDriveTrainSubsystem().saveAllZeroOffsets();
-      }
+    
+    if (isTest() && m_robotContainer.joystickDriverOne.getRawButton(2) == true) {
+    m_robotContainer.getSaveZeroOffsetSubsystem().saveAllZeroOffsets();
+    }
   }
 }
