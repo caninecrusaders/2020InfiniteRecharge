@@ -16,8 +16,6 @@ public class cmdClimb extends CommandBase {
    */
   public cmdClimb(ClimberSubsystem ClimbSubsystem) {
     addRequirements(ClimbSubsystem);
-    
-    // Use addRequirements() here to declare subsystem dependencies.
   }
   
   // Called when the command is initially scheduled.

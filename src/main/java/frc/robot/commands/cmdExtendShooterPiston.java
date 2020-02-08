@@ -18,7 +18,6 @@ public class cmdExtendShooterPiston extends CommandBase {
   public cmdExtendShooterPiston(LowShooterSubsystem shooterSubsystem) {
     addRequirements(shooterSubsystem);
     mShooterSubsystem = shooterSubsystem;
-    // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
@@ -29,8 +28,7 @@ public class cmdExtendShooterPiston extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    mShooterSubsystem.extendRightPistonActuator();
-    mShooterSubsystem.extendLeftPistonActuator();
+    mShooterSubsystem.extendPistonActuator();
   }
 
   // Called once the command ends or is interrupted.

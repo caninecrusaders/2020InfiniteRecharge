@@ -18,7 +18,6 @@ public class cmdDeployHook extends CommandBase {
   public cmdDeployHook(ClimberSubsystem ClimberSubsystem) {
     addRequirements(ClimberSubsystem);
     climbSubsystem = ClimberSubsystem;
-    // Use addRequirements() here to declare subsystem dependencies.
   }
   
   // Called when the command is initially scheduled.

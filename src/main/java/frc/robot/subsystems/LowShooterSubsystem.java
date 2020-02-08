@@ -20,9 +20,7 @@ public class LowShooterSubsystem extends SubsystemBase {
   private final TalonSRX shootMotor = new TalonSRX(Constants.shootRightMotorID);
   //private final TalonSRX shootMotorRight = new TalonSRX(Constants.shootLeftMotorID);
   private final DoubleSolenoid actuatorSolenoid = new DoubleSolenoid(Constants.actuatorModuleID, 
-  Constants.actuatorRightPistonExtendID, Constants.actuatorRightPistonRetractID);
-  private final DoubleSolenoid actuatorSolenoid2 = new DoubleSolenoid(Constants.actuatorModuleID,
-  Constants.actuatorLeftPistonExtendID, Constants.actuatorLeftPistonRetractID);
+  Constants.actuatorPistonExtendID, Constants.actuatorPistonRetractID);
   private double speed = 0;
   //private double speedRight = 0;
   /**
@@ -48,17 +46,11 @@ public class LowShooterSubsystem extends SubsystemBase {
     speed = 0;
     //speedRight = 0;
   }
-  public void extendRightPistonActuator() {
+  public void extendPistonActuator() {
     actuatorSolenoid.set(Value.kForward);
   }
-  public void retractRightPistonActuator() {
+  public void retractPistonActuator() {
     actuatorSolenoid.set(Value.kReverse);
-  }
-  public void extendLeftPistonActuator() {
-    actuatorSolenoid2.set(Value.kForward);
-  }
-  public void retractLeftPistonActuator() {
-    actuatorSolenoid2.set(Value.kReverse);
   }
   //public void runMotors() {
     //shootMotor.set(ControlMode.PercentOutput, speed);

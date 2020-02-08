@@ -7,7 +7,7 @@
 
 package frc.robot.commands;
 
-import javax.swing.text.Utilities;
+//import javax.swing.text.Utilities;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.input.XboxController;
@@ -24,8 +24,6 @@ public class cmdCollectFuel extends CommandBase {
     addRequirements(collectorSubsystem);
     xboxController = controller;
 
-   
-    // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
@@ -43,7 +41,6 @@ public class cmdCollectFuel extends CommandBase {
       speed = 0;
     }
     collectorSubsystem.collectFuel(speed);
-    //collectorSubsystem.releaseFuel();
   }
 
   // Called once the command ends or is interrupted.
