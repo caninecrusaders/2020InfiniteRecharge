@@ -14,6 +14,7 @@ import frc.robot.input.XboxController;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.CollectorSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.commands.*;
 //import edu.wpi.first.wpilibj2.command.Command;
 
 /**
@@ -29,14 +30,18 @@ public class RobotContainer {
   private final ShooterSubsystem mShooterSubsystem = new ShooterSubsystem();
   
 
-  public XboxController xboxDriverOne = new XboxController(2);
+  public XboxController xboxDriverTwo = new XboxController(2);
   public JoystickX3D joystickDriverOne = new JoystickX3D(0);
   private final cgClimb mCgClimb;
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
-    mCgClimb = new cgClimb(mClimberSubsystem); 
+    mCgClimb = new cgClimb(mClimberSubsystem);
+    cmdCollectFuel collectFuel = new cmdCollectFuel(mCollectorSubsystem, xboxDriverTwo);
+    mCollectorSubsystem.setDefaultCommand(collectFuel);
+    cmdShoot shootBalls = new cmdShoot(mShooterSubsystem, xboxDriverTwo);
+    mShooterSubsystem.setDefaultCommand(shootBalls);
 
     // Configure the button bindings
     configureButtonBindings();
@@ -49,7 +54,8 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    
+    xboxDriverTwo.getStartButton().whenPressed(new cgShooter(mShooterSubsystem));
+    xboxDriverTwo.getYButton().whenPressed(new cgClimb(mClimberSubsystem));
   }
 
 

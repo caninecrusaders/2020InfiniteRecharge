@@ -27,12 +27,12 @@ public class CollectorSubsystem extends SubsystemBase {
   public CollectorSubsystem() {
 
   }
-  public void collectFuel(){
-    speed = 1;
+  public void collectFuel(double newSpeed){
+    speed = newSpeed;
   }
-  public void releaseFuel(){
-    speed = -0.5;
-  }
+  // public void releaseFuel(){
+  //   speed = -0.5;
+  // }
   public void stopFuel(){
     speed = 0;
   }

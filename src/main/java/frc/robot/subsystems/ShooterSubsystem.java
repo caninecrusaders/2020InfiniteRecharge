@@ -16,30 +16,30 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class ShooterSubsystem extends SubsystemBase {
-  private final TalonSRX shootMotorLeft = new TalonSRX(Constants.shootRightMotorID);
-  private final TalonSRX shootMotorRight = new TalonSRX(Constants.shootLeftMotorID);
+  private final TalonSRX shootMotor = new TalonSRX(Constants.shootRightMotorID);
+  //private final TalonSRX shootMotorRight = new TalonSRX(Constants.shootLeftMotorID);
   private final DoubleSolenoid actuatorSolenoid = new DoubleSolenoid(Constants.actuatorModuleID, 
   Constants.actuatorRightPistonExtendID, Constants.actuatorRightPistonRetractID);
   private final DoubleSolenoid actuatorSolenoid2 = new DoubleSolenoid(Constants.actuatorModuleID,
   Constants.actuatorLeftPistonExtendID, Constants.actuatorLeftPistonRetractID);
-  private double speedLeft = 0;
-  private double speedRight = 0;
+  private double speed = 0;
+  //private double speedRight = 0;
   /**
    * Creates a new ShooterSubsystem.
    */
   public ShooterSubsystem() {
 
   }
-  public void shoot(){
-    speedLeft = 0.7;
-    speedRight = 0.7;
+  public void shoot(double newSpeed){
+    speed = newSpeed;
+    //speedRight = 0.7;
   }
   // public void shootRight(){
   //   speed = 0.7;
   // }
   public void stop(){
-    speedLeft = 0;
-    speedRight = 0;
+    speed = 0;
+    //speedRight = 0;
   }
   public void extendRightPistonActuator() {
     actuatorSolenoid.set(Value.kForward);
@@ -53,14 +53,14 @@ public class ShooterSubsystem extends SubsystemBase {
   public void retractLeftPistonActuator() {
     actuatorSolenoid2.set(Value.kReverse);
   }
-  public void runMotors() {
-    shootMotorLeft.set(ControlMode.PercentOutput, speedLeft);
-    shootMotorRight.set(ControlMode.PercentOutput, speedRight);
-  }
+  //public void runMotors() {
+    //shootMotor.set(ControlMode.PercentOutput, speed);
+    //shootMotorRight.set(ControlMode.PercentOutput, speedRight);
+  //}
   @Override
   public void periodic() {
-    shootMotorLeft.set(ControlMode.PercentOutput, speedLeft);
-    shootMotorRight.set(ControlMode.PercentOutput, speedRight);
+    shootMotor.set(ControlMode.PercentOutput, speed);
+    //shootMotorRight.set(ControlMode.PercentOutput, speedRight);
     // This method will be called once per scheduler run
   }
   
