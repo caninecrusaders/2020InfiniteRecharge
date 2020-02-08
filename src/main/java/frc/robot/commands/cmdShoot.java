@@ -21,9 +21,9 @@ public class cmdShoot extends CommandBase {
   /**
    * Creates a new cmdLowShoot.
    */
-  public cmdShoot(LowShooterSubsystem shootSubsystem, XboxController controller) {
-    addRequirements(shootSubsystem);
-    mShooterSubsystem = shootSubsystem;
+  public cmdShoot(XboxController controller) {
+    mShooterSubsystem = LowShooterSubsystem.getInstance();
+    addRequirements(mShooterSubsystem);
     xboxController = controller;
 
     // speed = Speed;

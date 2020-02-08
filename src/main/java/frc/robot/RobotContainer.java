@@ -38,10 +38,10 @@ public class RobotContainer {
    */
   public RobotContainer() {
     mCgClimb = new cgClimb(mClimberSubsystem);
-    cmdCollectFuel collectFuel = new cmdCollectFuel(mCollectorSubsystem, xboxDriverTwo);
+    cmdCollectFuel collectFuel = new cmdCollectFuel( xboxDriverTwo);
     mCollectorSubsystem.setDefaultCommand(collectFuel);
-    cmdShoot shootBalls = new cmdShoot(mShooterSubsystem, xboxDriverTwo);
-    mShooterSubsystem.setDefaultCommand(shootBalls);
+    cmdShoot shootFuel = new cmdShoot( xboxDriverTwo);
+    mShooterSubsystem.setDefaultCommand(shootFuel);
 
     // Configure the button bindings
     configureButtonBindings();

@@ -19,9 +19,9 @@ public class cmdCollectFuel extends CommandBase {
   /**
    * Creates a new cmdCollectFuel.
    */
-  public cmdCollectFuel(CollectorSubsystem collectSubsystem, XboxController controller) {
-    addRequirements(collectSubsystem);
-    collectorSubsystem = collectSubsystem;
+  public cmdCollectFuel( XboxController controller) {
+    collectorSubsystem = CollectorSubsystem.getInstance();
+    addRequirements(collectorSubsystem);
     xboxController = controller;
 
    

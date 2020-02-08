@@ -22,9 +22,9 @@ public class cgShooter extends SequentialCommandGroup {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());
     super( new cmdRetractShooterPiston(shooterSubsystem),
-    new cmdShoot(shooterSubsystem, 1),
+   // new cmdShoot(shooterSubsystem, 1),
     new WaitCommand(10.0),
-    new cmdShoot(shooterSubsystem, 0),
+    //new cmdShoot(shooterSubsystem, 0),
     new cmdExtendShooterPiston(shooterSubsystem));
   }
 }
