@@ -18,6 +18,12 @@ import frc.robot.input.JoystickX3D;
 import frc.robot.input.XboxController;
 import frc.robot.subsystems.DriveTrainSubsystem;
 import frc.robot.subsystems.SaveZeroOffsetSubsystem;
+import frc.robot.commands.cgClimb;
+import frc.robot.subsystems.ClimberSubsystem;
+import frc.robot.subsystems.CollectorSubsystem;
+import frc.robot.subsystems.LowShooterSubsystem;
+import frc.robot.commands.*;
+//import edu.wpi.first.wpilibj2.command.Command;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -43,6 +49,11 @@ public class RobotContainer {
   private final cmdTwoJoystickHolonomic mCmdTwoJoystickHolonomic;
   private final cmdXboxHolonomic mCmdXboxHolonomic;
 
+  private final ClimberSubsystem mClimberSubsystem = ClimberSubsystem.getInstance();
+  private final CollectorSubsystem mCollectorSubsystem = CollectorSubsystem.getInstance();
+  private final LowShooterSubsystem mShooterSubsystem = LowShooterSubsystem.getInstance();
+  private final cgClimb mCgClimb;
+
   public DriveTrainSubsystem getDriveTrainSubsystem() {
     return driveTrainSubsystem;
   }
@@ -50,7 +61,6 @@ public class RobotContainer {
   public SaveZeroOffsetSubsystem getSaveZeroOffsetSubsystem() {
     return saveZeroOffsetSubsystem;
   }
-
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
@@ -65,14 +75,21 @@ public class RobotContainer {
       driveTrainSubsystem.setDefaultCommand(mCmdJoystickHolonomic);
       // driveTrainSubsystem.setDefaultCommand(mCmdTwoJoystickHolonomic);
       // driveTrainSubsystem.setDefaultCommand(mCmdXboxHolonomic);
-
+      mCgClimb = new cgClimb(mClimberSubsystem);
+      cmdCollectFuel collectFuel = new cmdCollectFuel( xboxDriverTwo);
+      mCollectorSubsystem.setDefaultCommand(collectFuel);
+      cmdShoot shootFuel = new cmdShoot( xboxDriverTwo);
+      mShooterSubsystem.setDefaultCommand(shootFuel);
+      
     } else {
       driveTrainSubsystem = null;
       mCmdJoystickHolonomic = null;
       mCmdTwoJoystickHolonomic = null;
       mCmdXboxHolonomic = null;
+      mCgClimb = null;
       saveZeroOffsetSubsystem = new SaveZeroOffsetSubsystem();
     }
+   
 
     // Configure the button bindings
     configureButtonBindings();
@@ -85,7 +102,8 @@ public class RobotContainer {
    * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-
+    xboxDriverTwo.getStartButton().whenPressed(new cgShooter(mShooterSubsystem));
+    xboxDriverTwo.getYButton().whenPressed(new cgClimb(mClimberSubsystem));
   }
 
   /**

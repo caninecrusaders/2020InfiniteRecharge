@@ -11,8 +11,9 @@ package frc.robot;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj2.command.Command;
+//import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.subsystems.CollectorSubsystem;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -21,9 +22,9 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
  * project.
  */
 public class Robot extends TimedRobot {
-  private Command m_autonomousCommand;
+  //private Command m_autonomousCommand;
 
-  private RobotContainer m_robotContainer;
+  private RobotContainer mRobotContainer;
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -35,10 +36,8 @@ public class Robot extends TimedRobot {
 
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
-    // if(!isTest())
-    // {
-      m_robotContainer = new RobotContainer();
-    // }
+    mRobotContainer = new RobotContainer();
+    CollectorSubsystem.getInstance().extendCollectorActuator();
   }
 
   /**
@@ -81,23 +80,23 @@ public class Robot extends TimedRobot {
     // }
   }
 
-  /**
-   * This function is called periodically during autonomous.
-   */
-  @Override
-  public void autonomousPeriodic() {
-  }
+  // /**
+  //  * This function is called periodically during autonomous.
+  //  */
+  // @Override
+  // public void autonomousPeriodic() {
+  // }
 
-  @Override
-  public void teleopInit() {
-    // This makes sure that the autonomous stops running when
-    // teleop starts running. If you want the autonomous to
-    // continue until interrupted by another command, remove
-    // this line or comment it out.
-    if (m_autonomousCommand != null) {
-      m_autonomousCommand.cancel();
-    }
-  }
+  // @Override
+  // public void teleopInit() {
+  //   // This makes sure that the autonomous stops running when
+  //   // teleop starts running. If you want the autonomous to
+  //   // continue until interrupted by another command, remove
+  //   // this line or comment it out.
+  //   if (m_autonomousCommand != null) {
+  //     m_autonomousCommand.cancel();
+  //   }
+  // }
 
   /**
    * This function is called periodically during operator control.
@@ -120,8 +119,8 @@ public class Robot extends TimedRobot {
   public void testPeriodic() {
     CommandScheduler.getInstance().run();
     
-    if (isTest() && m_robotContainer.joystickDriverOne.getRawButton(2) == true) {
-    m_robotContainer.getSaveZeroOffsetSubsystem().saveAllZeroOffsets();
+    if (isTest() && mRobotContainer.joystickDriverOne.getRawButton(2) == true) {
+    mRobotContainer.getSaveZeroOffsetSubsystem().saveAllZeroOffsets();
     }
   }
 }
