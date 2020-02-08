@@ -13,7 +13,7 @@ import frc.robot.input.JoystickX3D;
 import frc.robot.input.XboxController;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.CollectorSubsystem;
-import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.subsystems.LowShooterSubsystem;
 import frc.robot.commands.*;
 //import edu.wpi.first.wpilibj2.command.Command;
 
@@ -27,7 +27,7 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final ClimberSubsystem mClimberSubsystem = new ClimberSubsystem();
   private final CollectorSubsystem mCollectorSubsystem = new CollectorSubsystem();
-  private final ShooterSubsystem mShooterSubsystem = new ShooterSubsystem();
+  private final LowShooterSubsystem mShooterSubsystem = new LowShooterSubsystem();
   
 
   public XboxController xboxDriverTwo = new XboxController(2);

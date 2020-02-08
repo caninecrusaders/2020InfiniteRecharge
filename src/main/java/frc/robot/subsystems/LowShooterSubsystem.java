@@ -15,7 +15,7 @@ import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
-public class ShooterSubsystem extends SubsystemBase {
+public class LowShooterSubsystem extends SubsystemBase {
   private final TalonSRX shootMotor = new TalonSRX(Constants.shootRightMotorID);
   //private final TalonSRX shootMotorRight = new TalonSRX(Constants.shootLeftMotorID);
   private final DoubleSolenoid actuatorSolenoid = new DoubleSolenoid(Constants.actuatorModuleID, 
@@ -27,7 +27,7 @@ public class ShooterSubsystem extends SubsystemBase {
   /**
    * Creates a new ShooterSubsystem.
    */
-  public ShooterSubsystem() {
+  public LowShooterSubsystem() {
 
   }
   public void shoot(double newSpeed){

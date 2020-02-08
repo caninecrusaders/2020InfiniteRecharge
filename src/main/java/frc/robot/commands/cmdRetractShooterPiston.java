@@ -8,15 +8,15 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.subsystems.LowShooterSubsystem;
 
 public class cmdRetractShooterPiston extends CommandBase {
-  ShooterSubsystem mShooterSubsystem;
+  LowShooterSubsystem mShooterSubsystem;
 
   /**
    * Creates a new cmdShooterPiston.
    */
-  public cmdRetractShooterPiston(ShooterSubsystem shooterSubsystem) {
+  public cmdRetractShooterPiston(LowShooterSubsystem shooterSubsystem) {
     addRequirements(shooterSubsystem);
     mShooterSubsystem = shooterSubsystem;
     // Use addRequirements() here to declare subsystem dependencies.

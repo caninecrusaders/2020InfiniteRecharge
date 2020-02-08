@@ -11,17 +11,17 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.input.XboxController;
-import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.subsystems.LowShooterSubsystem;
 
 public class cmdShoot extends CommandBase {
-  ShooterSubsystem mShooterSubsystem;
+  LowShooterSubsystem mShooterSubsystem;
   XboxController xboxController;
   // double time;
   // double speed;
   /**
    * Creates a new cmdLowShoot.
    */
-  public cmdShoot(ShooterSubsystem shootSubsystem, XboxController controller) {
+  public cmdShoot(LowShooterSubsystem shootSubsystem, XboxController controller) {
     addRequirements(shootSubsystem);
     mShooterSubsystem = shootSubsystem;
     xboxController = controller;

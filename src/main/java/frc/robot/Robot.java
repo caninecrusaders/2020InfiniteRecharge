@@ -20,18 +20,19 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 public class Robot extends TimedRobot {
   //private Command m_autonomousCommand;
 
-  //private RobotContainer m_robotContainer;
+  private RobotContainer mRobotContainer;
 
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
    */
-  // @Override
-  // public void robotInit() {
-  //   // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
-  //   // autonomous chooser on the dashboard.
-  //   m_robotContainer = new RobotContainer();
-  // }
+  @Override
+  public void robotInit() {
+    // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
+    // autonomous chooser on the dashboard.
+    mRobotContainer = new RobotContainer();
+    
+  }
 
   /**
    * This function is called every robot packet, no matter the mode. Use this for items like
