@@ -9,6 +9,7 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.Preferences;
+import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -30,10 +31,14 @@ public class SaveZeroOffsetSubsystem extends SubsystemBase {
   }
 
   public void saveAllZeroOffsets() {
-    Preferences.getInstance().putDouble("Front Left Offset", offsetFL.getAverageVoltage());
-    Preferences.getInstance().putDouble("Front Right Offset", offsetFR.getAverageVoltage());
-    Preferences.getInstance().putDouble("Back Left Offset", offsetBL.getAverageVoltage());
-    Preferences.getInstance().putDouble("Back Right Offset", offsetBR.getAverageVoltage());
+    Preferences.getInstance().putDouble("Front Left Offset", volt2rad(offsetFL.getAverageVoltage()));
+    Preferences.getInstance().putDouble("Front Right Offset", volt2rad(offsetFR.getAverageVoltage()));
+    Preferences.getInstance().putDouble("Back Left Offset", volt2rad(offsetBL.getAverageVoltage()));
+    Preferences.getInstance().putDouble("Back Right Offset", volt2rad(offsetBR.getAverageVoltage()));
+  }
 
+  private double volt2rad(double volt) {
+    return (1.0 - volt / RobotController.getVoltage5V()) * 2.0 * Math.PI;
+    // ?? return (volt / RobotController.getVoltage5V()) * 2.0 * Math.PI; Do this if things don't work as expected
   }
 }

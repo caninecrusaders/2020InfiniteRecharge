@@ -10,6 +10,7 @@ package frc.robot;
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.RobotState;
 import frc.robot.commands.cmdJoystickHolonomic;
 import frc.robot.commands.cmdTwoJoystickHolonomic;
 import frc.robot.commands.cmdXboxHolonomic;
@@ -53,8 +54,8 @@ public class RobotContainer {
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
-  public RobotContainer(boolean isTestMode) {
-    if (!isTestMode) {
+  public RobotContainer() {
+    if (!RobotState.isTest()) {
       mCmdJoystickHolonomic = new cmdJoystickHolonomic(joystickDriverOne);
       mCmdTwoJoystickHolonomic = new cmdTwoJoystickHolonomic(joystickDriverOne, joystickDriverTwo);
       mCmdXboxHolonomic = new cmdXboxHolonomic(xboxDriverOne);

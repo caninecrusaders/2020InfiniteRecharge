@@ -37,7 +37,7 @@ public class Robot extends TimedRobot {
     // autonomous chooser on the dashboard.
     // if(!isTest())
     // {
-      m_robotContainer = new RobotContainer(isTest());
+      m_robotContainer = new RobotContainer();
     // }
   }
 
