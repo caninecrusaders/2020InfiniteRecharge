@@ -18,6 +18,7 @@ import frc.robot.Constants;
 
 
 public class ClimberSubsystem extends SubsystemBase {
+  private static ClimberSubsystem instance;
   private final TalonSRX motorWinch = new TalonSRX(Constants.climbExtendMotorID);
   private final TalonSRX motorExtend= new TalonSRX(Constants.climbWinchMotorID);
   private final DoubleSolenoid actuatorSolenoid = new DoubleSolenoid(Constants.actuatorModuleID,
@@ -27,8 +28,17 @@ public class ClimberSubsystem extends SubsystemBase {
   /**
    * Creates a new ClimberSubsystem.
    */
-  public ClimberSubsystem() {
+  private ClimberSubsystem() {
 
+  }
+  /**
+   * @return the instance
+   */
+  public static ClimberSubsystem getInstance() {
+    if(instance == null){
+      instance = new ClimberSubsystem();
+    }
+    return instance;
   }
   @Override
   public void periodic() {

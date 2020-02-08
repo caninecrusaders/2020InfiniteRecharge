@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class CollectorSubsystem extends SubsystemBase {
+  private static CollectorSubsystem instance;
   private final TalonSRX collectorMotor = new TalonSRX(Constants.collectorMotorID);
   private final DoubleSolenoid actuatorSolenoid = new DoubleSolenoid(Constants.actuatorModuleID,
   Constants.actuatorCollectorExtendID,Constants.actuatorCollectorRetractID);
@@ -24,9 +25,16 @@ public class CollectorSubsystem extends SubsystemBase {
   /**
    * Creates a new CollectorSubsystem.
    */
-  public CollectorSubsystem() {
+  private CollectorSubsystem() {
 
   }
+  public static CollectorSubsystem getInstance() {
+    if(instance == null){
+      instance = new CollectorSubsystem();
+    }
+    return instance;
+  }
+
   public void collectFuel(double newSpeed){
     speed = newSpeed;
   }

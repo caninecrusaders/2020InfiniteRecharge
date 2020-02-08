@@ -25,9 +25,9 @@ import frc.robot.commands.*;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private final ClimberSubsystem mClimberSubsystem = new ClimberSubsystem();
-  private final CollectorSubsystem mCollectorSubsystem = new CollectorSubsystem();
-  private final LowShooterSubsystem mShooterSubsystem = new LowShooterSubsystem();
+  private final ClimberSubsystem mClimberSubsystem = ClimberSubsystem.getInstance();
+  private final CollectorSubsystem mCollectorSubsystem = CollectorSubsystem.getInstance();
+  private final LowShooterSubsystem mShooterSubsystem = LowShooterSubsystem.getInstance();
   
 
   public XboxController xboxDriverTwo = new XboxController(2);

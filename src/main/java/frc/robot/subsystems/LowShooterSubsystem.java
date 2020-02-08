@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class LowShooterSubsystem extends SubsystemBase {
+  private static LowShooterSubsystem instance;
   private final TalonSRX shootMotor = new TalonSRX(Constants.shootRightMotorID);
   //private final TalonSRX shootMotorRight = new TalonSRX(Constants.shootLeftMotorID);
   private final DoubleSolenoid actuatorSolenoid = new DoubleSolenoid(Constants.actuatorModuleID, 
@@ -27,8 +28,14 @@ public class LowShooterSubsystem extends SubsystemBase {
   /**
    * Creates a new ShooterSubsystem.
    */
-  public LowShooterSubsystem() {
+  private LowShooterSubsystem() {
 
+  }
+  public static LowShooterSubsystem getInstance() {
+    if(instance == null){
+      instance = new LowShooterSubsystem();
+    }
+    return instance;
   }
   public void shoot(double newSpeed){
     speed = newSpeed;
