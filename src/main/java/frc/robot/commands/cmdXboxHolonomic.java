@@ -22,7 +22,6 @@ public class cmdXboxHolonomic extends CommandBase {
   public cmdXboxHolonomic(XboxController xboxIn) {
     xboxController = xboxIn;
     addRequirements(DriveTrainSubsystem.getInstance());
-    // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.

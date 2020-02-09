@@ -18,7 +18,6 @@ public class cmdWinchClimb extends CommandBase {
   public cmdWinchClimb(ClimberSubsystem ClimberSubsystem) {
     addRequirements(ClimberSubsystem);
     climbSubsystem = ClimberSubsystem;
-    // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
