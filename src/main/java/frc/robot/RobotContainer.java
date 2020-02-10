@@ -51,7 +51,7 @@ public class RobotContainer {
 
   private final ClimberSubsystem mClimberSubsystem = ClimberSubsystem.getInstance();
   private final CollectorSubsystem mCollectorSubsystem = CollectorSubsystem.getInstance();
-  private final LowShooterSubsystem mShooterSubsystem = LowShooterSubsystem.getInstance();
+  private final LowShooterSubsystem mLowShooterSubsystem = LowShooterSubsystem.getInstance();
   private final cgClimb mCgClimb;
 
   public DriveTrainSubsystem getDriveTrainSubsystem() {
@@ -79,7 +79,7 @@ public class RobotContainer {
       cmdCollectFuel collectFuel = new cmdCollectFuel( xboxDriverTwo);
       mCollectorSubsystem.setDefaultCommand(collectFuel);
       cmdShoot shootFuel = new cmdShoot( xboxDriverTwo);
-      mShooterSubsystem.setDefaultCommand(shootFuel);
+      mLowShooterSubsystem.setDefaultCommand(shootFuel);
       
     } else {
       driveTrainSubsystem = null;
@@ -102,7 +102,7 @@ public class RobotContainer {
    * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    xboxDriverTwo.getStartButton().whenPressed(new cgShooter(mShooterSubsystem));
+    xboxDriverTwo.getStartButton().whenPressed(new cgShooter(mLowShooterSubsystem));
     xboxDriverTwo.getYButton().whenPressed(new cgClimb(mClimberSubsystem));
   }
 
