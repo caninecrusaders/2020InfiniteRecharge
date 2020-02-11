@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.geometry.Translation2d;
 import edu.wpi.first.wpilibj.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -82,8 +83,8 @@ public class DriveTrainSubsystem extends SubsystemBase {
       new Translation2d(TRACKWIDTH / 2.0, WHEELBASE / 2.0), new Translation2d(TRACKWIDTH / 2.0, -WHEELBASE / 2.0),
       new Translation2d(-TRACKWIDTH / 2.0, WHEELBASE / 2.0), new Translation2d(-TRACKWIDTH / 2.0, -WHEELBASE / 2.0));
 
-  private final Gyroscope gyroscope = new NavX(SPI.Port.kMXP);
-  // private final Gyroscope gyroscope = new NavX(SerialPort.Port.kUSB1);
+  // private final Gyroscope gyroscope = new NavX(SPI.Port.kMXP);
+  private final Gyroscope gyroscope = new NavX(SerialPort.Port.kUSB1);
 
   public DriveTrainSubsystem() {
     gyroscope.calibrate();
@@ -114,6 +115,8 @@ public class DriveTrainSubsystem extends SubsystemBase {
     frontRightModule.updateState(TimedRobot.kDefaultPeriod);
     backLeftModule.updateState(TimedRobot.kDefaultPeriod);
     backRightModule.updateState(TimedRobot.kDefaultPeriod);
+
+    SmartDashboard.putNumber("Navx", gyroscope.getAngle().toRadians());
 
   }
 

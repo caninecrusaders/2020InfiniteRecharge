@@ -23,17 +23,8 @@ import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.CollectorSubsystem;
 import frc.robot.subsystems.LowShooterSubsystem;
 import frc.robot.commands.*;
-//import edu.wpi.first.wpilibj2.command.Command;
 
-/**
- * This class is where the bulk of the robot should be declared. Since
- * Command-based is a "declarative" paradigm, very little robot logic should
- * actually be handled in the {@link Robot} periodic methods (other than the
- * scheduler calls). Instead, the structure of the robot (including subsystems,
- * commands, and button mappings) should be declared here.
- */
 public class RobotContainer {
-  // The robot's subsystems and commands are defined here...
 
   public XboxController xboxDriverOne = new XboxController(2);
   public XboxController xboxDriverTwo = new XboxController(3);
