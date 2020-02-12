@@ -22,12 +22,13 @@ public class LowShooterSubsystem extends SubsystemBase {
   private final DoubleSolenoid actuatorSolenoid = new DoubleSolenoid(Constants.actuatorModuleID, 
   Constants.actuatorPistonExtendID, Constants.actuatorPistonRetractID);
   private double speed = 0;
+  private boolean isExtended;
   //private double speedRight = 0;
   /**
    * Creates a new ShooterSubsystem.
    */
   private LowShooterSubsystem() {
-
+    extendPistonActuator();
   }
   public static LowShooterSubsystem getInstance() {
     if(instance == null){
@@ -47,9 +48,11 @@ public class LowShooterSubsystem extends SubsystemBase {
     //speedRight = 0;
   }
   public void extendPistonActuator() {
+    isExtended = true;
     actuatorSolenoid.set(Value.kForward);
   }
   public void retractPistonActuator() {
+    isExtended = false;
     actuatorSolenoid.set(Value.kReverse);
   }
   //public void runMotors() {

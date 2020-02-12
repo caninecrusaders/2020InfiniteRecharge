@@ -48,4 +48,6 @@ public final class Constants {
     public static final int actuatorCollectorRetractID = 3;
     public static final int actuatorClimbExtendID = 4;
     public static final int actuatorClimbRetractID = 5;
+
+    public static final double LowShooterRunTime = 10.0;
 }

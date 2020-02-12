@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.input.XboxController;
 import frc.robot.subsystems.LowShooterSubsystem;
 
-public class cmdShoot extends CommandBase {
+public class CmdDefaultLowShooter extends CommandBase {
   LowShooterSubsystem mShooterSubsystem;
   XboxController xboxController;
   // double time;
@@ -21,7 +21,7 @@ public class cmdShoot extends CommandBase {
   /**
    * Creates a new cmdLowShoot.
    */
-  public cmdShoot(XboxController controller) {
+  public CmdDefaultLowShooter(XboxController controller) {
     mShooterSubsystem = LowShooterSubsystem.getInstance();
     addRequirements(mShooterSubsystem);
     xboxController = controller;
@@ -33,6 +33,7 @@ public class cmdShoot extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    
   }
 
   // Called every time the scheduler runs while the command is scheduled.

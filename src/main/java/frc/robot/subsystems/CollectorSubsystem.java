@@ -22,11 +22,12 @@ public class CollectorSubsystem extends SubsystemBase {
   private final DoubleSolenoid actuatorSolenoid = new DoubleSolenoid(Constants.actuatorModuleID,
   Constants.actuatorCollectorExtendID,Constants.actuatorCollectorRetractID);
   private double speed = 0;
+  private boolean isExtended;
   /**
    * Creates a new CollectorSubsystem.
    */
   private CollectorSubsystem() {
-
+    extendCollectorActuator();
   }
   public static CollectorSubsystem getInstance() {
     if(instance == null){
@@ -36,7 +37,11 @@ public class CollectorSubsystem extends SubsystemBase {
   }
 
   public void collectFuel(double newSpeed){
-    speed = newSpeed;
+    if (isExtended) {
+      speed = newSpeed;
+    } else {
+      speed = 0;
+    }
   }
   // public void releaseFuel(){
   //   speed = -0.5;
@@ -46,9 +51,18 @@ public class CollectorSubsystem extends SubsystemBase {
   }
   public void extendCollectorActuator(){
     actuatorSolenoid.set(Value.kForward);
+    isExtended = true;
   }
   public void retractCollectorActuator(){
     actuatorSolenoid.set(Value.kReverse);
+    isExtended = false;
+  }
+  public void toggleCollector(){
+    if (isExtended){
+      retractCollectorActuator();
+    } else {
+      extendCollectorActuator();
+    }
   }
   public void periodic() {
     collectorMotor.set(ControlMode.PercentOutput, speed);

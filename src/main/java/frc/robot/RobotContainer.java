@@ -11,14 +11,10 @@ import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.RobotState;
-import frc.robot.commands.cmdJoystickHolonomic;
-import frc.robot.commands.cmdTwoJoystickHolonomic;
-import frc.robot.commands.cmdXboxHolonomic;
 import frc.robot.input.JoystickX3D;
 import frc.robot.input.XboxController;
 import frc.robot.subsystems.DriveTrainSubsystem;
 import frc.robot.subsystems.SaveZeroOffsetSubsystem;
-import frc.robot.commands.cgClimb;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.CollectorSubsystem;
 import frc.robot.subsystems.LowShooterSubsystem;
@@ -76,9 +72,9 @@ public class RobotContainer {
       // driveTrainSubsystem.setDefaultCommand(mCmdTwoJoystickHolonomic);
       // driveTrainSubsystem.setDefaultCommand(mCmdXboxHolonomic);
       mCgClimb = new cgClimb(mClimberSubsystem);
-      cmdCollectFuel collectFuel = new cmdCollectFuel( xboxDriverTwo);
+      CmdDefaultCollector collectFuel = new CmdDefaultCollector( xboxDriverTwo);
       mCollectorSubsystem.setDefaultCommand(collectFuel);
-      cmdShoot shootFuel = new cmdShoot( xboxDriverTwo);
+      CmdDefaultLowShooter shootFuel = new CmdDefaultLowShooter( xboxDriverTwo);
       mLowShooterSubsystem.setDefaultCommand(shootFuel);
       
     } else {
@@ -102,8 +98,9 @@ public class RobotContainer {
    * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    xboxDriverTwo.getStartButton().whenPressed(new cgShooter(mLowShooterSubsystem));
+    xboxDriverTwo.getAButton().whenPressed(new CmdRunLowShooter(mLowShooterSubsystem));
     xboxDriverTwo.getYButton().whenPressed(new cgClimb(mClimberSubsystem));
+    xboxDriverTwo.getStartButton().whenPressed(new CmdToggleCollector(mCollectorSubsystem));
   }
 
   /**

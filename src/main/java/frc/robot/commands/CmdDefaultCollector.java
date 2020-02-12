@@ -13,13 +13,13 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.input.XboxController;
 import frc.robot.subsystems.CollectorSubsystem;
 
-public class cmdCollectFuel extends CommandBase {
+public class CmdDefaultCollector extends CommandBase {
   private CollectorSubsystem collectorSubsystem;
   private XboxController xboxController;
   /**
    * Creates a new cmdCollectFuel.
    */
-  public cmdCollectFuel( XboxController controller) {
+  public CmdDefaultCollector( XboxController controller) {
     collectorSubsystem = CollectorSubsystem.getInstance();
     addRequirements(collectorSubsystem);
     xboxController = controller;
