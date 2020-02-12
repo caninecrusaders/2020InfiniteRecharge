@@ -10,12 +10,12 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ClimberSubsystem;
 
-public class cmdWinchClimb extends CommandBase {
+public class CmdWinchClimb extends CommandBase {
   private ClimberSubsystem climbSubsystem;
   /**
    * Creates a new cmdRetractClimb.
    */
-  public cmdWinchClimb(ClimberSubsystem ClimberSubsystem) {
+  public CmdWinchClimb(ClimberSubsystem ClimberSubsystem) {
     addRequirements(ClimberSubsystem);
     climbSubsystem = ClimberSubsystem;
   }

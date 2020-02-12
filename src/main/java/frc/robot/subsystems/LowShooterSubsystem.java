@@ -17,7 +17,7 @@ import frc.robot.Constants;
 
 public class LowShooterSubsystem extends SubsystemBase {
   private static LowShooterSubsystem instance;
-  private final TalonSRX shootMotor = new TalonSRX(Constants.shootRightMotorID);
+  private final TalonSRX shootMotor = new TalonSRX(Constants.shootMotorID);
   //private final TalonSRX shootMotorRight = new TalonSRX(Constants.shootLeftMotorID);
   private final DoubleSolenoid actuatorSolenoid = new DoubleSolenoid(Constants.actuatorModuleID, 
   Constants.actuatorPistonExtendID, Constants.actuatorPistonRetractID);

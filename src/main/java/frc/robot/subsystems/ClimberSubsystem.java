@@ -19,8 +19,9 @@ import frc.robot.Constants;
 
 public class ClimberSubsystem extends SubsystemBase {
   private static ClimberSubsystem instance;
-  private final TalonSRX motorWinch = new TalonSRX(Constants.climbExtendMotorID);
-  private final TalonSRX motorExtend= new TalonSRX(Constants.climbWinchMotorID);
+  private final TalonSRX motorExtend = new TalonSRX(Constants.climbExtendMotorID);
+  private final TalonSRX motorWinchOne= new TalonSRX(Constants.climbWinchMotorOneID);
+  private final TalonSRX motorWinchTwo= new TalonSRX(Constants.climbWinchMotorTwoID);
   private final DoubleSolenoid actuatorSolenoid = new DoubleSolenoid(Constants.actuatorModuleID,
    Constants.actuatorClimbExtendID, Constants.actuatorClimbRetractID);
   private double speed = 0;
@@ -42,7 +43,8 @@ public class ClimberSubsystem extends SubsystemBase {
   }
   @Override
   public void periodic() {
-    motorWinch.set(ControlMode.PercentOutput, speed);
+    motorWinchOne.set(ControlMode.PercentOutput, speed);
+    motorWinchTwo.set(ControlMode.PercentOutput, speed);
     motorExtend.set(ControlMode.PercentOutput, speed2);
     // This method will be called once per scheduler run
   }

@@ -14,13 +14,13 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.input.JoystickX3D;
 import frc.robot.subsystems.DriveTrainSubsystem;
 
-public class cmdTwoJoystickHolonomic extends CommandBase {
+public class CmdTwoJoystickHolonomic extends CommandBase {
   private JoystickX3D joystickOne;
   private JoystickX3D joystickTwo;
   /**
    * Creates a new cmdTwoJoystickHolonomic.
    */
-  public cmdTwoJoystickHolonomic(JoystickX3D joystickOneIn, JoystickX3D joystickTwoIn) {
+  public CmdTwoJoystickHolonomic(JoystickX3D joystickOneIn, JoystickX3D joystickTwoIn) {
     joystickOne = joystickOneIn;
     joystickTwo = joystickTwoIn;
     addRequirements(DriveTrainSubsystem.getInstance());
