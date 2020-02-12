@@ -20,6 +20,7 @@ package frc.robot;
 public final class Constants {
     // public static final int leftMotor = 2;
     // public static final int rightMotor = 3;
+    public static final int blinkinController = 0; 
 
     public static final int encoderFL = 1;
     public static final int encoderBL = 2;

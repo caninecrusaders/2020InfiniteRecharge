@@ -17,6 +17,7 @@ import frc.robot.commands.cmdXboxHolonomic;
 import frc.robot.input.JoystickX3D;
 import frc.robot.input.XboxController;
 import frc.robot.subsystems.DriveTrainSubsystem;
+import frc.robot.subsystems.LEDStrip;
 import frc.robot.subsystems.SaveZeroOffsetSubsystem;
 import frc.robot.commands.cgClimb;
 import frc.robot.subsystems.ClimberSubsystem;
@@ -39,6 +40,7 @@ public class RobotContainer {
   private final cmdJoystickHolonomic mCmdJoystickHolonomic;
   private final cmdTwoJoystickHolonomic mCmdTwoJoystickHolonomic;
   private final cmdXboxHolonomic mCmdXboxHolonomic;
+  public final LEDStrip ledStrip;
 
   private final ClimberSubsystem mClimberSubsystem = ClimberSubsystem.getInstance();
   private final CollectorSubsystem mCollectorSubsystem = CollectorSubsystem.getInstance();
@@ -61,7 +63,7 @@ public class RobotContainer {
       mCmdTwoJoystickHolonomic = new cmdTwoJoystickHolonomic(joystickDriverOne, joystickDriverTwo);
       mCmdXboxHolonomic = new cmdXboxHolonomic(xboxDriverOne);
       saveZeroOffsetSubsystem = null;
-
+      ledStrip = new LEDStrip();
       driveTrainSubsystem = DriveTrainSubsystem.getInstance();
       driveTrainSubsystem.setDefaultCommand(mCmdJoystickHolonomic);
       // driveTrainSubsystem.setDefaultCommand(mCmdTwoJoystickHolonomic);
@@ -69,7 +71,7 @@ public class RobotContainer {
       mCgClimb = new cgClimb(mClimberSubsystem);
       cmdCollectFuel collectFuel = new cmdCollectFuel( xboxDriverTwo);
       mCollectorSubsystem.setDefaultCommand(collectFuel);
-      cmdShoot shootFuel = new cmdShoot( xboxDriverTwo);
+      cmdShoot shootFuel = new cmdShoot(xboxDriverTwo);
       mShooterSubsystem.setDefaultCommand(shootFuel);
       
     } else {
@@ -78,6 +80,7 @@ public class RobotContainer {
       mCmdTwoJoystickHolonomic = null;
       mCmdXboxHolonomic = null;
       mCgClimb = null;
+      ledStrip = null;
       saveZeroOffsetSubsystem = new SaveZeroOffsetSubsystem();
     }
    

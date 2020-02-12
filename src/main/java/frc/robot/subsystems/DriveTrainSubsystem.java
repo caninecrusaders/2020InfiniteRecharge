@@ -83,8 +83,8 @@ public class DriveTrainSubsystem extends SubsystemBase {
       new Translation2d(TRACKWIDTH / 2.0, WHEELBASE / 2.0), new Translation2d(TRACKWIDTH / 2.0, -WHEELBASE / 2.0),
       new Translation2d(-TRACKWIDTH / 2.0, WHEELBASE / 2.0), new Translation2d(-TRACKWIDTH / 2.0, -WHEELBASE / 2.0));
 
-  // private final Gyroscope gyroscope = new NavX(SPI.Port.kMXP);
-  private final Gyroscope gyroscope = new NavX(SerialPort.Port.kUSB1);
+  private final Gyroscope gyroscope = new NavX(SPI.Port.kMXP);
+  // private final Gyroscope gyroscope = new NavX(SerialPort.Port.kUSB1);
 
   public DriveTrainSubsystem() {
     gyroscope.calibrate();
