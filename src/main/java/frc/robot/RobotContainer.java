@@ -48,7 +48,7 @@ public class RobotContainer {
   private final ClimberSubsystem mClimberSubsystem = ClimberSubsystem.getInstance();
   private final CollectorSubsystem mCollectorSubsystem = CollectorSubsystem.getInstance();
   private final LowShooterSubsystem mLowShooterSubsystem = LowShooterSubsystem.getInstance();
-  private final CgClimb mCgClimb;
+  private final cgClimb mCgClimb;
 
   public DriveTrainSubsystem getDriveTrainSubsystem() {
     return driveTrainSubsystem;
@@ -71,7 +71,7 @@ public class RobotContainer {
       driveTrainSubsystem.setDefaultCommand(mCmdJoystickHolonomic);
       // driveTrainSubsystem.setDefaultCommand(mCmdTwoJoystickHolonomic);
       // driveTrainSubsystem.setDefaultCommand(mCmdXboxHolonomic);
-      mCgClimb = new CgClimb(mClimberSubsystem);
+      mCgClimb = new cgClimb(mClimberSubsystem);
       CmdDefaultCollector collectFuel = new CmdDefaultCollector( xboxDriverTwo);
       mCollectorSubsystem.setDefaultCommand(collectFuel);
       CmdDefaultLowShooter shootFuel = new CmdDefaultLowShooter( xboxDriverTwo);
@@ -99,7 +99,7 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     xboxDriverTwo.getAButton().whenPressed(new CmdRunLowShooter(mLowShooterSubsystem));
-    xboxDriverTwo.getYButton().whenPressed(new CgClimb(mClimberSubsystem));
+    xboxDriverTwo.getYButton().whenPressed(new cgClimb(mClimberSubsystem));
     xboxDriverTwo.getStartButton().whenPressed(new CmdToggleCollector(mCollectorSubsystem));
   }
 
