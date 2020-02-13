@@ -47,5 +47,25 @@ public class LEDStrip extends SubsystemBase {
     blinkin.set(-0.17);
   }
 
+  public void larsonScannerRed() {
+    blinkin.set(-0.35);
+  }
+
+  public void heartbeatSlow() {
+    blinkin.set(0.03);
+  }
+
+  public void heartbeatMedium() {
+    blinkin.set(0.05);
+  }
+
+  public void heartbeakFast() {
+    blinkin.set(0.07);
+  }
+
+  public void colorWavesColor1and2() {
+    blinkin.set(0.53);
+  }
+
 }
 
