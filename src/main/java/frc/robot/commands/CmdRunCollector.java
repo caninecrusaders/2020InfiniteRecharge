@@ -8,12 +8,20 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.CollectorSubsystem;
+import frc.robot.subsystems.LowShooterSubsystem;
 
 public class CmdRunCollector extends CommandBase {
+  CollectorSubsystem mCollectSubsystem;
+  LowShooterSubsystem mShooterSubsystem;
+
   /**
    * Creates a new CmdRunCollector.
    */
-  public CmdRunCollector() {
+  public CmdRunCollector(CollectorSubsystem collectSubsystem, LowShooterSubsystem shooterSubsystem) {
+    addRequirements(collectSubsystem, shooterSubsystem);
+    mCollectSubsystem = collectSubsystem;
+    mShooterSubsystem = shooterSubsystem;
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -25,6 +33,7 @@ public class CmdRunCollector extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    
   }
 
   // Called once the command ends or is interrupted.
