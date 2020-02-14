@@ -37,7 +37,7 @@ public class CmdDefaultCollector extends CommandBase {
   public void execute() {
     double speed = xboxController.getY();
     //speed = Utilities.deadband 
-    if (speed < 0){
+    if (speed < 0.1){
       speed = 0;
     }
     collectorSubsystem.collectFuel(speed);

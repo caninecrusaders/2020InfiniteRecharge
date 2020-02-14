@@ -40,8 +40,7 @@ public class CmdDefaultLowShooter extends CommandBase {
   @Override
   public void execute() {
     double speed = xboxController.getY();
-    //speed = Utilities.deadband 
-    if (speed < 0){
+    if (speed < 0.1){
       speed = 0;
     }
     mShooterSubsystem.shoot(speed);

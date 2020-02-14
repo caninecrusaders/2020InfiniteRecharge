@@ -100,7 +100,8 @@ public class RobotContainer {
   private void configureButtonBindings() {
     xboxDriverTwo.getAButton().whenPressed(new CmdRunLowShooter(mLowShooterSubsystem));
     xboxDriverTwo.getYButton().whenPressed(new cgClimb(mClimberSubsystem));
-    xboxDriverTwo.getStartButton().whenPressed(new CmdToggleCollector(mCollectorSubsystem));
+    xboxDriverTwo.getStartButton().whenPressed(new CmdExtendCollector(mCollectorSubsystem));
+    xboxDriverTwo.getBackButton().whenPressed(new CmdRetractCollector(mCollectorSubsystem));
   }
 
   /**

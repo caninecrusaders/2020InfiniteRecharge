@@ -10,11 +10,11 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.CollectorSubsystem;
 
-public class CmdToggleCollector extends CommandBase {
+public class CmdExtendCollector extends CommandBase {
   /**
    * Creates a new CmdToggleCollector.
    */
-  public CmdToggleCollector(CollectorSubsystem collectSubsystem) {
+  public CmdExtendCollector(CollectorSubsystem collectSubsystem) {
     addRequirements(collectSubsystem);
     // Use addRequirements() here to declare subsystem dependencies.
   }
@@ -22,7 +22,7 @@ public class CmdToggleCollector extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    CollectorSubsystem.getInstance().toggleCollector();
+    CollectorSubsystem.getInstance().extendCollectorActuator();
   }
 
   // Called every time the scheduler runs while the command is scheduled.

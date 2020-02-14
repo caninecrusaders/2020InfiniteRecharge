@@ -24,8 +24,8 @@ public class ClimberSubsystem extends SubsystemBase {
   private final TalonSRX motorWinchTwo= new TalonSRX(Constants.climbWinchMotorTwoID);
   private final DoubleSolenoid actuatorSolenoid = new DoubleSolenoid(Constants.actuatorModuleID,
    Constants.actuatorClimbExtendID, Constants.actuatorClimbRetractID);
-  private double speed = 0;
-  private double speed2 = 0;
+  private double winchSpeed = 0;
+  private double extendHookSpeed = 0;
   /**
    * Creates a new ClimberSubsystem.
    */
@@ -43,17 +43,17 @@ public class ClimberSubsystem extends SubsystemBase {
   }
   @Override
   public void periodic() {
-    motorWinchOne.set(ControlMode.PercentOutput, speed);
-    motorWinchTwo.set(ControlMode.PercentOutput, speed);
-    motorExtend.set(ControlMode.PercentOutput, speed2);
+    motorWinchOne.set(ControlMode.PercentOutput, winchSpeed);
+    motorWinchTwo.set(ControlMode.PercentOutput, winchSpeed);
+    motorExtend.set(ControlMode.PercentOutput, extendHookSpeed);
     // This method will be called once per scheduler run
   }
 
-  public void motorWinch(){
-    speed = 0.5;
+  public void setWinchSpeed(double speed){
+    winchSpeed = speed;
   }
-  public void motorExtend(){
-    speed2 = 0.5;
+  public void setExtendHookSpeed(double speed){
+    extendHookSpeed = speed;
   }
   public void extendClimbActuator(){
     actuatorSolenoid.set(Value.kForward);
