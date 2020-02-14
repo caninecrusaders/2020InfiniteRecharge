@@ -15,6 +15,7 @@ import frc.robot.commands.cmdJoystickHolonomic;
 import frc.robot.commands.cmdTwoJoystickHolonomic;
 import frc.robot.commands.cmdXboxHolonomic;
 import frc.robot.input.JoystickX3D;
+import frc.robot.input.Thrustmaster;
 import frc.robot.input.XboxController;
 import frc.robot.subsystems.DriveTrainSubsystem;
 import frc.robot.subsystems.LEDStrip;
@@ -31,7 +32,7 @@ public class RobotContainer {
   public XboxController xboxDriverTwo = new XboxController(3);
 
   public JoystickX3D joystickDriverOne = new JoystickX3D(0);
-  public JoystickX3D joystickDriverTwo = new JoystickX3D(1);
+  public Thrustmaster joystickDriverTwo = new Thrustmaster(1);
 
   public AHRS ahrs;
 
@@ -42,9 +43,9 @@ public class RobotContainer {
   private final cmdXboxHolonomic mCmdXboxHolonomic;
   public final LEDStrip ledStrip;
 
-  private final ClimberSubsystem mClimberSubsystem = ClimberSubsystem.getInstance();
-  private final CollectorSubsystem mCollectorSubsystem = CollectorSubsystem.getInstance();
-  private final LowShooterSubsystem mShooterSubsystem = LowShooterSubsystem.getInstance();
+  private final ClimberSubsystem climberSubsystem;
+  private final CollectorSubsystem collectorSubsystem;
+  private final LowShooterSubsystem lowShooterSubsystem;
   private final cgClimb mCgClimb;
 
   public DriveTrainSubsystem getDriveTrainSubsystem() {
@@ -59,21 +60,27 @@ public class RobotContainer {
    */
   public RobotContainer() {
     if (!RobotState.isTest()) {
+      saveZeroOffsetSubsystem = null;
+
       mCmdJoystickHolonomic = new cmdJoystickHolonomic(joystickDriverOne);
       mCmdTwoJoystickHolonomic = new cmdTwoJoystickHolonomic(joystickDriverOne, joystickDriverTwo);
       mCmdXboxHolonomic = new cmdXboxHolonomic(xboxDriverOne);
-      saveZeroOffsetSubsystem = null;
       ledStrip = new LEDStrip();
+
       driveTrainSubsystem = DriveTrainSubsystem.getInstance();
+      climberSubsystem = ClimberSubsystem.getInstance();
+      collectorSubsystem = CollectorSubsystem.getInstance();
+      lowShooterSubsystem = LowShooterSubsystem.getInstance();
       driveTrainSubsystem.setDefaultCommand(mCmdJoystickHolonomic);
       // driveTrainSubsystem.setDefaultCommand(mCmdTwoJoystickHolonomic);
       // driveTrainSubsystem.setDefaultCommand(mCmdXboxHolonomic);
-      mCgClimb = new cgClimb(mClimberSubsystem);
-      cmdCollectFuel collectFuel = new cmdCollectFuel( xboxDriverTwo);
-      mCollectorSubsystem.setDefaultCommand(collectFuel);
+      cmdCollectFuel collectFuel = new cmdCollectFuel(xboxDriverTwo);
+      collectorSubsystem.setDefaultCommand(collectFuel);
+      mCgClimb = new cgClimb(climberSubsystem);
       cmdShoot shootFuel = new cmdShoot(xboxDriverTwo);
-      mShooterSubsystem.setDefaultCommand(shootFuel);
-      
+      lowShooterSubsystem.setDefaultCommand(shootFuel);
+      configureButtonBindings();
+
     } else {
       driveTrainSubsystem = null;
       mCmdJoystickHolonomic = null;
@@ -81,12 +88,13 @@ public class RobotContainer {
       mCmdXboxHolonomic = null;
       mCgClimb = null;
       ledStrip = null;
+      collectorSubsystem = null;
+      climberSubsystem = null;
+      lowShooterSubsystem = null;
       saveZeroOffsetSubsystem = new SaveZeroOffsetSubsystem();
     }
    
 
-    // Configure the button bindings
-    configureButtonBindings();
   }
 
   /**
@@ -96,8 +104,7 @@ public class RobotContainer {
    * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    xboxDriverTwo.getStartButton().whenPressed(new cgShooter(mShooterSubsystem));
-    xboxDriverTwo.getYButton().whenPressed(new cgClimb(mClimberSubsystem));
+    xboxDriverOne.getYButton().whenPressed(new cgClimb(climberSubsystem));
   }
 
   /**

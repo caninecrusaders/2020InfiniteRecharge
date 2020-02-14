@@ -7,6 +7,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.RobotState;
 import edu.wpi.first.wpilibj.TimedRobot;
 //import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -35,7 +36,7 @@ public class Robot extends TimedRobot {
     // and put our
     // autonomous chooser on the dashboard.
     mRobotContainer = new RobotContainer();
-    CollectorSubsystem.getInstance().extendCollectorActuator();
+    // CollectorSubsystem.getInstance().extendCollectorActuator();
   }
 
   /**
@@ -123,7 +124,7 @@ public class Robot extends TimedRobot {
   public void testPeriodic() {
     CommandScheduler.getInstance().run();
 
-    if (isTest() && mRobotContainer.joystickDriverOne.getRawButton(2) == true) {
+    if (RobotState.isTest() && mRobotContainer.joystickDriverOne.getRawButton(2) == true) {
       mRobotContainer.getSaveZeroOffsetSubsystem().saveAllZeroOffsets();
     }
   }

@@ -40,6 +40,7 @@ public class ClimberSubsystem extends SubsystemBase {
     }
     return instance;
   }
+
   @Override
   public void periodic() {
     motorWinch.set(ControlMode.PercentOutput, speed);
@@ -50,10 +51,16 @@ public class ClimberSubsystem extends SubsystemBase {
   public void motorWinch(){
     speed = 0.5;
   }
+
   public void motorExtend(){
     speed2 = 0.5;
   }
+
   public void extendClimbActuator(){
     actuatorSolenoid.set(Value.kForward);
+  }
+
+  public void retractClimbActuator() {
+    actuatorSolenoid.set(Value.kReverse);
   }
 }

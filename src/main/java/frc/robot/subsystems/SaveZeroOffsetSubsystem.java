@@ -38,7 +38,7 @@ public class SaveZeroOffsetSubsystem extends SubsystemBase {
   }
 
   private double volt2rad(double volt) {
-    return (1.0 - volt / RobotController.getVoltage5V()) * 2.0 * Math.PI;
-    // ?? return (volt / RobotController.getVoltage5V()) * 2.0 * Math.PI; Do this if things don't work as expected
+    // return (1.0 - volt / RobotController.getVoltage5V()) * 2.0 * Math.PI;
+    return (volt / RobotController.getVoltage5V()) * 2.0 * Math.PI;
   }
 }

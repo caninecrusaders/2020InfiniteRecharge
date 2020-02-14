@@ -15,5 +15,10 @@ import org.frcteam2910.common.util.Side;
  * Add your docs here.
  */
 public class AutoTrajectories {
+  // private final Trajectory driveLeftOnAutoLine;
+
+  // public AutoTrajectories(TrajectoryConstraint... constraints) {
   
+  //   driveLeftOnAutoLine = new Trajectory(path, trajectoryConstraints, sampleDistance)
+  // }
 }

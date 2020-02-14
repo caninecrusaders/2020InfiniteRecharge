@@ -7,24 +7,30 @@
 
 package frc.robot.commands;
 
-import org.frcteam2910.common.robot.Utilities;
-
 import edu.wpi.first.wpilibj.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.input.JoystickX3D;
+import frc.robot.RobotContainer;
 import frc.robot.subsystems.DriveTrainSubsystem;
 
-public class cmdJoystickHolonomic extends CommandBase {
-  // private final DriveTrainSubsystem driveTrainSubsystem;
-  private JoystickX3D joystick;
+public class cmdMoveHorizontally extends CommandBase {
+  double distance;
+  double speed;
+
+  private RobotContainer mRobotContainer;
+  private DriveTrainSubsystem mDriveTrainSubsystem;
+  
+  private RobotContainer getRobotContainer() {
+    return mRobotContainer;
+  }
 
   /**
-   * Creates a new cmdJoystickHolonomic.
+   * Creates a new cmdMoveHorizontally.
    */
-  public cmdJoystickHolonomic(JoystickX3D joystickIn) {
-    joystick = joystickIn;
-    addRequirements(DriveTrainSubsystem.getInstance());
+  public cmdMoveHorizontally(double speedIn, double distanceInFeet) {
+    distance = distanceInFeet;
+    speed = speedIn;
     // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(DriveTrainSubsystem.getInstance());
   }
 
   // Called when the command is initially scheduled.
@@ -35,22 +41,14 @@ public class cmdJoystickHolonomic extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    double feet = distance;
 
-    double forward = -joystick.getYAxis();
-    forward = Utilities.deadband(forward);
-    // Square the forward stick
-    forward = Math.copySign(Math.pow(forward, 2.0), forward);
+    double forward = speed;
+    
+    double strafe = 0;
 
-    double strafe = -joystick.getXAxis();
-    strafe = Utilities.deadband(strafe);
-    // Square the strafe stick
-    strafe = Math.copySign(Math.pow(strafe, 2.0), strafe);
-
-    double rotation = -joystick.getZAxis();
-    rotation = Utilities.deadband(rotation);
-    // Square the rotation stick
-    rotation = Math.copySign(Math.pow(rotation, 2.0), rotation);
-
+    double rotation = 0;
+    
     DriveTrainSubsystem.getInstance().drive(new Translation2d(forward, strafe), rotation, true);
   }
 

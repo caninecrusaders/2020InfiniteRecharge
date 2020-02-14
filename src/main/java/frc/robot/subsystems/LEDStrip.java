@@ -13,6 +13,11 @@ import frc.robot.Constants;
 
 public class LEDStrip extends SubsystemBase {
   public Spark blinkin = new Spark(Constants.blinkinController);
+  double beatsPerMinuteRainbowPalette = -0.69;
+  double beatsPerMinutePartyPalette = -0.67;
+  double beatsPerMinuteOceanPalette = -0.65;
+  double beatsPerMinuteLavaPalette = -0.63;
+  double beatsPerMinuteForestPalette = -0.61;
   //12V LED STRIP
   // http://www.revrobotics.com/content/docs/REV-11-1105-UM.pdf
   /**
@@ -20,7 +25,7 @@ public class LEDStrip extends SubsystemBase {
    */
   public LEDStrip() {
     // rainbowPartyPalette();
-    strobeRed();
+    setBlinkinPattern(beatsPerMinuteOceanPalette);
 
   }
 
@@ -29,6 +34,10 @@ public class LEDStrip extends SubsystemBase {
     // This method will be called once per scheduler run
     // rainbowPartyPalette();
     strobeRed();
+  }
+
+  public void setBlinkinPattern(double value) {
+    blinkin.set(value);
   }
 
   public void rainbowPartyPalette() {
@@ -41,6 +50,18 @@ public class LEDStrip extends SubsystemBase {
 
   public void rainbowOceanPalette() {
     blinkin.set(-0.95);
+  }
+  
+  public void rainbowLavePalette() {
+    blinkin.set(-0.93);
+  }
+
+  public void rainbowForestPalette() {
+    blinkin.set(-0.91);
+  }
+
+  public void rainbowGlitter() {
+    blinkin.set(-0.89);
   }
 
   public void strobeRed() {
@@ -66,6 +87,55 @@ public class LEDStrip extends SubsystemBase {
   public void colorWavesColor1and2() {
     blinkin.set(0.53);
   }
+
+  public void blue() {
+    blinkin.set(0.87);
+  }
+
+  public void blueViolet() {
+    blinkin.set(0.89);
+  }
+
+  public void violet() {
+    blinkin.set(0.91);
+  }
+
+  public void confetti() {
+    blinkin.set(-0.87);
+  }
+
+  public void shotRed() {
+    blinkin.set(-0.85);
+  }
+  
+  public void shotBlue() {
+    blinkin.set(-0.83);
+  }
+
+  public void shotWhite() {
+    blinkin.set(-0.81);
+  }
+
+  public void sinelonRainbowPalette() {
+    blinkin.set(-0.79);
+  }
+
+  public void sinelonPartyPalette() {
+    blinkin.set(-0.77);
+  }
+
+  public void sinelonOceanPalette() {
+    blinkin.set(-0.75);
+  }
+
+  public void sinelonLavaPalette() {
+    blinkin.set(-0.73);
+  }
+
+  public void sinelonForestPalette() {
+    blinkin.set(-0.71);
+  }
+
 
 }
 

@@ -11,16 +11,19 @@ import org.frcteam2910.common.robot.Utilities;
 
 import edu.wpi.first.wpilibj.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.RobotContainer;
 import frc.robot.input.JoystickX3D;
+import frc.robot.input.Thrustmaster;
 import frc.robot.subsystems.DriveTrainSubsystem;
 
 public class cmdTwoJoystickHolonomic extends CommandBase {
   private JoystickX3D joystickOne;
-  private JoystickX3D joystickTwo;
+  private Thrustmaster joystickTwo;
+  
   /**
    * Creates a new cmdTwoJoystickHolonomic.
    */
-  public cmdTwoJoystickHolonomic(JoystickX3D joystickOneIn, JoystickX3D joystickTwoIn) {
+  public cmdTwoJoystickHolonomic(JoystickX3D joystickOneIn, Thrustmaster joystickTwoIn) {
     joystickOne = joystickOneIn;
     joystickTwo = joystickTwoIn;
     addRequirements(DriveTrainSubsystem.getInstance());
