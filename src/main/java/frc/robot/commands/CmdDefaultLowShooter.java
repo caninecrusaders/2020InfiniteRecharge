@@ -7,28 +7,43 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.ClimberSubsystem;
+//import com.fasterxml.jackson.databind.deser.SettableAnyProperty;
 
-public class cmdExtendClimb extends CommandBase {
-  private ClimberSubsystem mClimbSubsystem;
+import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.input.XboxController;
+import frc.robot.subsystems.LowShooterSubsystem;
+
+public class CmdDefaultLowShooter extends CommandBase {
+  LowShooterSubsystem mShooterSubsystem;
+  XboxController xboxController;
+  // double time;
+  // double speed;
   /**
-   * Creates a new cmdExtendClimb.
+   * Creates a new cmdLowShoot.
    */
-  public cmdExtendClimb(ClimberSubsystem climberSubsystem) {
-    addRequirements(climberSubsystem);
-    mClimbSubsystem = climberSubsystem;
+  public CmdDefaultLowShooter(XboxController controller) {
+    mShooterSubsystem = LowShooterSubsystem.getInstance();
+    addRequirements(mShooterSubsystem);
+    xboxController = controller;
+
+    // speed = Speed;
+    // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    mClimbSubsystem.motorExtend();
+    double speed = xboxController.getLeftYValue();
+    if (speed < 0.1){
+      speed = 0;
+    }
+    mShooterSubsystem.shoot(speed);
   }
 
   // Called once the command ends or is interrupted.
@@ -40,5 +55,6 @@ public class cmdExtendClimb extends CommandBase {
   @Override
   public boolean isFinished() {
     return false;
+    
   }
 }

@@ -7,40 +7,28 @@
 
 package frc.robot.commands;
 
-//import javax.swing.text.Utilities;
-
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.input.XboxController;
-import frc.robot.subsystems.CollectorSubsystem;
+import frc.robot.subsystems.ClimberSubsystem;
 
-public class cmdCollectFuel extends CommandBase {
-  private CollectorSubsystem collectorSubsystem;
-  private XboxController xboxController;
+public class CmdExtendClimbHook extends CommandBase {
+  private ClimberSubsystem mClimbSubsystem;
   /**
-   * Creates a new cmdCollectFuel.
+   * Creates a new cmdExtendClimb.
    */
-  public cmdCollectFuel( XboxController controller) {
-    collectorSubsystem = CollectorSubsystem.getInstance();
-    addRequirements(collectorSubsystem);
-    xboxController = controller;
-
+  public CmdExtendClimbHook(ClimberSubsystem climberSubsystem) {
+    addRequirements(climberSubsystem);
+    mClimbSubsystem = climberSubsystem;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double speed = xboxController.getY();
-    //speed = Utilities.deadband 
-    if (speed < 0){
-      speed = 0;
-    }
-    collectorSubsystem.collectFuel(speed);
+    mClimbSubsystem.setExtendHookSpeed(0.5);
   }
 
   // Called once the command ends or is interrupted.

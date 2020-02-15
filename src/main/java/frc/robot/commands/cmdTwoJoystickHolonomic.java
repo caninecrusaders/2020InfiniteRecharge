@@ -16,18 +16,18 @@ import frc.robot.input.JoystickX3D;
 import frc.robot.input.Thrustmaster;
 import frc.robot.subsystems.DriveTrainSubsystem;
 
-public class cmdTwoJoystickHolonomic extends CommandBase {
+public class CmdTwoJoystickHolonomic extends CommandBase {
   private JoystickX3D joystickOne;
   private Thrustmaster joystickTwo;
   
   /**
    * Creates a new cmdTwoJoystickHolonomic.
    */
-  public cmdTwoJoystickHolonomic(JoystickX3D joystickOneIn, Thrustmaster joystickTwoIn) {
+  public CmdTwoJoystickHolonomic(JoystickX3D joystickOneIn, Thrustmaster joystickTwoIn) {
+
     joystickOne = joystickOneIn;
     joystickTwo = joystickTwoIn;
     addRequirements(DriveTrainSubsystem.getInstance());
-    // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.

@@ -7,49 +7,27 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.RobotContainer;
-import frc.robot.subsystems.DriveTrainSubsystem;
+import frc.robot.subsystems.CollectorSubsystem;
 
-public class CmdMoveHorizontally extends CommandBase {
-  double distance;
-  double speed;
-
-  private RobotContainer mRobotContainer;
-  private DriveTrainSubsystem mDriveTrainSubsystem;
-  
-  private RobotContainer getRobotContainer() {
-    return mRobotContainer;
-  }
-
+public class CmdExtendCollector extends CommandBase {
   /**
-   * Creates a new cmdMoveHorizontally.
+   * Creates a new CmdToggleCollector.
    */
-  public CmdMoveHorizontally(double speedIn, double distanceInFeet) {
-    distance = distanceInFeet;
-    speed = speedIn;
+  public CmdExtendCollector(CollectorSubsystem collectSubsystem) {
+    addRequirements(collectSubsystem);
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(DriveTrainSubsystem.getInstance());
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    CollectorSubsystem.getInstance().extendCollectorActuator();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double feet = distance;
-
-    double forward = speed;
-    
-    double strafe = 0;
-
-    double rotation = 0;
-    
-    DriveTrainSubsystem.getInstance().drive(new Translation2d(forward, strafe), rotation, true);
   }
 
   // Called once the command ends or is interrupted.
@@ -60,6 +38,6 @@ public class CmdMoveHorizontally extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return true;
   }
 }

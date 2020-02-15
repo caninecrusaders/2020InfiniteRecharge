@@ -14,20 +14,24 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.RobotContainer;
 
 public class LowShooterSubsystem extends SubsystemBase {
   private static LowShooterSubsystem instance;
-  private final TalonSRX shootMotor = new TalonSRX(Constants.shootRightMotorID);
+  private final TalonSRX shootMotor = new TalonSRX(Constants.shootMotorID);
   //private final TalonSRX shootMotorRight = new TalonSRX(Constants.shootLeftMotorID);
   private final DoubleSolenoid actuatorSolenoid = new DoubleSolenoid(Constants.actuatorModuleID, 
   Constants.actuatorPistonExtendID, Constants.actuatorPistonRetractID);
   private double speed = 0;
+  private boolean isExtended;
   //private double speedRight = 0;
   /**
    * Creates a new ShooterSubsystem.
    */
   private LowShooterSubsystem() {
+    shootMotor.set(ControlMode.PercentOutput, 0.5);
 
+    extendPistonActuator();
   }
   public static LowShooterSubsystem getInstance() {
     if(instance == null){
@@ -47,10 +51,19 @@ public class LowShooterSubsystem extends SubsystemBase {
     //speedRight = 0;
   }
   public void extendPistonActuator() {
+    isExtended = true;
     actuatorSolenoid.set(Value.kForward);
   }
   public void retractPistonActuator() {
-    actuatorSolenoid.set(Value.kReverse);
+    if (!RobotContainer.isEndgame()){
+      isExtended = false;
+      actuatorSolenoid.set(Value.kReverse);
+    }
+  }
+
+  public void runMotor() {
+    shootMotor.set(ControlMode.PercentOutput, 0.5);
+
   }
   //public void runMotors() {
     //shootMotor.set(ControlMode.PercentOutput, speed);
@@ -58,7 +71,16 @@ public class LowShooterSubsystem extends SubsystemBase {
   //}
   @Override
   public void periodic() {
-    shootMotor.set(ControlMode.PercentOutput, speed);
+    shootMotor.set(ControlMode.PercentOutput, 1.0);
+    if (RobotContainer.isEndgame()){
+      shootMotor.set(ControlMode.PercentOutput,0);
+      if(!isExtended){
+        extendPistonActuator();
+      }
+    } else {
+      shootMotor.set(ControlMode.PercentOutput, speed);
+    }
+
     //shootMotorRight.set(ControlMode.PercentOutput, speedRight);
     // This method will be called once per scheduler run
   }

@@ -7,59 +7,54 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.geometry.Translation2d;
+import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.RobotContainer;
-import frc.robot.subsystems.DriveTrainSubsystem;
+import frc.robot.Constants;
+import frc.robot.subsystems.LowShooterSubsystem;
 
-public class CmdMoveHorizontally extends CommandBase {
-  double distance;
-  double speed;
-
-  private RobotContainer mRobotContainer;
-  private DriveTrainSubsystem mDriveTrainSubsystem;
-  
-  private RobotContainer getRobotContainer() {
-    return mRobotContainer;
-  }
+public class CmdRunLowShooter extends CommandBase {
+  LowShooterSubsystem mShooterSubsystem;
+  double endTime;
 
   /**
-   * Creates a new cmdMoveHorizontally.
+   * Creates a new cmdShooterPiston.
    */
-  public CmdMoveHorizontally(double speedIn, double distanceInFeet) {
-    distance = distanceInFeet;
-    speed = speedIn;
+  public CmdRunLowShooter(LowShooterSubsystem shooterSubsystem) {
+    addRequirements(shooterSubsystem);
+    mShooterSubsystem = shooterSubsystem;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(DriveTrainSubsystem.getInstance());
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    mShooterSubsystem.retractPistonActuator();
+    mShooterSubsystem.shoot(1);
+    endTime = RobotController.getFPGATime();
+    endTime = endTime/1000000.0 + Constants.LowShooterRunTime;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double feet = distance;
-
-    double forward = speed;
     
-    double strafe = 0;
-
-    double rotation = 0;
-    
-    DriveTrainSubsystem.getInstance().drive(new Translation2d(forward, strafe), rotation, true);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    mShooterSubsystem.extendPistonActuator();
+    mShooterSubsystem.shoot(0);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+    double curTime = RobotController.getFPGATime();
+    curTime = curTime/1000000.0;
+    if (curTime >= endTime){
+      return true;
+    }
     return false;
   }
 }

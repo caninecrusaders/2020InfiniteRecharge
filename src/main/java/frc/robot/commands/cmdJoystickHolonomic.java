@@ -14,14 +14,14 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.input.JoystickX3D;
 import frc.robot.subsystems.DriveTrainSubsystem;
 
-public class cmdJoystickHolonomic extends CommandBase {
+public class CmdJoystickHolonomic extends CommandBase {
   // private final DriveTrainSubsystem driveTrainSubsystem;
   private JoystickX3D joystick;
 
   /**
    * Creates a new cmdJoystickHolonomic.
    */
-  public cmdJoystickHolonomic(JoystickX3D joystickIn) {
+  public CmdJoystickHolonomic(JoystickX3D joystickIn) {
     joystick = joystickIn;
     addRequirements(DriveTrainSubsystem.getInstance());
     // Use addRequirements() here to declare subsystem dependencies.

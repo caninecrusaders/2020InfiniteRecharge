@@ -36,11 +36,11 @@ public final class Constants {
     public static final int driveMotorBR = 8;
     public static final int angleMotorBR = 9;
     
-    public static final int climbExtendMotorID = 10;
-    public static final int climbWinchMotorID = 11;
-    public static final int collectorMotorID = 12;
-    public static final int shootRightMotorID = 13;
-    public static final int shootLeftMotorID = 14;
+    public static final int collectorMotorID = 10;
+    public static final int shootMotorID = 11;
+    public static final int climbExtendMotorID = 12;
+    public static final int climbWinchMotorOneID = 13;
+    public static final int climbWinchMotorTwoID = 14;
 
     public static final int actuatorModuleID = 1;
     public static final int actuatorPistonExtendID = 0;
@@ -49,4 +49,6 @@ public final class Constants {
     public static final int actuatorCollectorRetractID = 3;
     public static final int actuatorClimbExtendID = 4;
     public static final int actuatorClimbRetractID = 5;
+
+    public static final double LowShooterRunTime = 10.0;
 }

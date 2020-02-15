@@ -7,30 +7,40 @@
 
 package frc.robot.commands;
 
+//import javax.swing.text.Utilities;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.LowShooterSubsystem;
+import frc.robot.input.XboxController;
+import frc.robot.subsystems.CollectorSubsystem;
 
-public class cmdRetractShooterPiston extends CommandBase {
-  LowShooterSubsystem mShooterSubsystem;
-
+public class CmdDefaultCollector extends CommandBase {
+  private CollectorSubsystem collectorSubsystem;
+  private XboxController xboxController;
   /**
-   * Creates a new cmdShooterPiston.
+   * Creates a new cmdCollectFuel.
    */
-  public cmdRetractShooterPiston(LowShooterSubsystem shooterSubsystem) {
-    addRequirements(shooterSubsystem);
-    mShooterSubsystem = shooterSubsystem;
-    // Use addRequirements() here to declare subsystem dependencies.
+  public CmdDefaultCollector( XboxController controller) {
+    collectorSubsystem = CollectorSubsystem.getInstance();
+    addRequirements(collectorSubsystem);
+    xboxController = controller;
+
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    mShooterSubsystem.retractPistonActuator();
+    double speed = xboxController.getLeftYValue();
+    //speed = Utilities.deadband 
+    if (speed < 0.1){
+      speed = 0;
+    }
+    collectorSubsystem.collectFuel(speed);
   }
 
   // Called once the command ends or is interrupted.

@@ -7,28 +7,32 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.hal.HAL;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.LowShooterSubsystem;
+import frc.robot.RobotContainer;
+import frc.robot.subsystems.ClimberSubsystem;
 
-public class cmdExtendShooterPiston extends CommandBase {
-  LowShooterSubsystem mShooterSubsystem;
+public class CmdStartEndgame extends CommandBase {
   /**
-   * Creates a new cmdExtendShooterPiston.
+   * Creates a new CmdStartEndgame.
    */
-  public cmdExtendShooterPiston(LowShooterSubsystem shooterSubsystem) {
-    addRequirements(shooterSubsystem);
-    mShooterSubsystem = shooterSubsystem;
+  public CmdStartEndgame() {
+    // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    if(HAL.getMatchTime()> 105.0 && !RobotContainer.isEndgame()){
+      RobotContainer.setEndgame(true);
+      ClimberSubsystem.getInstance().extendClimbActuator();
+      //TODO : rotate robot 
+    }
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    mShooterSubsystem.extendPistonActuator();
   }
 
   // Called once the command ends or is interrupted.
@@ -39,6 +43,6 @@ public class cmdExtendShooterPiston extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return true;
   }
 }

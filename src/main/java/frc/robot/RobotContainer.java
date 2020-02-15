@@ -11,16 +11,12 @@ import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.RobotState;
-import frc.robot.commands.cmdJoystickHolonomic;
-import frc.robot.commands.cmdTwoJoystickHolonomic;
-import frc.robot.commands.cmdXboxHolonomic;
 import frc.robot.input.JoystickX3D;
 import frc.robot.input.Thrustmaster;
 import frc.robot.input.XboxController;
 import frc.robot.subsystems.DriveTrainSubsystem;
 import frc.robot.subsystems.LEDStrip;
 import frc.robot.subsystems.SaveZeroOffsetSubsystem;
-import frc.robot.commands.cgClimb;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.CollectorSubsystem;
 import frc.robot.subsystems.LowShooterSubsystem;
@@ -38,15 +34,19 @@ public class RobotContainer {
 
   private final DriveTrainSubsystem driveTrainSubsystem;
   private final SaveZeroOffsetSubsystem saveZeroOffsetSubsystem;
-  private final cmdJoystickHolonomic mCmdJoystickHolonomic;
-  private final cmdTwoJoystickHolonomic mCmdTwoJoystickHolonomic;
-  private final cmdXboxHolonomic mCmdXboxHolonomic;
+
+  private final CmdJoystickHolonomic mCmdJoystickHolonomic;
+  private final CmdTwoJoystickHolonomic mCmdTwoJoystickHolonomic;
+  private final CmdXboxHolonomic mCmdXboxHolonomic;
   public final LEDStrip ledStrip;
 
-  private final ClimberSubsystem climberSubsystem;
-  private final CollectorSubsystem collectorSubsystem;
-  private final LowShooterSubsystem lowShooterSubsystem;
+  private final ClimberSubsystem mClimberSubsystem;
+  private final CollectorSubsystem mCollectorSubsystem;
+  private final LowShooterSubsystem mLowShooterSubsystem;
+
   private final cgClimb mCgClimb;
+
+  private static boolean endgame = false;
 
   public DriveTrainSubsystem getDriveTrainSubsystem() {
     return driveTrainSubsystem;
@@ -62,23 +62,25 @@ public class RobotContainer {
     if (!RobotState.isTest()) {
       saveZeroOffsetSubsystem = null;
 
-      mCmdJoystickHolonomic = new cmdJoystickHolonomic(joystickDriverOne);
-      mCmdTwoJoystickHolonomic = new cmdTwoJoystickHolonomic(joystickDriverOne, joystickDriverTwo);
-      mCmdXboxHolonomic = new cmdXboxHolonomic(xboxDriverOne);
+      mCmdJoystickHolonomic = new CmdJoystickHolonomic(joystickDriverOne);
+      mCmdTwoJoystickHolonomic = new CmdTwoJoystickHolonomic(joystickDriverOne, joystickDriverTwo);
+      mCmdXboxHolonomic = new CmdXboxHolonomic(xboxDriverOne);
       ledStrip = new LEDStrip();
 
+
       driveTrainSubsystem = DriveTrainSubsystem.getInstance();
-      climberSubsystem = ClimberSubsystem.getInstance();
-      collectorSubsystem = CollectorSubsystem.getInstance();
-      lowShooterSubsystem = LowShooterSubsystem.getInstance();
+      mClimberSubsystem = ClimberSubsystem.getInstance();
+      mCollectorSubsystem = CollectorSubsystem.getInstance();
+      mLowShooterSubsystem = LowShooterSubsystem.getInstance();
       driveTrainSubsystem.setDefaultCommand(mCmdJoystickHolonomic);
       // driveTrainSubsystem.setDefaultCommand(mCmdTwoJoystickHolonomic);
       // driveTrainSubsystem.setDefaultCommand(mCmdXboxHolonomic);
-      cmdCollectFuel collectFuel = new cmdCollectFuel(xboxDriverTwo);
-      collectorSubsystem.setDefaultCommand(collectFuel);
-      mCgClimb = new cgClimb(climberSubsystem);
-      cmdShoot shootFuel = new cmdShoot(xboxDriverTwo);
-      lowShooterSubsystem.setDefaultCommand(shootFuel);
+
+      mCgClimb = new cgClimb(mClimberSubsystem);
+      CmdDefaultCollector collectFuel = new CmdDefaultCollector( xboxDriverTwo);
+      mCollectorSubsystem.setDefaultCommand(collectFuel);
+      CmdDefaultLowShooter shootFuel = new CmdDefaultLowShooter( xboxDriverTwo);
+      mLowShooterSubsystem.setDefaultCommand(shootFuel);
       configureButtonBindings();
 
     } else {
@@ -88,9 +90,9 @@ public class RobotContainer {
       mCmdXboxHolonomic = null;
       mCgClimb = null;
       ledStrip = null;
-      collectorSubsystem = null;
-      climberSubsystem = null;
-      lowShooterSubsystem = null;
+      mCollectorSubsystem = null;
+      mClimberSubsystem = null;
+      mLowShooterSubsystem = null;
       saveZeroOffsetSubsystem = new SaveZeroOffsetSubsystem();
     }
    
@@ -104,7 +106,10 @@ public class RobotContainer {
    * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    xboxDriverOne.getYButton().whenPressed(new cgClimb(climberSubsystem));
+    xboxDriverTwo.getAButton().whenPressed(new CmdRunLowShooter(mLowShooterSubsystem));
+    xboxDriverTwo.getYButton().whenPressed(new CmdStartEndgame());
+    xboxDriverTwo.getStartButton().whenPressed(new CmdExtendCollector(mCollectorSubsystem));
+    xboxDriverTwo.getBackButton().whenPressed(new CmdRetractCollector(mCollectorSubsystem));
   }
 
   /**
@@ -116,4 +121,11 @@ public class RobotContainer {
   // // An ExampleCommand will run in autonomous
   // return m_autoCommand;
   // }
+  
+  public static void setEndgame(boolean flag){
+    endgame = flag;
+  }
+  public static boolean isEndgame(){
+    return endgame;
+  }
 }

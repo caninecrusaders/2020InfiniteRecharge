@@ -16,26 +16,28 @@ import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
-
 public class ClimberSubsystem extends SubsystemBase {
   private static ClimberSubsystem instance;
-  private final TalonSRX motorWinch = new TalonSRX(Constants.climbExtendMotorID);
-  private final TalonSRX motorExtend= new TalonSRX(Constants.climbWinchMotorID);
+  private final TalonSRX motorExtend = new TalonSRX(Constants.climbExtendMotorID);
+  private final TalonSRX motorWinchOne = new TalonSRX(Constants.climbWinchMotorOneID);
+  private final TalonSRX motorWinchTwo = new TalonSRX(Constants.climbWinchMotorTwoID);
   private final DoubleSolenoid actuatorSolenoid = new DoubleSolenoid(Constants.actuatorModuleID,
-   Constants.actuatorClimbExtendID, Constants.actuatorClimbRetractID);
-  private double speed = 0;
-  private double speed2 = 0;
+      Constants.actuatorClimbExtendID, Constants.actuatorClimbRetractID);
+  private double winchSpeed = 0;
+  private double extendHookSpeed = 0;
+
   /**
    * Creates a new ClimberSubsystem.
    */
   private ClimberSubsystem() {
-
+    retractClimbActuator();
   }
+
   /**
    * @return the instance
    */
   public static ClimberSubsystem getInstance() {
-    if(instance == null){
+    if (instance == null) {
       instance = new ClimberSubsystem();
     }
     return instance;
@@ -43,20 +45,21 @@ public class ClimberSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    motorWinch.set(ControlMode.PercentOutput, speed);
-    motorExtend.set(ControlMode.PercentOutput, speed2);
+    motorWinchOne.set(ControlMode.PercentOutput, winchSpeed);
+    motorWinchTwo.set(ControlMode.PercentOutput, winchSpeed);
+    motorExtend.set(ControlMode.PercentOutput, extendHookSpeed);
     // This method will be called once per scheduler run
   }
 
-  public void motorWinch(){
-    speed = 0.5;
+  public void setWinchSpeed(double speed) {
+    winchSpeed = speed;
   }
 
-  public void motorExtend(){
-    speed2 = 0.5;
+  public void setExtendHookSpeed(double speed) {
+    extendHookSpeed = speed;
   }
 
-  public void extendClimbActuator(){
+  public void extendClimbActuator() {
     actuatorSolenoid.set(Value.kForward);
   }
 

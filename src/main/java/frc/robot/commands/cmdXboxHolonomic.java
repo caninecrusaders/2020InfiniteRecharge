@@ -14,15 +14,14 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.input.XboxController;
 import frc.robot.subsystems.DriveTrainSubsystem;
 
-public class cmdXboxHolonomic extends CommandBase {
+public class CmdXboxHolonomic extends CommandBase {
   private XboxController xboxController;
   /**
    * Creates a new cmdXboxHolonomic.
    */
-  public cmdXboxHolonomic(XboxController xboxIn) {
+  public CmdXboxHolonomic(XboxController xboxIn) {
     xboxController = xboxIn;
     addRequirements(DriveTrainSubsystem.getInstance());
-    // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
