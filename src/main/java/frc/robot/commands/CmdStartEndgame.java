@@ -7,28 +7,29 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.hal.HAL;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.ClimberSubsystem;
+import frc.robot.RobotContainer;
 
-public class CmdExtendClimb extends CommandBase {
-  private ClimberSubsystem mClimbSubsystem;
+public class CmdStartEndgame extends CommandBase {
   /**
-   * Creates a new cmdExtendClimb.
+   * Creates a new CmdStartEndgame.
    */
-  public CmdExtendClimb(ClimberSubsystem climberSubsystem) {
-    addRequirements(climberSubsystem);
-    mClimbSubsystem = climberSubsystem;
+  public CmdStartEndgame() {
+    // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    if(HAL.getMatchTime()> 105.0){
+      RobotContainer.setEndgame(true);
+    }
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    mClimbSubsystem.setExtendHookSpeed(speed);
   }
 
   // Called once the command ends or is interrupted.

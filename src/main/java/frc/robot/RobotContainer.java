@@ -50,6 +50,8 @@ public class RobotContainer {
   private final LowShooterSubsystem mLowShooterSubsystem = LowShooterSubsystem.getInstance();
   private final cgClimb mCgClimb;
 
+  private static boolean endgame = false;
+
   public DriveTrainSubsystem getDriveTrainSubsystem() {
     return driveTrainSubsystem;
   }
@@ -99,7 +101,7 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     xboxDriverTwo.getAButton().whenPressed(new CmdRunLowShooter(mLowShooterSubsystem));
-    xboxDriverTwo.getYButton().whenPressed(new cgClimb(mClimberSubsystem));
+    xboxDriverTwo.getYButton().whenPressed(new CmdStartEndgame());
     xboxDriverTwo.getStartButton().whenPressed(new CmdExtendCollector(mCollectorSubsystem));
     xboxDriverTwo.getBackButton().whenPressed(new CmdRetractCollector(mCollectorSubsystem));
   }
@@ -113,4 +115,11 @@ public class RobotContainer {
   // // An ExampleCommand will run in autonomous
   // return m_autoCommand;
   // }
+  
+  public static void setEndgame(boolean flag){
+    endgame = flag;
+  }
+  public static boolean isEndgame(){
+    return endgame;
+  }
 }

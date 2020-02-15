@@ -30,7 +30,7 @@ public class ClimberSubsystem extends SubsystemBase {
    * Creates a new ClimberSubsystem.
    */
   private ClimberSubsystem() {
-
+    retractClimbActuator();
   }
   /**
    * @return the instance
@@ -57,5 +57,8 @@ public class ClimberSubsystem extends SubsystemBase {
   }
   public void extendClimbActuator(){
     actuatorSolenoid.set(Value.kForward);
+  }
+  public void retractClimbActuator(){
+    actuatorSolenoid.set(Value.kReverse);
   }
 }
