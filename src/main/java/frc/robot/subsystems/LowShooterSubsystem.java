@@ -29,6 +29,8 @@ public class LowShooterSubsystem extends SubsystemBase {
    * Creates a new ShooterSubsystem.
    */
   private LowShooterSubsystem() {
+    shootMotor.set(ControlMode.PercentOutput, 0.5);
+
     extendPistonActuator();
   }
   public static LowShooterSubsystem getInstance() {
@@ -58,12 +60,18 @@ public class LowShooterSubsystem extends SubsystemBase {
       actuatorSolenoid.set(Value.kReverse);
     }
   }
+
+  public void runMotor() {
+    shootMotor.set(ControlMode.PercentOutput, 0.5);
+
+  }
   //public void runMotors() {
     //shootMotor.set(ControlMode.PercentOutput, speed);
     //shootMotorRight.set(ControlMode.PercentOutput, speedRight);
   //}
   @Override
   public void periodic() {
+    shootMotor.set(ControlMode.PercentOutput, 1.0);
     if (RobotContainer.isEndgame()){
       shootMotor.set(ControlMode.PercentOutput,0);
       if(!isExtended){
