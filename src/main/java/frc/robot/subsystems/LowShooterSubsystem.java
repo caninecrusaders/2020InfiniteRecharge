@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.RobotContainer;
 
 public class LowShooterSubsystem extends SubsystemBase {
   private static LowShooterSubsystem instance;
@@ -52,8 +53,10 @@ public class LowShooterSubsystem extends SubsystemBase {
     actuatorSolenoid.set(Value.kForward);
   }
   public void retractPistonActuator() {
-    isExtended = false;
-    actuatorSolenoid.set(Value.kReverse);
+    if (!RobotContainer.isEndgame()){
+      isExtended = false;
+      actuatorSolenoid.set(Value.kReverse);
+    }
   }
   //public void runMotors() {
     //shootMotor.set(ControlMode.PercentOutput, speed);
@@ -61,7 +64,15 @@ public class LowShooterSubsystem extends SubsystemBase {
   //}
   @Override
   public void periodic() {
-    shootMotor.set(ControlMode.PercentOutput, speed);
+    if (RobotContainer.isEndgame()){
+      shootMotor.set(ControlMode.PercentOutput,0);
+      if(!isExtended){
+        extendPistonActuator();
+      }
+    } else {
+      shootMotor.set(ControlMode.PercentOutput, speed);
+    }
+
     //shootMotorRight.set(ControlMode.PercentOutput, speedRight);
     // This method will be called once per scheduler run
   }

@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 //import edu.wpi.first.wpilibj.Relay.Value;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.RobotContainer;
 
 public class CollectorSubsystem extends SubsystemBase {
   private static CollectorSubsystem instance;
@@ -65,6 +66,9 @@ public class CollectorSubsystem extends SubsystemBase {
     }
   }
   public void periodic() {
+    if(RobotContainer.isEndgame() && isExtended){
+      retractCollectorActuator();
+    }
     collectorMotor.set(ControlMode.PercentOutput, speed);
     // This method will be called once per scheduler run
   }

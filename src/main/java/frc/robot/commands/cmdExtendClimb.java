@@ -28,7 +28,7 @@ public class CmdExtendClimb extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    mClimbSubsystem.setExtendHookSpeed(speed);
+    mClimbSubsystem.setExtendHookSpeed(0.5);
   }
 
   // Called once the command ends or is interrupted.
