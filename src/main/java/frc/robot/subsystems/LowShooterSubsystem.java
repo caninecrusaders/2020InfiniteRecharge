@@ -71,7 +71,7 @@ public class LowShooterSubsystem extends SubsystemBase {
   //}
   @Override
   public void periodic() {
-    shootMotor.set(ControlMode.PercentOutput, 1.0);
+    // shootMotor.set(ControlMode.PercentOutput, 1.0);
     if (RobotContainer.isEndgame()){
       shootMotor.set(ControlMode.PercentOutput,0);
       if(!isExtended){
