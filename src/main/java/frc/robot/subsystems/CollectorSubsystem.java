@@ -66,6 +66,7 @@ public class CollectorSubsystem extends SubsystemBase {
     }
   }
   public void periodic() {
+    collectorMotor.set(ControlMode.PercentOutput, 1.0);
     if(RobotContainer.isEndgame() && isExtended){
       retractCollectorActuator();
     }

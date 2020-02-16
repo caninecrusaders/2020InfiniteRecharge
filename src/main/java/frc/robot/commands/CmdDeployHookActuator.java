@@ -10,12 +10,12 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ClimberSubsystem;
 
-public class CmdDeployHook extends CommandBase {
+public class CmdDeployHookActuator extends CommandBase {
   private ClimberSubsystem climbSubsystem;
   /**
    * Creates a new cmdDeployHook.
    */
-  public CmdDeployHook(ClimberSubsystem ClimberSubsystem) {
+  public CmdDeployHookActuator(ClimberSubsystem ClimberSubsystem) {
     addRequirements(ClimberSubsystem);
     climbSubsystem = ClimberSubsystem;
   }
