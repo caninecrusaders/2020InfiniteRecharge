@@ -11,7 +11,9 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.Ultrasonic;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
@@ -21,8 +23,11 @@ public class LowShooterSubsystem extends SubsystemBase {
   private final TalonSRX shootMotor = new TalonSRX(Constants.shootMotorID);
   //private final TalonSRX shootMotorRight = new TalonSRX(Constants.shootLeftMotorID);
   private final DoubleSolenoid actuatorSolenoid = new DoubleSolenoid(Constants.actuatorModuleID, 
-  Constants.actuatorPistonExtendID, Constants.actuatorPistonRetractID);
+    Constants.actuatorPistonExtendID, Constants.actuatorPistonRetractID);
+  private Ultrasonic detectFuel = new Ultrasonic(Constants.detectFuelTriggerID, Constants.detectFuelEchoID);
   private double speed = 0;
+  private int fuelState = 0;
+  private int fuelCount = 0;
   private boolean isExtended;
   //private double speedRight = 0;
   /**
@@ -32,6 +37,9 @@ public class LowShooterSubsystem extends SubsystemBase {
     shootMotor.set(ControlMode.PercentOutput, 0.5);
 
     extendPistonActuator();
+
+    detectFuel.setAutomaticMode(true);
+    //detectFuel.getRangeInches();
   }
   public static LowShooterSubsystem getInstance() {
     if(instance == null){
@@ -73,14 +81,36 @@ public class LowShooterSubsystem extends SubsystemBase {
   public void periodic() {
     // shootMotor.set(ControlMode.PercentOutput, 1.0);
     if (RobotContainer.isEndgame()){
-      shootMotor.set(ControlMode.PercentOutput,0);
+      //shootMotor.set(ControlMode.PercentOutput,0);
       if(!isExtended){
         extendPistonActuator();
       }
     } else {
-      shootMotor.set(ControlMode.PercentOutput, speed);
+      //shootMotor.set(ControlMode.PercentOutput, speed);
     }
+    SmartDashboard.putNumber("Ultrasonic Sensor", detectFuel.getRangeInches());
 
+    switch (fuelState){
+      case 0: 
+        if (detectFuel.getRangeInches() < 8.0 /*&& fuelCount < 4*/) {
+          fuelState++;
+        } else {
+          shootMotor.set(ControlMode.PercentOutput, 0);
+        }
+        break;
+      case 1:
+        if (detectFuel.getRangeInches() > 8.5) {
+          fuelState++;
+        } else {
+          shootMotor.set(ControlMode.PercentOutput, -0.5);
+        }
+        break;
+      case 2:
+        fuelCount++;
+        shootMotor.set(ControlMode.PercentOutput, 0);
+        fuelState = 0;
+        break;
+    }
     //shootMotorRight.set(ControlMode.PercentOutput, speedRight);
     // This method will be called once per scheduler run
   }

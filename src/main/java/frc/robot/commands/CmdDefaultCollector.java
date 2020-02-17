@@ -36,6 +36,7 @@ public class CmdDefaultCollector extends CommandBase {
   @Override
   public void execute() {
     double speed = xboxController.getLeftYValue();
+    //double speed = 0.3;
     //speed = Utilities.deadband 
     // if (speed < 0.1){
     //   speed = 0;
