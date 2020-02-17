@@ -7,6 +7,8 @@
 
 package frc.robot;
 
+import edu.wpi.cscore.UsbCamera;
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.RobotState;
 import edu.wpi.first.wpilibj.TimedRobot;
 //import edu.wpi.first.wpilibj2.command.Command;
@@ -24,6 +26,7 @@ public class Robot extends TimedRobot {
   // private Command m_autonomousCommand;
 
   private RobotContainer mRobotContainer;
+  private UsbCamera camera;
 
   /**
    * This function is run when the robot is first started up and should be used
@@ -31,6 +34,11 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
+    // camera = new UsbCamera("cam0", 0);
+
+    camera = CameraServer.getInstance().startAutomaticCapture("cam0", 0);
+    camera.setFPS(30);
+    camera.setResolution(720, 480);
 
     // Instantiate our RobotContainer. This will perform all our button bindings,
     // and put our
@@ -38,6 +46,7 @@ public class Robot extends TimedRobot {
     mRobotContainer = new RobotContainer();
     // CollectorSubsystem.getInstance().extendCollectorActuator();
   }
+
   /**
    * This function is called every robot packet, no matter the mode. Use this for
    * items like diagnostics that you want ran during disabled, autonomous,
