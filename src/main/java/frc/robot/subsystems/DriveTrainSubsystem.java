@@ -22,6 +22,8 @@ import frc.robot.Constants;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import org.frcteam2910.common.control.HolonomicMotionProfiledTrajectoryFollower;
+import org.frcteam2910.common.control.PidConstants;
 import org.frcteam2910.common.drivers.Gyroscope;
 import org.frcteam2910.common.drivers.SwerveModule;
 import org.frcteam2910.common.robot.drivers.Mk2SwerveModule;
@@ -41,6 +43,9 @@ public class DriveTrainSubsystem extends SubsystemBase {
   public static DriveTrainSubsystem instance;
   public static Mk2SwerveModule mk2SwerveModule;
   public static SwerveModule swerveModule;
+
+  private static final PidConstants FOLLOWER_TRANSLATION_CONSTANTS = new PidConstants(0.05, 0.01, 0.0);
+  private static final PidConstants FOLLOWER_ROTATION_CONSTANTS = new PidConstants(0.2, 0.01, 0.0);
 
   private final SwerveModule frontLeftModule = new Mk2SwerveModuleBuilder(
       new Vector2(TRACKWIDTH / 2.0, WHEELBASE / 2.0))
@@ -122,26 +127,26 @@ public class DriveTrainSubsystem extends SubsystemBase {
 
   public void drive(Translation2d translation, double rotation, boolean fieldOriented) {
     // if (enableAngle && enableDrive) {
-      rotation *= 2.0 / Math.hypot(WHEELBASE, TRACKWIDTH);
-      ChassisSpeeds speeds;
-      if (fieldOriented) {
-        speeds = ChassisSpeeds.fromFieldRelativeSpeeds(translation.getX(), translation.getY(), rotation,
-            Rotation2d.fromDegrees(gyroscope.getAngle().toDegrees()));
-      } else {
-        speeds = new ChassisSpeeds(translation.getX(), translation.getY(), rotation);
-      }
+    rotation *= 2.0 / Math.hypot(WHEELBASE, TRACKWIDTH);
+    ChassisSpeeds speeds;
+    if (fieldOriented) {
+      speeds = ChassisSpeeds.fromFieldRelativeSpeeds(translation.getX(), translation.getY(), rotation,
+          Rotation2d.fromDegrees(gyroscope.getAngle().toDegrees()));
+    } else {
+      speeds = new ChassisSpeeds(translation.getX(), translation.getY(), rotation);
+    }
 
-      SwerveModuleState[] states = kinematics.toSwerveModuleStates(speeds);
-      frontLeftModule.setTargetVelocity(states[0].speedMetersPerSecond, states[0].angle.getRadians());
-      frontRightModule.setTargetVelocity(-states[1].speedMetersPerSecond, states[1].angle.getRadians());
-      backLeftModule.setTargetVelocity(states[2].speedMetersPerSecond, states[2].angle.getRadians());
-      backRightModule.setTargetVelocity(-states[3].speedMetersPerSecond, states[3].angle.getRadians());
+    SwerveModuleState[] states = kinematics.toSwerveModuleStates(speeds);
+    frontLeftModule.setTargetVelocity(states[0].speedMetersPerSecond, states[0].angle.getRadians());
+    frontRightModule.setTargetVelocity(-states[1].speedMetersPerSecond, states[1].angle.getRadians());
+    backLeftModule.setTargetVelocity(states[2].speedMetersPerSecond, states[2].angle.getRadians());
+    backRightModule.setTargetVelocity(-states[3].speedMetersPerSecond, states[3].angle.getRadians());
     // } else {
-      
-    //   frontLeftModule.setTargetVelocity(0);
-    //   frontRightModule.setTargetVelocity(0);
-    //   backLeftModule.setTargetVelocity(0);
-    //   backRightModule.setTargetVelocity(0);
+
+    // frontLeftModule.setTargetVelocity(0);
+    // frontRightModule.setTargetVelocity(0);
+    // backLeftModule.setTargetVelocity(0);
+    // backRightModule.setTargetVelocity(0);
     // }
 
   }
@@ -162,6 +167,10 @@ public class DriveTrainSubsystem extends SubsystemBase {
 
   }
 
-
   
+
+  // public HolonomicMotionProfiledTrajectoryFollower getFollower() {
+  //   // return follower;
+  // }
+
 }
