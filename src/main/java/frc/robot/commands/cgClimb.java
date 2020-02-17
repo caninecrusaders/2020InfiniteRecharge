@@ -22,7 +22,7 @@ public class cgClimb extends SequentialCommandGroup {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());
     super(new CmdClimb(climbSubsystem),
-    new CmdDeployHook(climbSubsystem),
+    new CmdDeployHookActuator(climbSubsystem),
     new CmdExtendClimbHook(climbSubsystem),
     new CmdWinchClimb(climbSubsystem));
   }
