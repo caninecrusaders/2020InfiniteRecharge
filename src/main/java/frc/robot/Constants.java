@@ -53,6 +53,8 @@ public final class Constants {
     public static final int detectFuelTriggerID = 8;
     public static final int detectFuelEchoID = 9;
 
-    public static final double LowShooterRunTime = 10.0;
+    public static final int sensorID = 4;
+
+    public static final double LowShooterRunTime = 5.0;
 
 }

@@ -10,6 +10,7 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
+//import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Ultrasonic;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
@@ -25,6 +26,8 @@ public class LowShooterSubsystem extends SubsystemBase {
   private final DoubleSolenoid actuatorSolenoid = new DoubleSolenoid(Constants.actuatorModuleID, 
     Constants.actuatorPistonExtendID, Constants.actuatorPistonRetractID);
   private Ultrasonic detectFuel = new Ultrasonic(Constants.detectFuelTriggerID, Constants.detectFuelEchoID);
+  //private AnalogInput sensor = new AnalogInput (Constants.sensorID);
+  // IR was to unstable, readings varied too much.
   private double speed = 0;
   private int fuelState = 0;
   private int fuelCount = 0;
@@ -89,17 +92,20 @@ public class LowShooterSubsystem extends SubsystemBase {
       //shootMotor.set(ControlMode.PercentOutput, speed);
     }
     SmartDashboard.putNumber("Ultrasonic Sensor", detectFuel.getRangeInches());
-
+    //SmartDashboard.putNumber("IR Sensor", sensor.getAverageVoltage());
+    //double distance = sensor.getAverageVoltage();
+    double distance = detectFuel.getRangeInches();
+    
     switch (fuelState){
       case 0: 
-        if (detectFuel.getRangeInches() < 8.0 /*&& fuelCount < 4*/) {
+        if (distance < 8.0 /*&& fuelCount < 4*/) {
           fuelState++;
         } else {
           shootMotor.set(ControlMode.PercentOutput, 0);
         }
         break;
       case 1:
-        if (detectFuel.getRangeInches() > 8.5) {
+        if (distance > 8.5) {
           fuelState++;
         } else {
           shootMotor.set(ControlMode.PercentOutput, -0.5);
