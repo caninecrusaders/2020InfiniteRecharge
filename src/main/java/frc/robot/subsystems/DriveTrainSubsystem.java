@@ -26,10 +26,17 @@ import org.frcteam2910.common.control.HolonomicMotionProfiledTrajectoryFollower;
 import org.frcteam2910.common.control.PidConstants;
 import org.frcteam2910.common.drivers.Gyroscope;
 import org.frcteam2910.common.drivers.SwerveModule;
+import org.frcteam2910.common.kinematics.SwerveOdometry;
 import org.frcteam2910.common.robot.drivers.Mk2SwerveModule;
+import org.frcteam2910.common.math.RigidTransform2;
+import org.frcteam2910.common.math.Rotation2;
 import org.frcteam2910.common.math.Vector2;
 import org.frcteam2910.common.robot.drivers.Mk2SwerveModuleBuilder;
 import org.frcteam2910.common.robot.drivers.NavX;
+import org.frcteam2910.common.util.DrivetrainFeedforwardConstants;
+import org.frcteam2910.common.util.HolonomicDriveSignal;
+import org.frcteam2910.common.util.HolonomicFeedforward;
+
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.TimedRobot;
 
@@ -46,6 +53,17 @@ public class DriveTrainSubsystem extends SubsystemBase {
 
   private static final PidConstants FOLLOWER_TRANSLATION_CONSTANTS = new PidConstants(0.05, 0.01, 0.0);
   private static final PidConstants FOLLOWER_ROTATION_CONSTANTS = new PidConstants(0.2, 0.01, 0.0);
+  private static final HolonomicFeedforward FOLLOWER_FEEDFORWARD_CONSTANTS = new HolonomicFeedforward(
+      new DrivetrainFeedforwardConstants(1.0 / (14.0 * 12.0), 0.0, 0.0));
+
+  public SwerveOdometry mSwerveOdometry;
+
+  public SwerveOdometry getSwerveOdometry() {
+    return mSwerveOdometry;
+  }
+
+  private HolonomicMotionProfiledTrajectoryFollower follower = new HolonomicMotionProfiledTrajectoryFollower(
+      FOLLOWER_TRANSLATION_CONSTANTS, FOLLOWER_ROTATION_CONSTANTS, FOLLOWER_FEEDFORWARD_CONSTANTS);
 
   private final SwerveModule frontLeftModule = new Mk2SwerveModuleBuilder(
       new Vector2(TRACKWIDTH / 2.0, WHEELBASE / 2.0))
@@ -167,10 +185,33 @@ public class DriveTrainSubsystem extends SubsystemBase {
 
   }
 
-  
+  public void updateKinematics() {
+    // RigidTransform2 currentPose = new RigidTransform2(
+    // getKinematicPosition(),
+    // gyroscope.getAngle());
+    // Optional<HolonomicDriveSignal> optSignal = follower.update(currentPose, ,
+    // rotationalVelocity, time, dt)
+    HolonomicDriveSignal localSignal;
+
+    getSwerveOdometry().resetPose(Vector2.ZERO, Rotation2.ZERO);
+
+    // if (Math.abs(localSignal.getRotation()) < 0.1 && Double.isFinite(localSnapRotation)) {
+    //   snapRotationController.setSetpoint(localSnapRotation);
+
+    //   localSignal = new HolonomicDriveSignal(localSignal.getTranslation(),
+    //       snapRotationController.calculate(getGyroscope().getAngle().toRadians(), dt), localSignal.isFieldOriented());
+    // } else {
+    //   synchronized (lock) {
+    //     snapRotation = Double.NaN;
+    //   }
+    // }
+
+    //drive(localSignal.getTranslation(), localSignal.getRotation(), localSignal.isFieldOriented());
+    //TODO: figure out how to get a translation from the Translation2D class not Vector2 from their common
+  }
 
   // public HolonomicMotionProfiledTrajectoryFollower getFollower() {
-  //   // return follower;
+  // // return follower;
   // }
 
 }
