@@ -39,11 +39,11 @@ public class CmdDefaultLowShooter extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double speed = xboxController.getLeftYValue();
+    //double speed = xboxController.getLeftYValue();
     // if (speed < 0.1){
     //   speed = 0;
     // }
-    mShooterSubsystem.shoot(speed);
+    //mShooterSubsystem.shoot(speed);
   }
 
   // Called once the command ends or is interrupted.

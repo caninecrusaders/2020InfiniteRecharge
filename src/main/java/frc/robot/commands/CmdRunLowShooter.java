@@ -32,6 +32,7 @@ public class CmdRunLowShooter extends CommandBase {
     mShooterSubsystem.shoot(1);
     endTime = RobotController.getFPGATime();
     endTime = endTime/1000000.0 + Constants.LowShooterRunTime;
+    
   }
 
   // Called every time the scheduler runs while the command is scheduled.
