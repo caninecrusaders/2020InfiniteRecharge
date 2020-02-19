@@ -195,23 +195,29 @@ public class DriveTrainSubsystem extends SubsystemBase {
 
     getSwerveOdometry().resetPose(Vector2.ZERO, Rotation2.ZERO);
 
-    // if (Math.abs(localSignal.getRotation()) < 0.1 && Double.isFinite(localSnapRotation)) {
-    //   snapRotationController.setSetpoint(localSnapRotation);
+    // if (Math.abs(localSignal.getRotation()) < 0.1 &&
+    // Double.isFinite(localSnapRotation)) {
+    // snapRotationController.setSetpoint(localSnapRotation);
 
-    //   localSignal = new HolonomicDriveSignal(localSignal.getTranslation(),
-    //       snapRotationController.calculate(getGyroscope().getAngle().toRadians(), dt), localSignal.isFieldOriented());
+    // localSignal = new HolonomicDriveSignal(localSignal.getTranslation(),
+    // snapRotationController.calculate(getGyroscope().getAngle().toRadians(), dt),
+    // localSignal.isFieldOriented());
     // } else {
-    //   synchronized (lock) {
-    //     snapRotation = Double.NaN;
-    //   }
+    // synchronized (lock) {
+    // snapRotation = Double.NaN;
+    // }
     // }
 
-    //drive(localSignal.getTranslation(), localSignal.getRotation(), localSignal.isFieldOriented());
-    //TODO: figure out how to get a translation from the Translation2D class not Vector2 from their common
+    Translation2d tmpTrans = new Translation2d(localSignal.getTranslation().x,
+    localSignal.getTranslation().y);
+
+    drive(tmpTrans, localSignal.getRotation(), localSignal.isFieldOriented());
+    // TODO: figure out how to get a translation from the Translation2D class not
+    // Vector2 from their common
   }
 
-  // public HolonomicMotionProfiledTrajectoryFollower getFollower() {
-  // // return follower;
-  // }
+  public HolonomicMotionProfiledTrajectoryFollower getFollower() {
+    return follower;
+  }
 
 }

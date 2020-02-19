@@ -7,10 +7,15 @@
 
 package frc.robot.autonomous;
 
+import org.frcteam2910.common.math.Rotation2;
+import org.frcteam2910.common.util.Side;
+
+import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandGroupBase;
 
 /**
  * Add your docs here.
@@ -18,7 +23,9 @@ import edu.wpi.first.wpilibj2.command.Command;
 public class AutoSelector {
   private final AutoTrajectories trajectories;
 
-  // private static SendableChooser<AutoMode> autoModeChooser;
+  private static SendableChooser<Side> sideChooser;
+  private static SendableChooser<Rotation2> orientationChooser;
+  // private static SendableChooser<AutonomousMode> autonomousModeChooser;
 
   // static {
   //   ShuffleboardTab autoTab = Shuffleboard.getTab("Auto")
@@ -27,7 +34,20 @@ public class AutoSelector {
     this.trajectories = trajectories;
   }
 
-  // private Command makeASquare() {
+  private Command makeASquare() {
+    // AutonomousMode mode = autonomousModeChooser.getSelected();
+    // Rotation2 startingOrientation = orientationChooser.getSelected();
+
+    CommandGroupBase group = new CommandGroupBase(){
     
-  // }
+      @Override
+      public void addCommands(Command... commands) {
+        group.
+      }
+    };
+
+    group.addSequential(new FollowTrajectoryCommand(trajectories.testThreeFeetForward));
+
+
+  }
 }
