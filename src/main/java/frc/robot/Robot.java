@@ -11,9 +11,13 @@ import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.RobotState;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj2.command.Command;
 //import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.autonomous.AutoSelector;
+import frc.robot.autonomous.AutoTrajectories;
 import frc.robot.subsystems.CollectorSubsystem;
+import frc.robot.subsystems.DriveTrainSubsystem;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -27,6 +31,11 @@ public class Robot extends TimedRobot {
 
   private RobotContainer mRobotContainer;
   private UsbCamera camera;
+
+  private Command autoCommand = null; 
+
+  private AutoTrajectories autoTrajectories = new AutoTrajectories(DriveTrainSubsystem.CONSTRAINTS); //TODO: make restraints
+  private AutoSelector autoSelector = new AutoSelector(autoTrajectories); //TODO: is this the right param?
 
   /**
    * This function is run when the robot is first started up and should be used
@@ -85,6 +94,11 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
+    if (autoCommand != null) {
+      autoCommand.cancel();
+    }
+
+    autoCommand = autoSelector.getCommand();
     // m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
     // // schedule the autonomous command (example)

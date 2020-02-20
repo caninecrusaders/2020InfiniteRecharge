@@ -24,6 +24,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import org.frcteam2910.common.control.HolonomicMotionProfiledTrajectoryFollower;
 import org.frcteam2910.common.control.PidConstants;
+import org.frcteam2910.common.control.TrajectoryConstraint;
 import org.frcteam2910.common.drivers.Gyroscope;
 import org.frcteam2910.common.drivers.SwerveModule;
 import org.frcteam2910.common.kinematics.SwerveOdometry;
@@ -50,6 +51,14 @@ public class DriveTrainSubsystem extends SubsystemBase {
   public static DriveTrainSubsystem instance;
   public static Mk2SwerveModule mk2SwerveModule;
   public static SwerveModule swerveModule;
+
+
+  public static final TrajectoryConstraint[] CONSTRAINTS = { //TODO: need to create constraints
+    
+    // new MaxVelocityConstraint(MAX_VELOCITY),
+    // new MaxAccelerationConstraint(13.0 * 12.0),
+    // new CentripetalAccelerationConstraint(25.0 * 12.0)
+};
 
   private static final PidConstants FOLLOWER_TRANSLATION_CONSTANTS = new PidConstants(0.05, 0.01, 0.0);
   private static final PidConstants FOLLOWER_ROTATION_CONSTANTS = new PidConstants(0.2, 0.01, 0.0);
@@ -106,8 +115,8 @@ public class DriveTrainSubsystem extends SubsystemBase {
       new Translation2d(TRACKWIDTH / 2.0, WHEELBASE / 2.0), new Translation2d(TRACKWIDTH / 2.0, -WHEELBASE / 2.0),
       new Translation2d(-TRACKWIDTH / 2.0, WHEELBASE / 2.0), new Translation2d(-TRACKWIDTH / 2.0, -WHEELBASE / 2.0));
 
-  private final Gyroscope gyroscope = new NavX(SPI.Port.kMXP);
-  // private final Gyroscope gyroscope = new NavX(SerialPort.Port.kUSB1);
+  public final Gyroscope gyroscope = new NavX(SPI.Port.kMXP);
+  // public final Gyroscope gyroscope = new NavX(SerialPort.Port.kUSB1);
 
   public DriveTrainSubsystem() {
     gyroscope.calibrate();
@@ -185,13 +194,13 @@ public class DriveTrainSubsystem extends SubsystemBase {
 
   }
 
-  public void updateKinematics() {
+  public void updateKinematics() { // TODO: need to clean this up, and localSignal might not be initizalized right
     // RigidTransform2 currentPose = new RigidTransform2(
     // getKinematicPosition(),
     // gyroscope.getAngle());
     // Optional<HolonomicDriveSignal> optSignal = follower.update(currentPose, ,
     // rotationalVelocity, time, dt)
-    HolonomicDriveSignal localSignal;
+    HolonomicDriveSignal localSignal = new HolonomicDriveSignal(Vector2.ZERO, 0, true);
 
     getSwerveOdometry().resetPose(Vector2.ZERO, Rotation2.ZERO);
 
