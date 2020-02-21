@@ -65,7 +65,7 @@ public class RobotContainer {
       mCmdJoystickHolonomic = new CmdJoystickHolonomic(joystickDriverOne);
       mCmdTwoJoystickHolonomic = new CmdTwoJoystickHolonomic(joystickDriverOne, joystickDriverTwo);
       mCmdXboxHolonomic = new CmdXboxHolonomic(xboxDriverOne);
-      ledStrip = new LEDStrip();
+      ledStrip = new LEDStrip(joystickDriverTwo);
 
 
       driveTrainSubsystem = DriveTrainSubsystem.getInstance();

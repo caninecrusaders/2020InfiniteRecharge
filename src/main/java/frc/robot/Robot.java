@@ -34,8 +34,8 @@ public class Robot extends TimedRobot {
 
   private Command autoCommand = null; 
 
-  private AutoTrajectories autoTrajectories = new AutoTrajectories(DriveTrainSubsystem.CONSTRAINTS); //TODO: make restraints
-  private AutoSelector autoSelector = new AutoSelector(autoTrajectories); //TODO: is this the right param?
+  // private AutoTrajectories autoTrajectories = new AutoTrajectories(DriveTrainSubsystem.CONSTRAINTS); //TODO: make restraints
+  // private AutoSelector autoSelector = new AutoSelector(autoTrajectories); //TODO: is this the right param?
 
   /**
    * This function is run when the robot is first started up and should be used
@@ -67,6 +67,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
+
     // Runs the Scheduler. This is responsible for polling buttons, adding
     // newly-scheduled
     // commands, running already-scheduled commands, removing finished or
@@ -98,7 +99,7 @@ public class Robot extends TimedRobot {
       autoCommand.cancel();
     }
 
-    autoCommand = autoSelector.getCommand();
+    // autoCommand = autoSelector.getCommand();
     // m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
     // // schedule the autonomous command (example)

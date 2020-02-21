@@ -55,6 +55,10 @@ public class Thrustmaster extends Joystick {
 
   }
 
+  public double getSliderAxis() {
+    return getRawAxis(3);
+  }
+
   public Button getTriggerButton() {
     return mButtons[1];
   }
