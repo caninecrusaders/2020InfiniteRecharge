@@ -7,17 +7,21 @@
 
 package frc.robot.commands;
 
+//import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ClimberSubsystem;
+import frc.robot.input.XboxController;
 
 public class CmdExtendClimbHook extends CommandBase {
-  private ClimberSubsystem mClimbSubsystem;
+  private ClimberSubsystem climbSubsystem;
+  private XboxController xboxController;
   /**
    * Creates a new cmdExtendClimb.
    */
-  public CmdExtendClimbHook(ClimberSubsystem climberSubsystem) {
-    addRequirements(climberSubsystem);
-    mClimbSubsystem = climberSubsystem;
+  public CmdExtendClimbHook(XboxController controller) {
+    climbSubsystem = ClimberSubsystem.getInstance();
+    addRequirements(climbSubsystem);
+    xboxController = controller;
   }
 
   // Called when the command is initially scheduled.
@@ -28,7 +32,8 @@ public class CmdExtendClimbHook extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    mClimbSubsystem.setExtendHookSpeed(0.5);
+    double speed = xboxController.getRightYValue();
+    climbSubsystem.setExtendHookSpeed(speed);
   }
 
   // Called once the command ends or is interrupted.

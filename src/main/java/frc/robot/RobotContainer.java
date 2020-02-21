@@ -110,6 +110,7 @@ public class RobotContainer {
     xboxDriverTwo.getYButton().whenPressed(new CmdStartEndgame());
     xboxDriverTwo.getStartButton().whenPressed(new CmdExtendCollector(mCollectorSubsystem));
     xboxDriverTwo.getBackButton().whenPressed(new CmdRetractCollector(mCollectorSubsystem));
+    xboxDriverTwo.getXButton().whenPressed(new CmdWinchClimb(mClimberSubsystem));
   }
 
   /**

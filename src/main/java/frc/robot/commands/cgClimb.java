@@ -23,7 +23,7 @@ public class cgClimb extends SequentialCommandGroup {
     // super(new FooCommand(), new BarCommand());
     super(new CmdClimb(climbSubsystem),
     new CmdDeployHookActuator(climbSubsystem),
-    new CmdExtendClimbHook(climbSubsystem),
+    //new CmdExtendClimbHook(climbSubsystem),
     new CmdWinchClimb(climbSubsystem));
   }
 }

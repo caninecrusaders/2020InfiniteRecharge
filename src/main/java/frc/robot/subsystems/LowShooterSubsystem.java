@@ -10,6 +10,7 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 //import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Ultrasonic;
@@ -25,13 +26,16 @@ public class LowShooterSubsystem extends SubsystemBase {
   //private final TalonSRX shootMotorRight = new TalonSRX(Constants.shootLeftMotorID);
   private final DoubleSolenoid actuatorSolenoid = new DoubleSolenoid(Constants.actuatorModuleID, 
     Constants.actuatorPistonExtendID, Constants.actuatorPistonRetractID);
-  private Ultrasonic detectFuel = new Ultrasonic(Constants.detectFuelTriggerID, Constants.detectFuelEchoID);
+  //private Ultrasonic detectFuel = new Ultrasonic(Constants.detectFuelTriggerID, Constants.detectFuelEchoID);
+  private DigitalInput detectFuel = new DigitalInput(Constants.digitalSensorIntakeID);
+  private DigitalInput stopFuel = new DigitalInput(Constants.digitalSensorGateID);
   //private AnalogInput sensor = new AnalogInput (Constants.sensorID);
   // IR was to unstable, readings varied too much.
   private double speed = 0;
   private int fuelState = 0;
   private int fuelCount = 0;
   private boolean isExtended;
+  private boolean stopCollection = false;
   //private double speedRight = 0;
   /**
    * Creates a new ShooterSubsystem.
@@ -40,8 +44,9 @@ public class LowShooterSubsystem extends SubsystemBase {
     shootMotor.set(ControlMode.PercentOutput, 0.5);
 
     extendPistonActuator();
+    //for Ultrasonic
+    //detectFuel.setAutomaticMode(true);
 
-    detectFuel.setAutomaticMode(true);
     //detectFuel.getRangeInches();
   }
   public static LowShooterSubsystem getInstance() {
@@ -91,21 +96,27 @@ public class LowShooterSubsystem extends SubsystemBase {
     } else {
       //shootMotor.set(ControlMode.PercentOutput, speed);
     }
-    SmartDashboard.putNumber("Ultrasonic Sensor", detectFuel.getRangeInches());
+    //SmartDashboard.putNumber("Ultrasonic Sensor", detectFuel.getRangeInches());
+    SmartDashboard.putBoolean("Intake Digital Sensor", detectFuel.get());
+    SmartDashboard.putBoolean("Gate Digital Sensor", stopFuel.get());
     //SmartDashboard.putNumber("IR Sensor", sensor.getAverageVoltage());
     //double distance = sensor.getAverageVoltage();
-    double distance = detectFuel.getRangeInches();
-    
+
+    //if Ultrasonic change to double, if digital change to boolean
+    boolean fuelIntake = !detectFuel.get(); //Sensor returns false if ball detected
+    boolean stopIntake = !stopFuel.get();
+    //if ultrasonic change to distance < 8.0 and distance > 8.5, if digital change to ==false and ==true
+    //sensor at front of low shooter
     switch (fuelState){
       case 0: 
-        if (distance < 8.0 /*&& fuelCount < 4*/) {
+        if (fuelIntake && !stopIntake /*&& fuelCount < 4*/) {
           fuelState++;
         } else {
           shootMotor.set(ControlMode.PercentOutput, 0);
         }
         break;
       case 1:
-        if (distance > 8.5) {
+        if (!fuelIntake || stopIntake) {
           fuelState++;
         } else {
           shootMotor.set(ControlMode.PercentOutput, -0.5);
