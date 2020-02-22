@@ -106,20 +106,14 @@ public class RobotContainer {
    * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-<<<<<<< HEAD
-    xboxDriverTwo.getAButton().whenPressed(new CmdRunLowShooter(mLowShooterSubsystem));
-    xboxDriverTwo.getYButton().whenPressed(new CmdStartEndgame());
-    xboxDriverTwo.getStartButton().whenPressed(new CmdExtendCollector(mCollectorSubsystem));
-    xboxDriverTwo.getBackButton().whenPressed(new CmdRetractCollector(mCollectorSubsystem));
-    xboxDriverTwo.getXButton().whenPressed(new CmdWinchClimb(mClimberSubsystem));
-=======
+
     xboxRobotControl.getAButton().whenPressed(new CmdRunLowShooter(mLowShooterSubsystem));
     xboxRobotControl.getYButton().whenPressed(new CmdStartEndgame());
     xboxRobotControl.getStartButton().whenPressed(new CmdExtendCollector(mCollectorSubsystem));
     xboxRobotControl.getBackButton().whenPressed(new CmdRetractCollector(mCollectorSubsystem));
->>>>>>> 8aabab9bf27659a9bd8006d88bd58830aecd5a0b
-  }
+    xboxRobotControl.getXButton().whenPressed(new CmdWinchClimb(mClimberSubsystem));
 
+  }
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *
