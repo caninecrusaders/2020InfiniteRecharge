@@ -36,6 +36,8 @@ public class LowShooterSubsystem extends SubsystemBase {
   private int fuelCount = 0;
   private boolean isExtended;
   private boolean stopCollection = false;
+  private boolean shootingMode = false;
+
   //private double speedRight = 0;
   /**
    * Creates a new ShooterSubsystem.
@@ -56,7 +58,8 @@ public class LowShooterSubsystem extends SubsystemBase {
     return instance;
   }
   public void shoot(double newSpeed){
-    speed = newSpeed;
+    speed = -newSpeed;
+    shootingMode = true;
     //speedRight = 0.7;
   }
   // public void shootRight(){
@@ -64,6 +67,7 @@ public class LowShooterSubsystem extends SubsystemBase {
   // }
   public void stop(){
     speed = 0;
+    shootingMode = false;
     //speedRight = 0;
   }
   public void extendPistonActuator() {
@@ -76,7 +80,13 @@ public class LowShooterSubsystem extends SubsystemBase {
       actuatorSolenoid.set(Value.kReverse);
     }
   }
-
+  public void finishShooting(){
+    shootMotor.set(ControlMode.PercentOutput, 0);
+    speed = 0;
+    fuelCount = 0;
+    fuelState = 0;
+    shootingMode = false;
+  }
   public void runMotor() {
     shootMotor.set(ControlMode.PercentOutput, 0.5);
 
@@ -95,6 +105,10 @@ public class LowShooterSubsystem extends SubsystemBase {
       }
     } else {
       //shootMotor.set(ControlMode.PercentOutput, speed);
+    }
+    if (shootingMode){
+      shootMotor.set(ControlMode.PercentOutput, speed);
+      return;
     }
     //SmartDashboard.putNumber("Ultrasonic Sensor", detectFuel.getRangeInches());
     SmartDashboard.putBoolean("Intake Digital Sensor", detectFuel.get());

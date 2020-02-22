@@ -25,10 +25,10 @@ public class AutoTrajectories {
   }
 
   public double currentAngle = mRobotContainer.ahrs.getDisplacementX();
-  private final Trajectory testThreeFeetForward;
-  private final Trajectory testThreeFeetForwardAndThreeFeetRight;
-  private final Trajectory testThreeFeetLeft;
-  private final Trajectory testToZero;
+  public Trajectory testThreeFeetForward;
+  public Trajectory testThreeFeetForwardAndThreeFeetRight;
+  public Trajectory testThreeFeetLeft;
+  public Trajectory testToZero;
 
   private final Trajectory autoLineToLowGoal;
   private final Trajectory lowGoalToFrontTrench;

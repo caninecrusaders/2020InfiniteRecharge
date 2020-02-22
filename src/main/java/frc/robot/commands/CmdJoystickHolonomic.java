@@ -10,6 +10,7 @@ package frc.robot.commands;
 import org.frcteam2910.common.robot.Utilities;
 
 import edu.wpi.first.wpilibj.geometry.Translation2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.input.JoystickX3D;
 import frc.robot.subsystems.DriveTrainSubsystem;
@@ -35,6 +36,7 @@ public class CmdJoystickHolonomic extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    // SmartDashboard.putNumber("Slider", value)
 
     double forward = -joystick.getYAxis();
     forward = Utilities.deadband(forward);
