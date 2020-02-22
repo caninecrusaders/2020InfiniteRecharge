@@ -35,10 +35,11 @@ public class Robot extends TimedRobot {
   private UsbCamera camera;
   private static Compressor compressor;
 
-  private Command autoCommand = null; 
+  private Command autoCommand = null;
 
   // private AutoTrajectories autoTrajectories = new AutoTrajectories(DriveTrainSubsystem.CONSTRAINTS); //TODO: make restraints
-  // private AutoSelector autoSelector = new AutoSelector(autoTrajectories); //TODO: is this the right param?
+  // private AutoSelector autoSelector = new AutoSelector(autoTrajectories);
+  // // //TODO: is this the right param?
 
   /**
    * This function is run when the robot is first started up and should be used
@@ -153,8 +154,11 @@ public class Robot extends TimedRobot {
   public void testPeriodic() {
     CommandScheduler.getInstance().run();
 
-    if (RobotState.isTest() && mRobotContainer.joystickDriverOne.getRawButton(2) == true) {
-      mRobotContainer.getSaveZeroOffsetSubsystem().saveAllZeroOffsets();
+    if (RobotState.isTest()) {
+      if (mRobotContainer.x3DJoystick.getRawButton(2) == true
+          || mRobotContainer.thrustmasterJoystick.getRawButton(13) == true) {
+        mRobotContainer.getSaveZeroOffsetSubsystem().saveAllZeroOffsets();
+      }
     }
   }
 }

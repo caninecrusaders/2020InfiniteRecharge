@@ -46,7 +46,8 @@ public class AutoSelector {
     SequentialCommandGroup group = new SequentialCommandGroup(
         new CmdFollowTrajectory(trajectories.testThreeFeetForward),
         new CmdFollowTrajectory(trajectories.testThreeFeetForwardAndThreeFeetRight),
-        new CmdFollowTrajectory(trajectories.testThreeFeetLeft), new CmdFollowTrajectory(trajectories.testToZero));
+        new CmdFollowTrajectory(trajectories.testThreeFeetLeft), 
+        new CmdFollowTrajectory(trajectories.testToZero));
     return group;
   }
 
@@ -59,8 +60,7 @@ public class AutoSelector {
         DriveTrainSubsystem.getInstance().gyroscope.setAdjustmentAngle(
                 DriveTrainSubsystem.getInstance().gyroscope.getUnadjustedAngle().rotateBy(startingOrientation)
         );
-    })); //TODO: need explanation on why there are so many curly brackets, semi colons, etc.
-    ;
+    }));
     group.runsWhenDisabled();
 
     // Set the gyro angle to the correct starting angle
@@ -72,9 +72,6 @@ public class AutoSelector {
 
     // If we want to manually drive the robot, return now.
 
-    if (RobotState.isAutonomous()) { //TODO: Do I need to do this? 
-      return group;
-    }
 
     return group;
   }
