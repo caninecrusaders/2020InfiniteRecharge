@@ -72,8 +72,9 @@ public class LEDStrip extends SubsystemBase {
   public void periodic() {
     SmartDashboard.putNumber("Slider Value", this.mThrustmaster.getSliderAxis());
     // This method will be called once per scheduler run
-    // rainbowPartyPalette();
     setDefaultColor();
+    // setBlinkinPattern(shotWhite);
+    // everyOption();
   }
 
   public void setBlinkinPattern(double value) {
@@ -81,11 +82,15 @@ public class LEDStrip extends SubsystemBase {
   }
 
   public void setDefaultColor() {
-    if (this.mThrustmaster.getSliderAxis() > -0.9) {
+    if (this.mThrustmaster.getSliderAxis() > -0.1) {
       setBlinkinPattern(blue);
     } else {
       setBlinkinPattern(red);
     }
+  }
+
+  public void everyOption() {
+    blinkin.set(this.mThrustmaster.getSliderAxis());
   }
 
   // public void rainbowPartyPalette() {
