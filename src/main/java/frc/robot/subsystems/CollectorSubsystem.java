@@ -70,7 +70,7 @@ public class CollectorSubsystem extends SubsystemBase {
     if(RobotContainer.isEndgame() && isExtended){
       retractCollectorActuator();
     }
-    collectorMotor.set(ControlMode.PercentOutput, speed);
+    collectorMotor.set(ControlMode.PercentOutput, -speed*0.5);
     // This method will be called once per scheduler run
   }
 }

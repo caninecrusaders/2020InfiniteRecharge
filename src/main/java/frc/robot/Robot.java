@@ -14,6 +14,8 @@ import edu.wpi.first.wpilibj.TimedRobot;
 //import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.subsystems.CollectorSubsystem;
+import edu.wpi.first.wpilibj.Compressor;
+import frc.robot.Constants;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -27,13 +29,16 @@ public class Robot extends TimedRobot {
 
   private RobotContainer mRobotContainer;
   private UsbCamera camera;
-
+  private static Compressor compressor;
   /**
    * This function is run when the robot is first started up and should be used
    * for any initialization code.
    */
   @Override
   public void robotInit() {
+    compressor = new Compressor(actuatorModuleID);
+    compressor.setClosedLoopControl(true);
+
     // camera = new UsbCamera("cam0", 0);
 
     camera = CameraServer.getInstance().startAutomaticCapture("cam0", 0);
