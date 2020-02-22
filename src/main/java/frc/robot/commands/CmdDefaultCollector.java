@@ -7,21 +7,27 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.Controller;
+
 //import javax.swing.text.Utilities;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.input.XboxController;
 import frc.robot.subsystems.CollectorSubsystem;
+import frc.robot.subsystems.DriveTrainSubsystem;
 
 public class CmdDefaultCollector extends CommandBase {
   private CollectorSubsystem collectorSubsystem;
+  private DriveTrainSubsystem driveSubsystem;
   private XboxController xboxController;
+
   /**
    * Creates a new cmdCollectFuel.
    */
-  public CmdDefaultCollector( XboxController controller) {
+  public CmdDefaultCollector(XboxController controller) {
     collectorSubsystem = CollectorSubsystem.getInstance();
-    addRequirements(collectorSubsystem);
+    driveSubsystem = DriveTrainSubsystem.getInstance();
+    addRequirements(collectorSubsystem, driveSubsystem);
     xboxController = controller;
 
   }
@@ -35,11 +41,16 @@ public class CmdDefaultCollector extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double speed = xboxController.getLeftYValue();
-    //double speed = 0.3;
-    //speed = Utilities.deadband 
+    double speed; 
+    if (xboxController.getLeftBumperButton().get()) {
+      speed = Math.abs(DriveTrainSubsystem.getAverageJoystickValues())/2 + 0.5;
+    }else{
+      speed = 0;
+    }
+    // double speed = 0.3;
+    // speed = Utilities.deadband
     // if (speed < 0.1){
-    //   speed = 0;
+    // speed = 0;
     // }
     collectorSubsystem.collectFuel(speed);
   }

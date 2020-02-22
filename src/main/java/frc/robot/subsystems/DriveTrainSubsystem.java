@@ -237,7 +237,7 @@ public class DriveTrainSubsystem extends SubsystemBase {
     return Preferences.getInstance().getDouble("Strafe", 0);
   }
 
-  public double getAverageJoystickValues() {
+  public static double getAverageJoystickValues() {
     double average = (Preferences.getInstance().getDouble("Forward", 0) + Preferences.getInstance().getDouble("Strafe", 0))/2;
     return average;
   }
