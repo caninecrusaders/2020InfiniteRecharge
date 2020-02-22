@@ -9,20 +9,20 @@ package frc.robot.commands;
 
 import org.frcteam2910.common.robot.Utilities;
 
+import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.geometry.Translation2d;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.input.JoystickX3D;
+import frc.robot.input.Thrustmaster;
 import frc.robot.subsystems.DriveTrainSubsystem;
 
 public class CmdJoystickHolonomic extends CommandBase {
   // private final DriveTrainSubsystem driveTrainSubsystem;
-  private JoystickX3D joystick;
+  private Thrustmaster joystick;
 
   /**
    * Creates a new cmdJoystickHolonomic.
    */
-  public CmdJoystickHolonomic(JoystickX3D joystickIn) {
+  public CmdJoystickHolonomic(Thrustmaster joystickIn) {
     joystick = joystickIn;
     addRequirements(DriveTrainSubsystem.getInstance());
     // Use addRequirements() here to declare subsystem dependencies.
@@ -42,11 +42,13 @@ public class CmdJoystickHolonomic extends CommandBase {
     forward = Utilities.deadband(forward);
     // Square the forward stick
     forward = Math.copySign(Math.pow(forward, 2.0), forward);
+    Preferences.getInstance().putDouble("Forward", forward);
 
     double strafe = -joystick.getXAxis();
     strafe = Utilities.deadband(strafe);
     // Square the strafe stick
     strafe = Math.copySign(Math.pow(strafe, 2.0), strafe);
+    Preferences.getInstance().putDouble("Strafe", strafe);
 
     double rotation = -joystick.getZAxis();
     rotation = Utilities.deadband(rotation);
