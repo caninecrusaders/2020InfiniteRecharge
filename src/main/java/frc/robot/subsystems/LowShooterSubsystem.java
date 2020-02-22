@@ -60,15 +60,10 @@ public class LowShooterSubsystem extends SubsystemBase {
   public void shoot(double newSpeed){
     speed = -newSpeed;
     shootingMode = true;
-    //speedRight = 0.7;
   }
-  // public void shootRight(){
-  //   speed = 0.7;
-  // }
   public void stop(){
     speed = 0;
     shootingMode = false;
-    //speedRight = 0;
   }
   public void extendPistonActuator() {
     isExtended = true;
