@@ -33,7 +33,7 @@ public class LowShooterSubsystem extends SubsystemBase {
   // IR was to unstable, readings varied too much.
   private double speed = 0;
   private int fuelState = 0;
-  private int fuelCount = 0;
+  // private int fuelCount = 0;
   private boolean isExtended;
   private boolean stopCollection = false;
   private boolean shootingMode = false;
@@ -83,7 +83,7 @@ public class LowShooterSubsystem extends SubsystemBase {
   public void finishShooting(){
     shootMotor.set(ControlMode.PercentOutput, 0);
     speed = 0;
-    fuelCount = 0;
+    //fuelCount = 0;
     fuelState = 0;
     shootingMode = false;
   }
@@ -137,7 +137,7 @@ public class LowShooterSubsystem extends SubsystemBase {
         }
         break;
       case 2:
-        fuelCount++;
+        //fuelCount++;
         shootMotor.set(ControlMode.PercentOutput, 0);
         fuelState = 0;
         break;
