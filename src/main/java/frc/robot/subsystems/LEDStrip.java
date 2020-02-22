@@ -8,6 +8,7 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.Spark;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
@@ -63,12 +64,13 @@ public class LEDStrip extends SubsystemBase {
   public LEDStrip(Thrustmaster thrustmaster) {
     mThrustmaster = thrustmaster;
     // rainbowPartyPalette();
-    setBlinkinPattern(beatsPerMinuteOceanPalette);
+    // setBlinkinPattern(beatsPerMinuteOceanPalette);
 
   }
 
   @Override
   public void periodic() {
+    SmartDashboard.putNumber("Slider Value", this.mThrustmaster.getSliderAxis());
     // This method will be called once per scheduler run
     // rainbowPartyPalette();
     setDefaultColor();
