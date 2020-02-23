@@ -19,11 +19,7 @@ public class CmdFollowTrajectory extends CommandBase {
 
   private Trajectory trajectory;
 
-  public DriveTrainSubsystem mDriveTrainSubsystem;
-
-  public DriveTrainSubsystem getDriveTrainSubsystem() {
-    return mDriveTrainSubsystem;
-  }
+  
   /**
    * Creates a new CmdFollowTrajectory.
    */
@@ -42,8 +38,8 @@ public class CmdFollowTrajectory extends CommandBase {
   @Override
   public void initialize() {
     trajectory = trajectorSupplier.get();
-    getDriveTrainSubsystem().updateKinematics();
-    getDriveTrainSubsystem().getFollower().follow(trajectory);
+    DriveTrainSubsystem.getInstance().updateKinematics();
+    DriveTrainSubsystem.getInstance().getFollower().follow(trajectory);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -54,6 +50,9 @@ public class CmdFollowTrajectory extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    //DriveTrainSubsystem.getInstance().setSnapRotation(trajectory.calculateSegment(trajectory.getDuration()).rotation.toRadians());
+    //TODO: need to add this
+
   }
 
   // @Override
@@ -65,6 +64,6 @@ public class CmdFollowTrajectory extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return getDriveTrainSubsystem().getFollower().getCurrentTrajectory().isEmpty();
+    return DriveTrainSubsystem.getInstance().getFollower().getCurrentTrajectory().isEmpty();
   }
 }

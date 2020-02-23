@@ -12,7 +12,6 @@ import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.RobotState;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
-//import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.autonomous.AutoSelector;
 import frc.robot.autonomous.AutoTrajectories;
@@ -37,9 +36,9 @@ public class Robot extends TimedRobot {
 
   private Command autoCommand = null;
 
-  private AutoTrajectories autoTrajectories = new AutoTrajectories(); //TODO: make restraints
+  private AutoTrajectories autoTrajectories = new AutoTrajectories(); // TODO: make restraints
   private AutoSelector autoSelector = new AutoSelector(autoTrajectories);
-  // // //TODO: is this the right param?
+  //TODO: is this the right param?
 
   /**
    * This function is run when the robot is first started up and should be used
@@ -106,7 +105,7 @@ public class Robot extends TimedRobot {
       autoCommand.cancel();
     }
     autoCommand = autoSelector.getCommand();
-
+    CommandScheduler.getInstance().schedule(autoCommand);
 
     // m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
@@ -116,12 +115,14 @@ public class Robot extends TimedRobot {
     // }
   }
 
-  // /**
-  // * This function is called periodically during autonomous.
-  // */
-  // @Override
-  // public void autonomousPeriodic() {
-  // }
+  /**
+  * This function is called periodically during autonomous.
+  */
+  @Override
+  public void autonomousPeriodic() {
+    CommandScheduler.getInstance().run();
+
+  }
 
   // @Override
   // public void teleopInit() {

@@ -28,8 +28,10 @@ import frc.robot.subsystems.DriveTrainSubsystem;
 public class AutoSelector {
   private final AutoTrajectories trajectories;
 
-  private static SendableChooser<Side> sideChooser;
-  private static SendableChooser<Rotation2> orientationChooser;
+  // private static SendableChooser<Side> sideChooser;
+  // private static SendableChooser<Rotation2> orientationChooser;
+  // private static SendableChooser<AutoChooser> autonomousModeChooser;
+
   // private static SendableChooser<AutonomousMode> autonomousModeChooser;
 
   // static {
@@ -46,33 +48,37 @@ public class AutoSelector {
     SequentialCommandGroup group = new SequentialCommandGroup(
         new CmdFollowTrajectory(trajectories.testThreeFeetForward),
         new CmdFollowTrajectory(trajectories.testThreeFeetForwardAndThreeFeetRight),
-        new CmdFollowTrajectory(trajectories.testThreeFeetLeft), 
-        new CmdFollowTrajectory(trajectories.testToZero));
+        new CmdFollowTrajectory(trajectories.testThreeFeetLeft), new CmdFollowTrajectory(trajectories.testToZero));
     return group;
   }
 
   public Command getCommand() {
+
     Rotation2 startingOrientation = Rotation2.ZERO;
 
-
-    SequentialCommandGroup group = new SequentialCommandGroup(
-      new InstantCommand(() -> {
-        DriveTrainSubsystem.getInstance().gyroscope.setAdjustmentAngle(
-                DriveTrainSubsystem.getInstance().gyroscope.getUnadjustedAngle().rotateBy(startingOrientation)
-        );
+    SequentialCommandGroup group = new SequentialCommandGroup(new InstantCommand(() -> {
+      DriveTrainSubsystem.getInstance().gyroscope.setAdjustmentAngle(
+          DriveTrainSubsystem.getInstance().gyroscope.getUnadjustedAngle().rotateBy(startingOrientation));
     }));
     group.runsWhenDisabled();
-
-    // Set the gyro angle to the correct starting angle
-    // group.addSequential(new InstantCommand(() -> {
-    //     DriveTrainSubsystem.getInstance().getGyroscope().setAdjustmentAngle(
-    //             DriveTrainSubsystem.getInstance().getGyroscope().getUnadjustedAngle().rotateBy(startingOrientation)
-    //     );
-    // }));
-
-    // If we want to manually drive the robot, return now.
-
+    group.addCommands(
+        new CmdFollowTrajectory(trajectories.testThreeFeetForward),
+        new CmdFollowTrajectory(trajectories.testThreeFeetForwardAndThreeFeetRight),
+        new CmdFollowTrajectory(trajectories.testThreeFeetLeft), 
+        new CmdFollowTrajectory(trajectories.testToZero));
 
     return group;
+
+    // // Set the gyro angle to the correct starting angle
+    // // group.addSequential(new InstantCommand(() -> {
+    // // DriveTrainSubsystem.getInstance().getGyroscope().setAdjustmentAngle(
+    // //
+    // DriveTrainSubsystem.getInstance().getGyroscope().getUnadjustedAngle().rotateBy(startingOrientation)
+    // // );
+    // // }));
+
+    // // If we want to manually drive the robot, return now.
+
+    // return group;
   }
 }

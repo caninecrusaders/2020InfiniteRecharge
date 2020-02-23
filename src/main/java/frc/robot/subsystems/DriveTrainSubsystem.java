@@ -65,6 +65,10 @@ public class DriveTrainSubsystem extends SubsystemBase {
   private static final HolonomicFeedforward FOLLOWER_FEEDFORWARD_CONSTANTS = new HolonomicFeedforward(
       new DrivetrainFeedforwardConstants(1.0 / (14.0 * 12.0), 0.0, 0.0));
 
+  private final Object lock = new Object();
+  private double snapRotation = Double.NaN;
+
+
   public SwerveOdometry mSwerveOdometry;
 
   public SwerveOdometry getSwerveOdometry() {
@@ -152,6 +156,18 @@ public class DriveTrainSubsystem extends SubsystemBase {
 
   }
 
+  public void setSnapRotation(double snapRotation) {
+    synchronized (lock) {
+        this.snapRotation = snapRotation;
+    }
+}
+
+public void stopSnap() {
+    synchronized (lock) {
+        this.snapRotation = Double.NaN;
+    }
+}
+
   public void drive(Translation2d translation, double rotation, boolean fieldOriented) {
     // if (enableAngle && enableDrive) {
     rotation *= 2.0 / Math.hypot(WHEELBASE, TRACKWIDTH);
@@ -202,7 +218,7 @@ public class DriveTrainSubsystem extends SubsystemBase {
     // rotationalVelocity, time, dt)
     HolonomicDriveSignal localSignal = new HolonomicDriveSignal(Vector2.ZERO, 0, true);
 
-    getSwerveOdometry().resetPose(Vector2.ZERO, Rotation2.ZERO);
+    // getSwerveOdometry().resetPose(Vector2.ZERO, Rotation2.ZERO); //TODO: Might need to put this back lol
 
     // if (Math.abs(localSignal.getRotation()) < 0.1 &&
     // Double.isFinite(localSnapRotation)) {
