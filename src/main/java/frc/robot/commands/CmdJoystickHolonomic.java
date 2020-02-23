@@ -42,13 +42,13 @@ public class CmdJoystickHolonomic extends CommandBase {
     forward = Utilities.deadband(forward);
     // Square the forward stick
     forward = Math.copySign(Math.pow(forward, 2.0), forward);
-    Preferences.getInstance().putDouble("Forward", forward);
+    // Preferences.getInstance().putDouble("Forward", forward);
 
     double strafe = -joystick.getXAxis();
     strafe = Utilities.deadband(strafe);
     // Square the strafe stick
     strafe = Math.copySign(Math.pow(strafe, 2.0), strafe);
-    Preferences.getInstance().putDouble("Strafe", strafe);
+    // Preferences.getInstance().putDouble("Strafe", strafe);
 
     double rotation = -joystick.getZAxis();
     rotation = Utilities.deadband(rotation);

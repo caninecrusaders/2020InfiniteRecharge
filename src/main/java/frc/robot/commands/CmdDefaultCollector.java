@@ -18,7 +18,6 @@ import frc.robot.subsystems.DriveTrainSubsystem;
 
 public class CmdDefaultCollector extends CommandBase {
   private CollectorSubsystem collectorSubsystem;
-  private DriveTrainSubsystem driveSubsystem;
   private XboxController xboxController;
 
   /**
@@ -26,8 +25,7 @@ public class CmdDefaultCollector extends CommandBase {
    */
   public CmdDefaultCollector(XboxController controller) {
     collectorSubsystem = CollectorSubsystem.getInstance();
-    driveSubsystem = DriveTrainSubsystem.getInstance();
-    addRequirements(collectorSubsystem, driveSubsystem);
+    addRequirements(collectorSubsystem);
     xboxController = controller;
 
   }
@@ -44,7 +42,7 @@ public class CmdDefaultCollector extends CommandBase {
     double speed; 
     if (xboxController.getLeftBumperButton().get()) {
       speed = Math.abs(DriveTrainSubsystem.getAverageJoystickValues())/2 + 0.5;
-    }else{
+    }else {
       speed = 0;
     }
     // double speed = 0.3;

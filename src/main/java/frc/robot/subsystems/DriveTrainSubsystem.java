@@ -230,16 +230,19 @@ public class DriveTrainSubsystem extends SubsystemBase {
   }
 
   public double getForwardValue() {
-    return Preferences.getInstance().getDouble("Forward", 0);
+    return 1.0;
+    // Preferences.getInstance().getDouble("Forward", 0);
   }
 
   public double getStrafeValue() {
-    return Preferences.getInstance().getDouble("Strafe", 0);
+    return 1.0;
+    // Preferences.getInstance().getDouble("Strafe", 0);
   }
 
   public static double getAverageJoystickValues() {
-    double average = (Preferences.getInstance().getDouble("Forward", 0) + Preferences.getInstance().getDouble("Strafe", 0))/2;
-    return average;
+    // double average = (Preferences.getInstance().getDouble("Forward", 0) + Preferences.getInstance().getDouble("Strafe", 0))/2;
+    return 1.0;
+    // average;
   }
 
 }

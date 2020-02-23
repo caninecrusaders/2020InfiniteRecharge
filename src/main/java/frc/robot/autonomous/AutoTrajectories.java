@@ -24,7 +24,7 @@ public class AutoTrajectories {
     return mRobotContainer;
   }
 
-  public double currentAngle = mRobotContainer.ahrs.getDisplacementX();
+  // public double currentAngle = mRobotContainer.ahrs.getDisplacementX();
   public Trajectory testThreeFeetForward;
   public Trajectory testThreeFeetForwardAndThreeFeetRight;
   public Trajectory testThreeFeetLeft;
@@ -52,11 +52,18 @@ public class AutoTrajectories {
   // private final Trajectory
   // private final Trajectory
 
-  public AutoTrajectories(TrajectoryConstraint... constraints) {
+  public AutoTrajectories() {
     Path testThreeFeetForwardPath = new SplinePathBuilder
     (Vector2.ZERO, Rotation2.ZERO, Rotation2.ZERO)
     .hermite(new Vector2(0,36), Rotation2.ZERO)
     .build();
+
+    TrajectoryConstraint[] constraints = {
+      // Lets specify a maximum acceleration of 10.0 units/s^2
+      new MaxAccelerationConstraint(10.0),
+      // And lets have a maximum velocity of 12.0 units/s
+      new MaxVelocityConstraint(12.0)
+};
 
     testThreeFeetForward = new Trajectory(testThreeFeetForwardPath, constraints, 1.0e-2);
 

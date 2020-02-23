@@ -37,8 +37,8 @@ public class Robot extends TimedRobot {
 
   private Command autoCommand = null;
 
-  // private AutoTrajectories autoTrajectories = new AutoTrajectories(DriveTrainSubsystem.CONSTRAINTS); //TODO: make restraints
-  // private AutoSelector autoSelector = new AutoSelector(autoTrajectories);
+  private AutoTrajectories autoTrajectories = new AutoTrajectories(); //TODO: make restraints
+  private AutoSelector autoSelector = new AutoSelector(autoTrajectories);
   // // //TODO: is this the right param?
 
   /**
@@ -105,8 +105,9 @@ public class Robot extends TimedRobot {
     if (autoCommand != null) {
       autoCommand.cancel();
     }
+    autoCommand = autoSelector.getCommand();
 
-    // autoCommand = autoSelector.getCommand();
+
     // m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
     // // schedule the autonomous command (example)
