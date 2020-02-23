@@ -10,16 +10,16 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
-import frc.robot.subsystems.LowShooterSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
 
 public class CmdRunLowShooter extends CommandBase {
-  LowShooterSubsystem mShooterSubsystem;
+  ShooterSubsystem mShooterSubsystem;
   double endTime;
 
   /**
    * Creates a new cmdShooterPiston.
    */
-  public CmdRunLowShooter(LowShooterSubsystem shooterSubsystem) {
+  public CmdRunLowShooter(ShooterSubsystem shooterSubsystem) {
     addRequirements(shooterSubsystem);
     mShooterSubsystem = shooterSubsystem;
     // Use addRequirements() here to declare subsystem dependencies.
@@ -28,8 +28,7 @@ public class CmdRunLowShooter extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    mShooterSubsystem.retractPistonActuator();
-    mShooterSubsystem.shoot(1);
+    mShooterSubsystem.shoot(1.0, 0.5);
     endTime = RobotController.getFPGATime();
     endTime = endTime/1000000.0 + Constants.LowShooterRunTime;
     
@@ -45,8 +44,6 @@ public class CmdRunLowShooter extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    mShooterSubsystem.extendPistonActuator();
-   //mShooterSubsystem.shoot();
     mShooterSubsystem.finishShooting();
   }
 

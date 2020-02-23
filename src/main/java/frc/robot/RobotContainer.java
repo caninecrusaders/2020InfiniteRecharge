@@ -19,7 +19,7 @@ import frc.robot.subsystems.LEDStrip;
 import frc.robot.subsystems.SaveZeroOffsetSubsystem;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.CollectorSubsystem;
-import frc.robot.subsystems.LowShooterSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.commands.*;
 
 public class RobotContainer {
@@ -42,7 +42,7 @@ public class RobotContainer {
 
   private final ClimberSubsystem mClimberSubsystem;
   private final CollectorSubsystem mCollectorSubsystem;
-  private final LowShooterSubsystem mLowShooterSubsystem;
+  private final ShooterSubsystem mShooterSubsystem;
 
   private final cgClimb mCgClimb;
 
@@ -71,7 +71,7 @@ public class RobotContainer {
       driveTrainSubsystem = DriveTrainSubsystem.getInstance();
       mClimberSubsystem = ClimberSubsystem.getInstance();
       mCollectorSubsystem = CollectorSubsystem.getInstance();
-      mLowShooterSubsystem = LowShooterSubsystem.getInstance();
+      mShooterSubsystem = ShooterSubsystem.getInstance();
       driveTrainSubsystem.setDefaultCommand(mCmdJoystickHolonomic);
       // driveTrainSubsystem.setDefaultCommand(mCmdTwoJoystickHolonomic); 
       // driveTrainSubsystem.setDefaultCommand(mCmdXboxHolonomic);
@@ -79,8 +79,6 @@ public class RobotContainer {
       mCgClimb = new cgClimb(mClimberSubsystem);
       CmdDefaultCollector collectFuel = new CmdDefaultCollector(xboxRobotControl);
       mCollectorSubsystem.setDefaultCommand(collectFuel);
-      CmdDefaultLowShooter shootFuel = new CmdDefaultLowShooter(xboxRobotControl);
-      mLowShooterSubsystem.setDefaultCommand(shootFuel);
       configureButtonBindings();
 
     } else {
@@ -92,7 +90,7 @@ public class RobotContainer {
       ledStrip = null;
       mCollectorSubsystem = null;
       mClimberSubsystem = null;
-      mLowShooterSubsystem = null;
+      mShooterSubsystem = null;
       saveZeroOffsetSubsystem = new SaveZeroOffsetSubsystem();
     }
    
@@ -106,8 +104,8 @@ public class RobotContainer {
    * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    xboxRobotControl.getAButton().whenPressed(new CmdRunLowShooter(mLowShooterSubsystem));
-    xboxRobotControl.getYButton().whenPressed(new CmdStartEndgame());
+    xboxRobotControl.getAButton().whenPressed(new CmdRunLowShooter(mShooterSubsystem));
+    xboxRobotControl.getBButton().whenPressed(new CmdStartEndgame());
     xboxRobotControl.getStartButton().whenPressed(new CmdExtendCollector(mCollectorSubsystem));
     xboxRobotControl.getBackButton().whenPressed(new CmdRetractCollector(mCollectorSubsystem));
     xboxRobotControl.getXButton().whenPressed(new CmdWinchClimb(mClimberSubsystem));

@@ -37,10 +37,11 @@ public final class Constants {
     public static final int angleMotorBR = 9;
     
     public static final int collectorMotorID = 10;
-    public static final int shootMotorID = 11;
+    public static final int beltMotorID = 11;
     public static final int climbExtendMotorID = 12;
     public static final int climbWinchMotorOneID = 13;
     public static final int climbWinchMotorTwoID = 14;
+    public static final int shooterMotorID = 15;
 
     public static final int actuatorModuleID = 1;
     public static final int actuatorPistonExtendID = 0;
