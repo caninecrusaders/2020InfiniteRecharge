@@ -216,7 +216,7 @@ public void stopSnap() {
     // gyroscope.getAngle());
     // Optional<HolonomicDriveSignal> optSignal = follower.update(currentPose, ,
     // rotationalVelocity, time, dt)
-    HolonomicDriveSignal localSignal = new HolonomicDriveSignal(Vector2.ZERO, 0, true);
+    HolonomicDriveSignal localSignal = new HolonomicDriveSignal(new Vector2(0, 0.05), 0, true);
 
     // getSwerveOdometry().resetPose(Vector2.ZERO, Rotation2.ZERO); //TODO: Might need to put this back lol
 
