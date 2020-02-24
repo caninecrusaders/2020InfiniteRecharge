@@ -61,31 +61,32 @@ public class ShooterSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
 
-   if (shootingMode) {
-     beltMotor.set(ControlMode.PercentOutput, beltSpeed);
-     shootMotor.set();
-   } else {
-      boolean fuelIntake = !detectFuel.get(); //Sensor returns false if ball detected
+    if (shootingMode) {
+      beltMotor.set(ControlMode.PercentOutput, beltSpeed);
+      // shootMotor.set();
+    } else {
+      boolean fuelIntake = !detectFuel.get(); // Sensor returns false if ball detected
       boolean stopIntake = !stopFuel.get();
 
       switch (fuelState) {
-        case 0: 
-          if (fuelIntake && !stopIntake) {
-            fuelState++;
-          } else {
-//            beltMotor.set(ControlMode.PercentOutput, 0);
-          }
-          break;
-        case 1:
-          if (!fuelIntake || stopIntake) {
-            fuelState = 0;
-//            beltMotor.set(ControlMode.PercentOutput, 0);
-          } else {
-            beltMotor.set(ControlMode.PercentOutput, -0.5);
-          }
-          break;
+      case 0:
+        if (fuelIntake && !stopIntake) {
+          fuelState++;
+        } else {
+          // beltMotor.set(ControlMode.PercentOutput, 0);
+        }
+        break;
+      case 1:
+        if (!fuelIntake || stopIntake) {
+          fuelState = 0;
+          // beltMotor.set(ControlMode.PercentOutput, 0);
+        } else {
+          beltMotor.set(ControlMode.PercentOutput, -0.5);
+        }
+        break;
       }
-      beltMotor.set(ControlMode.PercentOutput, -0.5);
-      //}
+      // beltMotor.set(ControlMode.PercentOutput, -0.5);
+    }
   }
+
 }
