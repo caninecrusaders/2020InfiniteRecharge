@@ -60,5 +60,6 @@ public final class Constants {
     //public static final int sensorID = 4;
 
     public static final double LowShooterRunTime = 1.0;
-
+    public static final double HiShooterSpinupTime = 0.25;
+    public static final double HiShooterRunTime = 1.0 + HiShooterSpinupTime;
 }

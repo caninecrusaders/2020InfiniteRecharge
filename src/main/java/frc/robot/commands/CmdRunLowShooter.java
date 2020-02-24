@@ -14,7 +14,6 @@ import frc.robot.subsystems.ShooterSubsystem;
 
 public class CmdRunLowShooter extends CommandBase {
   ShooterSubsystem mShooterSubsystem;
-  double endTime;
 
   /**
    * Creates a new cmdShooterPiston.
@@ -28,17 +27,13 @@ public class CmdRunLowShooter extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    mShooterSubsystem.shoot(1.0, 0.5);
-    endTime = RobotController.getFPGATime();
-    endTime = endTime/1000000.0 + Constants.LowShooterRunTime;
-    
+    mShooterSubsystem.shoot(ShooterSubsystem.ShooterMode.kShootHi, 1.0, 0.5);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
    
-
   }
 
   // Called once the command ends or is interrupted.
@@ -50,11 +45,6 @@ public class CmdRunLowShooter extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    double curTime = RobotController.getFPGATime();
-    curTime = curTime/1000000.0;
-    if (curTime >= endTime){
-      return true;
-    }
-    return false;
+    return true;
   }
 }
