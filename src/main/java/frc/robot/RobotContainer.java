@@ -109,6 +109,8 @@ public class RobotContainer {
     xboxRobotControl.getStartButton().whenPressed(new CmdExtendCollector(mCollectorSubsystem));
     xboxRobotControl.getBackButton().whenPressed(new CmdRetractCollector(mCollectorSubsystem));
     xboxRobotControl.getXButton().whenPressed(new CmdWinchClimb(mClimberSubsystem));
+    xboxRobotControl.getYButton().whenPressed(new CmdRunHighShooter(mShooterSubsystem));
+    
 
   }
 

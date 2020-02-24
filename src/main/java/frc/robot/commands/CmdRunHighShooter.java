@@ -12,14 +12,14 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.ShooterSubsystem;
 
-public class CmdRunLowShooter extends CommandBase {
+public class CmdRunHighShooter extends CommandBase {
   ShooterSubsystem mShooterSubsystem;
   double endTime;
 
   /**
    * Creates a new cmdShooterPiston.
    */
-  public CmdRunLowShooter(ShooterSubsystem shooterSubsystem) {
+  public CmdRunHighShooter(ShooterSubsystem shooterSubsystem) {
     addRequirements(shooterSubsystem);
     mShooterSubsystem = shooterSubsystem;
     // Use addRequirements() here to declare subsystem dependencies.

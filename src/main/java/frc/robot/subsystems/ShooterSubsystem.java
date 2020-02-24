@@ -9,6 +9,9 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.SparkMax;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 //import edu.wpi.first.wpilibj.AnalogInput;
@@ -23,6 +26,7 @@ import frc.robot.RobotContainer;
 public class ShooterSubsystem extends SubsystemBase {
   private static ShooterSubsystem instance;
   private final TalonSRX beltMotor = new TalonSRX(Constants.beltMotorID);
+  private final CANSparkMax shootMotor = new CANSparkMax(Constants.shooterMotorID, MotorType.kBrushless);
   private DigitalInput detectFuel = new DigitalInput(Constants.digitalSensorIntakeID);
   private DigitalInput stopFuel = new DigitalInput(Constants.digitalSensorGateID);
   private double beltSpeed = 0;
@@ -53,7 +57,9 @@ public class ShooterSubsystem extends SubsystemBase {
 
   public void finishShooting() {
     beltMotor.set(ControlMode.PercentOutput, 0);
+    shootMotor.set(0);
     beltSpeed = 0;
+    shooterSpeed = 0;
     fuelState = 0;
     shootingMode = false;
   }
@@ -63,7 +69,7 @@ public class ShooterSubsystem extends SubsystemBase {
 
     if (shootingMode) {
       beltMotor.set(ControlMode.PercentOutput, beltSpeed);
-      // shootMotor.set();
+      shootMotor.set(shooterSpeed);
     } else {
       boolean fuelIntake = !detectFuel.get(); // Sensor returns false if ball detected
       boolean stopIntake = !stopFuel.get();
@@ -73,19 +79,19 @@ public class ShooterSubsystem extends SubsystemBase {
         if (fuelIntake && !stopIntake) {
           fuelState++;
         } else {
-          // beltMotor.set(ControlMode.PercentOutput, 0);
+          beltMotor.set(ControlMode.PercentOutput, 0);
         }
         break;
       case 1:
         if (!fuelIntake || stopIntake) {
           fuelState = 0;
-          // beltMotor.set(ControlMode.PercentOutput, 0);
+          beltMotor.set(ControlMode.PercentOutput, 0);
         } else {
           beltMotor.set(ControlMode.PercentOutput, -0.5);
         }
         break;
       }
-      // beltMotor.set(ControlMode.PercentOutput, -0.5);
+      
     }
   }
 
