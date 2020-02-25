@@ -32,7 +32,7 @@ public class CmdExtendClimbHook extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double speed = xboxController.getRightYValue();
+    double speed = xboxController.getRightTriggerValue();
     climbSubsystem.setExtendHookSpeed(speed);
   }
 

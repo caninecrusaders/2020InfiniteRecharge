@@ -16,14 +16,14 @@ import frc.robot.input.XboxController;
 import frc.robot.subsystems.CollectorSubsystem;
 import frc.robot.subsystems.DriveTrainSubsystem;
 
-public class CmdDefaultCollector extends CommandBase {
+public class CmdRunCollector extends CommandBase {
   private CollectorSubsystem collectorSubsystem;
   private XboxController xboxController;
 
   /**
    * Creates a new cmdCollectFuel.
    */
-  public CmdDefaultCollector(XboxController controller) {
+  public CmdRunCollector(XboxController controller) {
     collectorSubsystem = CollectorSubsystem.getInstance();
     addRequirements(collectorSubsystem);
     xboxController = controller;
@@ -40,16 +40,12 @@ public class CmdDefaultCollector extends CommandBase {
   @Override
   public void execute() {
     double speed; 
-    if (xboxController.getLeftBumperButton().get()) {
-      speed = Math.abs(DriveTrainSubsystem.getAverageJoystickValues())/2 + 0.5;
-    }else {
-      speed = 0;
-    }
-    // double speed = 0.3;
-    // speed = Utilities.deadband
-    // if (speed < 0.1){
-    // speed = 0;
+    // if (xboxController.getLeftBumperButton().get()) {
+    //   speed = Math.abs(DriveTrainSubsystem.getAverageJoystickValues())/2 + 0.5;
+    // }else {
+    //   speed = 0;
     // }
+    speed = xboxController.getLeftYValue();
     collectorSubsystem.collectFuel(speed);
   }
 

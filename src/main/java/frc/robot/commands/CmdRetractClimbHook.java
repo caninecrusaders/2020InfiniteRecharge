@@ -7,32 +7,33 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.hal.HAL;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.RobotContainer;
+import frc.robot.input.XboxController;
 import frc.robot.subsystems.ClimberSubsystem;
 
-public class CmdStartEndgame extends CommandBase {
+public class CmdRetractClimbHook extends CommandBase {
+  private ClimberSubsystem climbSubsystem;
+  private XboxController xboxController;
   /**
-   * Creates a new CmdStartEndgame.
+   * Creates a new CmdRetractClimbHook.
    */
-  public CmdStartEndgame() {
+  public CmdRetractClimbHook(XboxController controller) {
+    climbSubsystem = ClimberSubsystem.getInstance();
+    addRequirements(climbSubsystem);
+    xboxController = controller;
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    if(HAL.getMatchTime()> 105.0 && !RobotContainer.isEndgame()){
-      RobotContainer.setEndgame(true);
-      ClimberSubsystem.getInstance().extendClimbActuator();
-      //TODO : rotate robot 
-    }
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    double speed = xboxController.getLeftTriggerValue();
+    climbSubsystem.setRetractHookSpeed(speed);
   }
 
   // Called once the command ends or is interrupted.
@@ -43,6 +44,6 @@ public class CmdStartEndgame extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return true;
+    return false;
   }
 }

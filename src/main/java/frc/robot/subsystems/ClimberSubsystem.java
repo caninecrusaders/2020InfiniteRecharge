@@ -25,6 +25,7 @@ public class ClimberSubsystem extends SubsystemBase {
       Constants.actuatorClimbExtendID, Constants.actuatorClimbRetractID);
   private double winchSpeed = 0;
   private double extendHookSpeed = 0;
+  private double retractHookSpeed = 0;
 
   /**
    * Creates a new ClimberSubsystem.
@@ -45,8 +46,8 @@ public class ClimberSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    motorWinchOne.set(ControlMode.PercentOutput, winchSpeed);
-    motorWinchTwo.set(ControlMode.PercentOutput, winchSpeed);
+    motorWinchOne.set(ControlMode.PercentOutput, -winchSpeed);
+    motorWinchTwo.set(ControlMode.PercentOutput, -winchSpeed);
     motorExtend.set(ControlMode.PercentOutput, extendHookSpeed);
     // This method will be called once per scheduler run
   }
@@ -59,6 +60,10 @@ public class ClimberSubsystem extends SubsystemBase {
     extendHookSpeed = speed;
   }
 
+  public void setRetractHookSpeed(double speed) {
+    retractHookSpeed = speed;
+  }
+
   public void extendClimbActuator() {
     actuatorSolenoid.set(Value.kForward);
   }
@@ -66,4 +71,6 @@ public class ClimberSubsystem extends SubsystemBase {
   public void retractClimbActuator() {
     actuatorSolenoid.set(Value.kReverse);
   }
+
+  
 }

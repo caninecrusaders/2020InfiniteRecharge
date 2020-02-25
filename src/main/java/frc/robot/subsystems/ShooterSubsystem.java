@@ -95,7 +95,7 @@ public class ShooterSubsystem extends SubsystemBase {
   private void LoadFuel() {
     boolean fuelIntake = !detectFuel.get(); // IR Sensor returns false if ball detected
     //boolean stopIntake = !stopFuel.get();
-    boolean stopIntake = (stopFuel.getRange() < 3.0) ? true: false;
+    boolean stopIntake = false; //(stopFuel.getRange() < 3.0) ? true: false;
 
     if (fuelLoadState == 0) { // Not loading any ball
       if (fuelIntake && !stopIntake) {

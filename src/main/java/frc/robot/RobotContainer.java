@@ -11,6 +11,8 @@ import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.RobotState;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.PerpetualCommand;
 import frc.robot.input.JoystickX3D;
 import frc.robot.input.Thrustmaster;
 import frc.robot.input.XboxController;
@@ -23,7 +25,6 @@ import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.commands.*;
 
 public class RobotContainer {
-
   public XboxController xboxRobotControl = new XboxController(2);
   public XboxController xboxDriver = new XboxController(3); // not used unless driving with xbox controller
 
@@ -44,7 +45,6 @@ public class RobotContainer {
   private final CollectorSubsystem mCollectorSubsystem;
   private final ShooterSubsystem mShooterSubsystem;
 
-  private final cgClimb mCgClimb;
 
   private static boolean endgame = false;
 
@@ -76,8 +76,7 @@ public class RobotContainer {
       // driveTrainSubsystem.setDefaultCommand(mCmdTwoJoystickHolonomic); 
       // driveTrainSubsystem.setDefaultCommand(mCmdXboxHolonomic);
 
-      mCgClimb = new cgClimb(mClimberSubsystem);
-      CmdDefaultCollector collectFuel = new CmdDefaultCollector(xboxRobotControl);
+      CmdRunCollector collectFuel = new CmdRunCollector(xboxRobotControl);
       mCollectorSubsystem.setDefaultCommand(collectFuel);
       configureButtonBindings();
 
@@ -86,15 +85,12 @@ public class RobotContainer {
       mCmdJoystickHolonomic = null;
       mCmdTwoJoystickHolonomic = null;
       mCmdXboxHolonomic = null;
-      mCgClimb = null;
       ledStrip = null;
       mCollectorSubsystem = null;
       mClimberSubsystem = null;
       mShooterSubsystem = null;
       saveZeroOffsetSubsystem = new SaveZeroOffsetSubsystem();
     }
-   
-
   }
 
   /**
@@ -105,11 +101,15 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     xboxRobotControl.getAButton().whenPressed(new CmdRunLowShooter(mShooterSubsystem));
-    xboxRobotControl.getBButton().whenPressed(new CmdStartEndgame());
-    xboxRobotControl.getStartButton().whenPressed(new CmdExtendCollector(mCollectorSubsystem));
-    xboxRobotControl.getBackButton().whenPressed(new CmdRetractCollector(mCollectorSubsystem));
-    xboxRobotControl.getXButton().whenPressed(new CmdWinchClimb(mClimberSubsystem));
     xboxRobotControl.getYButton().whenPressed(new CmdRunHighShooter(mShooterSubsystem));
+
+    xboxRobotControl.getBButton().whenPressed(new CmdRetractCollector(mCollectorSubsystem));
+    xboxRobotControl.getXButton().whenPressed(new CmdExtendCollector(mCollectorSubsystem));
+
+    xboxRobotControl.getStartButton().whenPressed(new CmdWinchClimb(mClimberSubsystem));
+    xboxRobotControl.getLeftBumperButton().whenPressed(new CmdCancelClimb());
+    xboxRobotControl.getRightBumperButton().whenPressed(new CmdClimbStartPosition());
+
     
 
   }

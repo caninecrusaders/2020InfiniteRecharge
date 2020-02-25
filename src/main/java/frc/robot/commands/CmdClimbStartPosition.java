@@ -7,20 +7,28 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.hal.HAL;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.RobotContainer;
 import frc.robot.subsystems.ClimberSubsystem;
 
-public class CmdClimb extends CommandBase {
+public class CmdClimbStartPosition extends CommandBase {
   /**
-   * Creates a new cmdClimb.
+   * Creates a new CmdStartEndgame.
    */
-  public CmdClimb(ClimberSubsystem ClimbSubsystem) {
-    addRequirements(ClimbSubsystem);
+  public CmdClimbStartPosition() {
+    // Use addRequirements() here to declare subsystem dependencies.
   }
-  
+
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    RobotContainer.setEndgame(true);
+    if(/*HAL.getMatchTime()> 105.0 && !RobotContainer.isEndgame()*/ RobotContainer.isEndgame()) {
+      // RobotContainer.setEndgame(true);
+      ClimberSubsystem.getInstance().extendClimbActuator();
+      //TODO: rotate robot 
+    }
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -36,6 +44,6 @@ public class CmdClimb extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return true;
   }
 }

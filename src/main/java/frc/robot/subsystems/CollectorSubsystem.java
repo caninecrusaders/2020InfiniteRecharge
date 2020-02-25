@@ -46,7 +46,7 @@ public class CollectorSubsystem extends SubsystemBase {
     return instance;
   }
 
-  public void collectFuel(double newSpeed){
+  public void collectFuel(double newSpeed) {
     if (isExtended) {
       speed = newSpeed;
     } else {
@@ -54,19 +54,19 @@ public class CollectorSubsystem extends SubsystemBase {
     }
   }
 
-  public void stopFuel(){
+  public void stopFuel() {
     speed = 0;
   }
-  public void extendCollectorActuator(){
+  public void extendCollectorActuator() {
     actuatorSolenoid.set(Value.kForward);
     isExtended = true;
   }
-  public void retractCollectorActuator(){
+  public void retractCollectorActuator() {
     actuatorSolenoid.set(Value.kReverse);
     isExtended = false;
   }
 
-  public void toggleCollector(){
+  public void toggleCollector() {
     if (isExtended){
       retractCollectorActuator();
     } else {
@@ -76,7 +76,7 @@ public class CollectorSubsystem extends SubsystemBase {
 
   public void periodic() {
     // This method will be called once per scheduler run
-    if(RobotContainer.isEndgame() && isExtended){
+    if(RobotContainer.isEndgame() && isExtended) {
       retractCollectorActuator();
     }
 
