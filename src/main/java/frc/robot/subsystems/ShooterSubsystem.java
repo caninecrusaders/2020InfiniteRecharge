@@ -10,7 +10,9 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.Rev2mDistanceSensor;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.revrobotics.Rev2mDistanceSensor.Port;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 //import edu.wpi.first.wpilibj.AnalogInput;
@@ -30,7 +32,8 @@ public class ShooterSubsystem extends SubsystemBase {
   private final TalonSRX beltMotor = new TalonSRX(Constants.beltMotorID);
   private final CANSparkMax shootMotor = new CANSparkMax(Constants.shooterMotorID, MotorType.kBrushless);
   private DigitalInput detectFuel = new DigitalInput(Constants.digitalSensorIntakeID);
-  private DigitalInput stopFuel = new DigitalInput(Constants.digitalSensorGateID);
+  //private DigitalInput stopFuel = new DigitalInput(Constants.digitalSensorGateID);
+  private Rev2mDistanceSensor stopFuel = new Rev2mDistanceSensor(Port.kOnboard); // units default to inches
 
   private double beltSpeed = 0;
   private double shooterSpeed = 0;
@@ -91,7 +94,8 @@ public class ShooterSubsystem extends SubsystemBase {
 
   private void LoadFuel() {
     boolean fuelIntake = !detectFuel.get(); // IR Sensor returns false if ball detected
-    boolean stopIntake = !stopFuel.get();
+    //boolean stopIntake = !stopFuel.get();
+    boolean stopIntake = (stopFuel.getRange() < 3.0) ? true: false;
 
     if (fuelLoadState == 0) { // Not loading any ball
       if (fuelIntake && !stopIntake) {
