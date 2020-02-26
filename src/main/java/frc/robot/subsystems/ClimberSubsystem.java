@@ -24,7 +24,7 @@ public class ClimberSubsystem extends SubsystemBase {
   private final DoubleSolenoid actuatorSolenoid = new DoubleSolenoid(Constants.actuatorModuleID,
       Constants.actuatorClimbExtendID, Constants.actuatorClimbRetractID);
   private double winchSpeed = 0;
-  private double extendHookSpeed = 0;
+  public double extendHookSpeed = 0;
   private double retractHookSpeed = 0;
 
   /**
@@ -44,25 +44,14 @@ public class ClimberSubsystem extends SubsystemBase {
     return instance;
   }
 
-  @Override
-  public void periodic() {
-    motorWinchOne.set(ControlMode.PercentOutput, -winchSpeed);
-    motorWinchTwo.set(ControlMode.PercentOutput, -winchSpeed);
-    motorExtend.set(ControlMode.PercentOutput, extendHookSpeed);
-    // This method will be called once per scheduler run
-  }
-
   public void setWinchSpeed(double speed) {
     winchSpeed = speed;
   }
 
-  public void setExtendHookSpeed(double speed) {
+  public void setHookSpeed(double speed) {
     extendHookSpeed = speed;
   }
 
-  public void setRetractHookSpeed(double speed) {
-    retractHookSpeed = speed;
-  }
 
   public void extendClimbActuator() {
     actuatorSolenoid.set(Value.kForward);
@@ -72,5 +61,12 @@ public class ClimberSubsystem extends SubsystemBase {
     actuatorSolenoid.set(Value.kReverse);
   }
 
-  
+  @Override
+  public void periodic() {
+    motorWinchOne.set(ControlMode.PercentOutput, -winchSpeed);
+    motorWinchTwo.set(ControlMode.PercentOutput, -winchSpeed);
+    motorExtend.set(ControlMode.PercentOutput, extendHookSpeed);
+    // This method will be called once per scheduler run
+  }
+
 }

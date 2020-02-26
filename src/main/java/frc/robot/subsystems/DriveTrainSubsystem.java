@@ -131,7 +131,7 @@ public class DriveTrainSubsystem extends SubsystemBase {
     backLeftModule.setName("Back Left");
     backRightModule.setName("Back Right");
   }
-
+  
   public static DriveTrainSubsystem getInstance() {
     if (instance == null) {
       instance = new DriveTrainSubsystem();

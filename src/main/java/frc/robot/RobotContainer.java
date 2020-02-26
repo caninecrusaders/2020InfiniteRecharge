@@ -39,6 +39,8 @@ public class RobotContainer {
   private final CmdJoystickHolonomic mCmdJoystickHolonomic;
   private final CmdTwoJoystickHolonomic mCmdTwoJoystickHolonomic;
   private final CmdXboxHolonomic mCmdXboxHolonomic;
+  private final CmdRunClimbHook mCmdRunClimbHook;
+  private final CmdRunCollectorXbox mCmdRunCollectorXbox;
   public final LEDStrip ledStrip;
 
   private final ClimberSubsystem mClimberSubsystem;
@@ -65,30 +67,38 @@ public class RobotContainer {
       mCmdJoystickHolonomic = new CmdJoystickHolonomic(thrustmasterJoystick);
       mCmdTwoJoystickHolonomic = new CmdTwoJoystickHolonomic(x3DJoystick, thrustmasterJoystick);
       mCmdXboxHolonomic = new CmdXboxHolonomic(xboxDriver);
-      ledStrip = new LEDStrip(thrustmasterJoystick);
+      mCmdRunClimbHook = new CmdRunClimbHook(xboxRobotControl);
+      mCmdRunCollectorXbox = new CmdRunCollectorXbox(xboxRobotControl);
 
+      ledStrip = new LEDStrip(thrustmasterJoystick);
 
       driveTrainSubsystem = DriveTrainSubsystem.getInstance();
       mClimberSubsystem = ClimberSubsystem.getInstance();
       mCollectorSubsystem = CollectorSubsystem.getInstance();
       mShooterSubsystem = ShooterSubsystem.getInstance();
+
       driveTrainSubsystem.setDefaultCommand(mCmdJoystickHolonomic);
+      mClimberSubsystem.setDefaultCommand(mCmdRunClimbHook);
       // driveTrainSubsystem.setDefaultCommand(mCmdTwoJoystickHolonomic); 
       // driveTrainSubsystem.setDefaultCommand(mCmdXboxHolonomic);
+      mCollectorSubsystem.setDefaultCommand(mCmdRunCollectorXbox);
 
-      CmdRunCollectorXbox collectFuel = new CmdRunCollectorXbox(xboxRobotControl);
-      mCollectorSubsystem.setDefaultCommand(collectFuel);
       configureButtonBindings();
 
     } else {
-      driveTrainSubsystem = null;
       mCmdJoystickHolonomic = null;
       mCmdTwoJoystickHolonomic = null;
       mCmdXboxHolonomic = null;
+      mCmdRunClimbHook = null;
+      mCmdRunCollectorXbox = null;
+
       ledStrip = null;
+
+      driveTrainSubsystem = null;
       mCollectorSubsystem = null;
       mClimberSubsystem = null;
       mShooterSubsystem = null;
+
       saveZeroOffsetSubsystem = new SaveZeroOffsetSubsystem();
     }
   }

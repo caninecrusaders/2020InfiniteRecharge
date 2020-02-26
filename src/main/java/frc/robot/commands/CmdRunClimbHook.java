@@ -7,21 +7,21 @@
 
 package frc.robot.commands;
 
+//import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.input.XboxController;
 import frc.robot.subsystems.ClimberSubsystem;
+import frc.robot.input.XboxController;
 
-public class CmdRetractClimbHook extends CommandBase {
+public class CmdRunClimbHook extends CommandBase {
   private ClimberSubsystem climbSubsystem;
   private XboxController xboxController;
   /**
-   * Creates a new CmdRetractClimbHook.
+   * Creates a new cmdExtendClimb.
    */
-  public CmdRetractClimbHook(XboxController controller) {
+  public CmdRunClimbHook(XboxController controller) {
     climbSubsystem = ClimberSubsystem.getInstance();
     addRequirements(climbSubsystem);
     xboxController = controller;
-    // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
@@ -32,8 +32,18 @@ public class CmdRetractClimbHook extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double speed = xboxController.getLeftTriggerValue();
-    climbSubsystem.setRetractHookSpeed(speed);
+    double extend = xboxController.getRightTriggerValue();
+    double retract = xboxController.getLeftTriggerValue();
+    if(extend > 0 && retract > 0) {
+      climbSubsystem.setHookSpeed(0);
+    } else if(extend > 0 && retract <= 0){
+      climbSubsystem.setHookSpeed(-extend);
+    } else if(retract > 0 && extend <= 0) {
+      climbSubsystem.setHookSpeed(retract);
+    } else {
+      climbSubsystem.setHookSpeed(0);
+
+    }
   }
 
   // Called once the command ends or is interrupted.
