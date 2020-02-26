@@ -15,7 +15,8 @@ import edu.wpi.first.wpilibj2.command.button.*;
  */
 public class Thrustmaster extends Joystick {
 
-  private final Button[] mButtons = { new JoystickButton(this, 1), // trigger
+  private final Button[] mButtons = { 
+      new JoystickButton(this, 1), // trigger
       new JoystickButton(this, 2), // joystick middle
       new JoystickButton(this, 3), // joystick left
       new JoystickButton(this, 4), // joystick right

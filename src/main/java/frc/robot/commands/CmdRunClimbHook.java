@@ -36,7 +36,7 @@ public class CmdRunClimbHook extends CommandBase {
     double retract = xboxController.getLeftTriggerValue();
     if(extend > 0 && retract > 0) {
       climbSubsystem.setHookSpeed(0);
-    } else if(extend > 0 && retract <= 0){
+    } else if(extend > 0 && retract <= 0) {
       climbSubsystem.setHookSpeed(-extend);
     } else if(retract > 0 && extend <= 0) {
       climbSubsystem.setHookSpeed(retract);

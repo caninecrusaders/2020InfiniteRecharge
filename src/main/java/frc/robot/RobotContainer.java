@@ -41,6 +41,8 @@ public class RobotContainer {
   private final CmdXboxHolonomic mCmdXboxHolonomic;
   private final CmdRunClimbHook mCmdRunClimbHook;
   private final CmdRunCollectorXbox mCmdRunCollectorXbox;
+  // private final CmdRunCollectorJoystick mCmdRunCollectorJoystick;
+
   public final LEDStrip ledStrip;
 
   private final ClimberSubsystem mClimberSubsystem;
@@ -69,6 +71,8 @@ public class RobotContainer {
       mCmdXboxHolonomic = new CmdXboxHolonomic(xboxDriver);
       mCmdRunClimbHook = new CmdRunClimbHook(xboxRobotControl);
       mCmdRunCollectorXbox = new CmdRunCollectorXbox(xboxRobotControl);
+      // mCmdRunCollectorJoystick = new CmdRunCollectorJoystick(thrustmasterJoystick);
+      
 
       ledStrip = new LEDStrip(thrustmasterJoystick);
 
@@ -81,7 +85,8 @@ public class RobotContainer {
       mClimberSubsystem.setDefaultCommand(mCmdRunClimbHook);
       // driveTrainSubsystem.setDefaultCommand(mCmdTwoJoystickHolonomic); 
       // driveTrainSubsystem.setDefaultCommand(mCmdXboxHolonomic);
-      mCollectorSubsystem.setDefaultCommand(mCmdRunCollectorXbox);
+      // mCollectorSubsystem.setDefaultCommand(mCmdRunCollectorXbox);
+      // mCollectorSubsystem.setDefaultCommand(mCmdRunCollectorJoystick);
 
       configureButtonBindings();
 
@@ -91,6 +96,7 @@ public class RobotContainer {
       mCmdXboxHolonomic = null;
       mCmdRunClimbHook = null;
       mCmdRunCollectorXbox = null;
+      // mCmdRunCollectorJoystick = null;
 
       ledStrip = null;
 
@@ -120,7 +126,7 @@ public class RobotContainer {
     xboxRobotControl.getLeftBumperButton().whenPressed(new CmdCancelClimb());
     xboxRobotControl.getRightBumperButton().whenPressed(new CmdClimbStartPosition());
     
-    thrustmasterJoystick.getTriggerButton().whileHeld(new CmdRunCollectorJoystick(thrustmasterJoystick));
+    thrustmasterJoystick.getTriggerButton().whileHeld(new CmdRunCollectorJoystick());
   }
 
   /**

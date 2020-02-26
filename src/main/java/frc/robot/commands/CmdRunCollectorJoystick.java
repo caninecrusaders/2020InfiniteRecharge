@@ -7,25 +7,25 @@
 
 package frc.robot.commands;
 
+import java.util.stream.Collector;
+
 import com.kauailabs.navx.frc.AHRS;
 
 import org.frcteam2910.common.math.Vector2;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.RobotContainer;
 import frc.robot.input.Thrustmaster;
 import frc.robot.subsystems.CollectorSubsystem;
 
 public class CmdRunCollectorJoystick extends CommandBase {
-  private CollectorSubsystem collectorSubsystem;
   private Thrustmaster mThrustmaster;
-  private AHRS mAhrs;
+  private CollectorSubsystem collectorSubsystem;
+
 
   /**
    * Creates a new CmdRunCollectorJoystick.
    */
-  public CmdRunCollectorJoystick(Thrustmaster joystick) {
-    mThrustmaster = joystick;
+  public CmdRunCollectorJoystick() {
     collectorSubsystem = CollectorSubsystem.getInstance();
     addRequirements(collectorSubsystem);
     // Use addRequirements() here to declare subsystem dependencies.
@@ -42,11 +42,15 @@ public class CmdRunCollectorJoystick extends CommandBase {
     double speed = 0.5;
     double forward = mThrustmaster.getYAxis();
     double strafe = mThrustmaster.getXAxis();
-    double averageValue = (forward + strafe) / 2;
+    // double averageValue = (forward + strafe) / 2;
     Vector2 vector = new Vector2(forward, strafe);
     double vectorSpeed = vector.length;
-    speed = (vectorSpeed/2);
-    collectorSubsystem.collectFuel(speed);
+    if(Math.abs(vectorSpeed) > 0 ) {
+      speed = (vectorSpeed/2);
+      collectorSubsystem.collectFuel(speed);
+    } else {
+      collectorSubsystem.collectFuel(speed);
+    }
   }
 
   // Called once the command ends or is interrupted.
