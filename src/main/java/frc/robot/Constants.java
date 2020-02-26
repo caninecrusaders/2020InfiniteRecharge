@@ -54,7 +54,7 @@ public final class Constants {
     public static final int detectFuelTriggerID = 8;
     public static final int detectFuelEchoID = 9;
     //for digital input
-    public static final int digitalSensorIntakeID = 7;
+    public static final int digitalSensorIntakeID = 9;
     public static final int digitalSensorGateID = 6;
 
     //public static final int sensorID = 4;

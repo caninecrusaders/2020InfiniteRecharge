@@ -16,14 +16,14 @@ import frc.robot.input.XboxController;
 import frc.robot.subsystems.CollectorSubsystem;
 import frc.robot.subsystems.DriveTrainSubsystem;
 
-public class CmdRunCollector extends CommandBase {
+public class CmdRunCollectorXbox extends CommandBase {
   private CollectorSubsystem collectorSubsystem;
   private XboxController xboxController;
 
   /**
    * Creates a new cmdCollectFuel.
    */
-  public CmdRunCollector(XboxController controller) {
+  public CmdRunCollectorXbox(XboxController controller) {
     collectorSubsystem = CollectorSubsystem.getInstance();
     addRequirements(collectorSubsystem);
     xboxController = controller;

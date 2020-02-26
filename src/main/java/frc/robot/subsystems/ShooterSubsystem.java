@@ -62,8 +62,9 @@ public class ShooterSubsystem extends SubsystemBase {
       shooterMode = newShooterMode;
       beltSpeed = -Math.abs(newBeltSpeed);
       shooterSpeed = Math.abs(newShooterSpeed);
-      if (shooterMode == ShooterMode.kShootHi) shooterSpeed = -shooterSpeed; // reverse motor for hi shooter
+      // if (shooterMode == ShooterMode.kShootHi) shooterSpeed = shooterSpeed; // reverse motor for hi shooter
     }
+    shooterMode = newShooterMode;
   }
 
   public void finishShooting() {
@@ -136,7 +137,7 @@ public class ShooterSubsystem extends SubsystemBase {
       finishShooting();
     } else {
       beltMotor.set(ControlMode.PercentOutput, beltSpeed);
-      shootMotor.set(shooterSpeed);
+      shootMotor.set(-shooterSpeed);
     }
   }
 

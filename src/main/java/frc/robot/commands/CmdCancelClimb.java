@@ -9,6 +9,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
+import frc.robot.subsystems.ClimberSubsystem;
 
 public class CmdCancelClimb extends CommandBase {
   /**
@@ -22,11 +23,14 @@ public class CmdCancelClimb extends CommandBase {
   @Override
   public void initialize() {
     RobotContainer.setEndgame(false);
+    ClimberSubsystem.getInstance().retractClimbActuator();
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+
   }
 
   // Called once the command ends or is interrupted.

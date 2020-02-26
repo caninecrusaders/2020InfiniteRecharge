@@ -76,7 +76,7 @@ public class RobotContainer {
       // driveTrainSubsystem.setDefaultCommand(mCmdTwoJoystickHolonomic); 
       // driveTrainSubsystem.setDefaultCommand(mCmdXboxHolonomic);
 
-      CmdRunCollector collectFuel = new CmdRunCollector(xboxRobotControl);
+      CmdRunCollectorXbox collectFuel = new CmdRunCollectorXbox(xboxRobotControl);
       mCollectorSubsystem.setDefaultCommand(collectFuel);
       configureButtonBindings();
 
@@ -109,9 +109,8 @@ public class RobotContainer {
     xboxRobotControl.getStartButton().whenPressed(new CmdWinchClimb(mClimberSubsystem));
     xboxRobotControl.getLeftBumperButton().whenPressed(new CmdCancelClimb());
     xboxRobotControl.getRightBumperButton().whenPressed(new CmdClimbStartPosition());
-
     
-
+    thrustmasterJoystick.getTriggerButton().whileHeld(new CmdRunCollectorJoystick(thrustmasterJoystick));
   }
 
   /**
