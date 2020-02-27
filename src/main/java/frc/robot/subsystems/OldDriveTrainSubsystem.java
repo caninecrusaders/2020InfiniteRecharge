@@ -116,8 +116,10 @@ public class OldDriveTrainSubsystem extends SubsystemBase {
           .build();
 
   private final SwerveDriveKinematics kinematics = new SwerveDriveKinematics(
-      new Translation2d(TRACKWIDTH / 2.0, WHEELBASE / 2.0), new Translation2d(TRACKWIDTH / 2.0, -WHEELBASE / 2.0),
-      new Translation2d(-TRACKWIDTH / 2.0, WHEELBASE / 2.0), new Translation2d(-TRACKWIDTH / 2.0, -WHEELBASE / 2.0));
+      new Translation2d(TRACKWIDTH / 2.0, WHEELBASE / 2.0), 
+      new Translation2d(TRACKWIDTH / 2.0, -WHEELBASE / 2.0),
+      new Translation2d(-TRACKWIDTH / 2.0, WHEELBASE / 2.0), 
+      new Translation2d(-TRACKWIDTH / 2.0, -WHEELBASE / 2.0));
 
   public final Gyroscope gyroscope = new NavX(SPI.Port.kMXP);
   // public final Gyroscope gyroscope = new NavX(SerialPort.Port.kUSB1);

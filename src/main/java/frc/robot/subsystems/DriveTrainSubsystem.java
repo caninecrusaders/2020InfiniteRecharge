@@ -24,6 +24,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
+import java.util.Optional;
 import java.util.Vector;
 
 import javax.annotation.concurrent.GuardedBy;
@@ -50,13 +51,14 @@ import org.frcteam2910.common.util.HolonomicDriveSignal;
 import org.frcteam2910.common.util.HolonomicFeedforward;
 import org.frcteam2910.common.robot.UpdateManager;
 
-
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.TimedRobot;
 
-public class DriveTrainSubsystem extends SubsystemBase implements UpdateManager.Updatable{
+public class DriveTrainSubsystem extends SubsystemBase implements UpdateManager.Updatable {
   public static final double WHEELBASE = 18;
   public static final double TRACKWIDTH = 18;
+
+  public ChassisVelocity velocity;
 
   // public boolean enableDrive = true;
   // public boolean enableAngle = true;
@@ -73,13 +75,10 @@ public class DriveTrainSubsystem extends SubsystemBase implements UpdateManager.
   // // new CentripetalAccelerationConstraint(25.0 * 12.0)
   // };
 
-  // private static final PidConstants FOLLOWER_TRANSLATION_CONSTANTS = new
-  // PidConstants(0.05, 0.01, 0.0);
-  // private static final PidConstants FOLLOWER_ROTATION_CONSTANTS = new
-  // PidConstants(0.2, 0.01, 0.0);
-  // private static final HolonomicFeedforward FOLLOWER_FEEDFORWARD_CONSTANTS =
-  // new HolonomicFeedforward(
-  // new DrivetrainFeedforwardConstants(1.0 / (14.0 * 12.0), 0.0, 0.0));
+  private static final PidConstants FOLLOWER_TRANSLATION_CONSTANTS = new PidConstants(0.05, 0.01, 0.0);
+  private static final PidConstants FOLLOWER_ROTATION_CONSTANTS = new PidConstants(0.2, 0.01, 0.0);
+  private static final HolonomicFeedforward FOLLOWER_FEEDFORWARD_CONSTANTS = new HolonomicFeedforward(
+      new DrivetrainFeedforwardConstants(1.0 / (14.0 * 12.0), 0.0, 0.0));
 
   // private final Object lock = new Object();
   // private double snapRotation = Double.NaN;
@@ -90,13 +89,11 @@ public class DriveTrainSubsystem extends SubsystemBase implements UpdateManager.
   // return mSwerveOdometry;
   // }
 
-  // private HolonomicMotionProfiledTrajectoryFollower follower = new
-  // HolonomicMotionProfiledTrajectoryFollower(
-  // FOLLOWER_TRANSLATION_CONSTANTS, FOLLOWER_ROTATION_CONSTANTS,
-  // FOLLOWER_FEEDFORWARD_CONSTANTS);
+  private HolonomicMotionProfiledTrajectoryFollower follower = new HolonomicMotionProfiledTrajectoryFollower(
+      FOLLOWER_TRANSLATION_CONSTANTS, FOLLOWER_ROTATION_CONSTANTS, FOLLOWER_FEEDFORWARD_CONSTANTS);
 
   private final SwerveModule frontLeftModule = new Mk2SwerveModuleBuilder(
-      new Vector2(TRACKWIDTH / 2.0, WHEELBASE / 2.0))
+      new Vector2(TRACKWIDTH / 2.0, -WHEELBASE / 2.0))
           .angleEncoder(new AnalogInput(Constants.encoderFL),
               Preferences.getInstance().getDouble("Front Left Offset", 0))
           .angleMotor(new CANSparkMax(Constants.angleMotorFL, MotorType.kBrushless),
@@ -105,7 +102,7 @@ public class DriveTrainSubsystem extends SubsystemBase implements UpdateManager.
               Mk2SwerveModuleBuilder.MotorType.NEO)
           .build();
   private final SwerveModule frontRightModule = new Mk2SwerveModuleBuilder(
-      new Vector2(TRACKWIDTH / 2.0, -WHEELBASE / 2.0))
+      new Vector2(TRACKWIDTH / 2.0, WHEELBASE / 2.0))
           .angleEncoder(new AnalogInput(Constants.encoderFR),
               Preferences.getInstance().getDouble("Front Right Offset", 0))
           .angleMotor(new CANSparkMax(Constants.angleMotorFR, MotorType.kBrushless),
@@ -114,7 +111,7 @@ public class DriveTrainSubsystem extends SubsystemBase implements UpdateManager.
               Mk2SwerveModuleBuilder.MotorType.NEO)
           .build();
   private final SwerveModule backLeftModule = new Mk2SwerveModuleBuilder(
-      new Vector2(-TRACKWIDTH / 2.0, WHEELBASE / 2.0))
+      new Vector2(-TRACKWIDTH / 2.0, -WHEELBASE / 2.0))
           .angleEncoder(new AnalogInput(Constants.encoderBL),
               Preferences.getInstance().getDouble("Back Left Offset", 0))
           .angleMotor(new CANSparkMax(Constants.angleMotorBL, MotorType.kBrushless),
@@ -123,7 +120,7 @@ public class DriveTrainSubsystem extends SubsystemBase implements UpdateManager.
               Mk2SwerveModuleBuilder.MotorType.NEO)
           .build();
   private final SwerveModule backRightModule = new Mk2SwerveModuleBuilder(
-      new Vector2(-TRACKWIDTH / 2.0, -WHEELBASE / 2.0))
+      new Vector2(-TRACKWIDTH / 2.0, WHEELBASE / 2.0))
           .angleEncoder(new AnalogInput(Constants.encoderBR),
               Preferences.getInstance().getDouble("Back Right Offset", 0))
           .angleMotor(new CANSparkMax(Constants.angleMotorBR, MotorType.kBrushless),
@@ -134,8 +131,10 @@ public class DriveTrainSubsystem extends SubsystemBase implements UpdateManager.
 
   private final SwerveModule[] modules = { frontLeftModule, frontRightModule, backLeftModule, backRightModule };
 
-  private final SwerveKinematics kinematics = new SwerveKinematics(new Vector2(TRACKWIDTH / 2.0, WHEELBASE / 2.0),
-      new Vector2(TRACKWIDTH / 2.0, -WHEELBASE / 2.0), new Vector2(-TRACKWIDTH / 2.0, WHEELBASE / 2.0),
+  private final SwerveKinematics kinematics = new SwerveKinematics(
+      new Vector2(TRACKWIDTH / 2.0, WHEELBASE / 2.0),
+      new Vector2(TRACKWIDTH / 2.0, -WHEELBASE / 2.0), 
+      new Vector2(-TRACKWIDTH / 2.0, WHEELBASE / 2.0),
       new Vector2(-TRACKWIDTH / 2.0, -WHEELBASE / 2.0));
 
   // public final Gyroscope gyroscope = new NavX(SPI.Port.kMXP);
@@ -200,6 +199,12 @@ public class DriveTrainSubsystem extends SubsystemBase implements UpdateManager.
     }
   }
 
+  public void drive(HolonomicDriveSignal newSignal) {
+    synchronized (stateLock) {
+      driveSignal = newSignal;
+    }
+  }
+
   public void resetGyroAngle(Rotation2 angle) {
     synchronized (sensorLock) {
       navX.setAdjustmentAngle(navX.getUnadjustedAngle().rotateBy(angle.inverse()));
@@ -240,7 +245,6 @@ public class DriveTrainSubsystem extends SubsystemBase implements UpdateManager.
   }
 
   private void updateModules(HolonomicDriveSignal signal, double dt) {
-    ChassisVelocity velocity;
     if (signal == null) {
       velocity = new ChassisVelocity(Vector2.ZERO, 0.0);
     } else if (signal.isFieldOriented()) {
@@ -262,6 +266,8 @@ public class DriveTrainSubsystem extends SubsystemBase implements UpdateManager.
 
   @Override
   public void periodic() {
+    
+    
     // update(timestamp, dt);
     var pose = getPose();
     poseXEntry.setDouble(pose.translation.x);
@@ -281,31 +287,9 @@ public class DriveTrainSubsystem extends SubsystemBase implements UpdateManager.
     return instance;
   }
 
-
-
-
-  // public void setSnapRotation(double snapRotation) {
-  //   synchronized (lock) {
-  //     this.snapRotation = snapRotation;
-  //   }
-  // }
-
-  // public void stopSnap() {
-  //   synchronized (lock) {
-  //     this.snapRotation = Double.NaN;
-  //   }
-  // }
-
-
-  // public void drive(Vector2 translationalVelocity, double rotationalVelocity,
-  // boolean fieldOriented) {
-  // synchronized (stateLock) {
-  // driveSignal = new HolonomicDriveSignal(translationalVelocity,
-  // rotationalVelocity, fieldOriented);
-  // }
-  // }
-
-  
+  public HolonomicMotionProfiledTrajectoryFollower getFollower() {
+    return follower;
+  }
 
   public void saveAllZeroOffsets() {
     double offsetFL = frontLeftModule.getCurrentAngle();
@@ -317,6 +301,33 @@ public class DriveTrainSubsystem extends SubsystemBase implements UpdateManager.
     Preferences.getInstance().putDouble("Back Left Offset", offsetBL);
     Preferences.getInstance().putDouble("Back Right Offset", offsetBR);
 
+  }
+  // public void setSnapRotation(double snapRotation) {
+  // synchronized (lock) {
+  // this.snapRotation = snapRotation;
+  // }
+  // }
+
+  // public void stopSnap() {
+  // synchronized (lock) {
+  // this.snapRotation = Double.NaN;
+  // }
+  // }
+
+  // public void drive(Vector2 translationalVelocity, double rotationalVelocity,
+  // boolean fieldOriented) {
+  // synchronized (stateLock) {
+  // driveSignal = new HolonomicDriveSignal(translationalVelocity,
+  // rotationalVelocity, fieldOriented);
+  // }
+  // }
+  public double getAngularVelocity() {
+    return navX.getRate();
+    
+  }
+
+  public Vector2 getVelocity() {
+    return velocity.getTranslationalVelocity();
   }
 
   public void updateKinematics() { // TODO: need to clean this up, and localSignal might not be initizalized right
@@ -343,17 +354,12 @@ public class DriveTrainSubsystem extends SubsystemBase implements UpdateManager.
     // }
     // }
 
-    // Translation2d tmpTrans = new Translation2d(localSignal.getTranslation().x, localSignal.getTranslation().y);
+    // Translation2d tmpTrans = new Translation2d(localSignal.getTranslation().x,
+    // localSignal.getTranslation().y);
 
     // drive(tmpTrans, localSignal.getRotation(), localSignal.isFieldOriented());
     // TODO: figure out how to get a translation from the Translation2D class not
     // Vector2 from their common
   }
-
-  // public HolonomicMotionProfiledTrajectoryFollower getFollower() {
-  //   return follower;
-  // }
-
-  
 
 }

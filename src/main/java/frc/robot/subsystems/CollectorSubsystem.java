@@ -93,7 +93,7 @@ public class CollectorSubsystem extends SubsystemBase {
    *--------------------------------------------------------------*/
   private boolean isMotorStalled() {
     if (!motorStalled) {
-      if (collectorMotor.getStatorCurrent() > 10.0) {
+      if (collectorMotor.getStatorCurrent() > 40.0) {
         double curTime = RobotController.getFPGATime();
         if (stallStartTime == 0.0) {
           stallStartTime = curTime;
