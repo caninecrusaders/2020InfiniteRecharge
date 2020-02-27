@@ -106,6 +106,7 @@ public class RobotContainer {
       mShooterSubsystem = null;
 
       saveZeroOffsetSubsystem = new SaveZeroOffsetSubsystem();
+      
     }
   }
 
@@ -126,7 +127,7 @@ public class RobotContainer {
     xboxRobotControl.getLeftBumperButton().whenPressed(new CmdCancelClimb());
     xboxRobotControl.getRightBumperButton().whenPressed(new CmdClimbStartPosition());
     
-    thrustmasterJoystick.getTriggerButton().whileHeld(new CmdRunCollectorJoystick());
+    thrustmasterJoystick.getTriggerButton().whileHeld(new CmdRunCollectorJoystick(mCollectorSubsystem, thrustmasterJoystick));
   }
 
   /**

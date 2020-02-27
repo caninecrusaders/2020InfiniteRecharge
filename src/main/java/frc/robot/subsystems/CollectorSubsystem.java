@@ -76,9 +76,9 @@ public class CollectorSubsystem extends SubsystemBase {
 
   public void periodic() {
     // This method will be called once per scheduler run
-    if(RobotContainer.isEndgame() && isExtended) {
-      retractCollectorActuator();
-    }
+    // if(RobotContainer.isEndgame() && isExtended) {
+    //   retractCollectorActuator();
+    // }
 
     // collectorMotor.set(ControlMode.PercentOutput, -speed*0.5);
     setMotorSpeed();
@@ -117,9 +117,9 @@ public class CollectorSubsystem extends SubsystemBase {
    *    stalled, the speed based on the speed input.
    *----------------------------------------------------------------*/
   private void setMotorSpeed() {
-    if (RobotContainer.isEndgame()) {
-      collectorMotor.set(ControlMode.PercentOutput, 0.0);
-    } else {
+    // if (RobotContainer.isEndgame()) {
+    //   collectorMotor.set(ControlMode.PercentOutput, 0.0);
+    // } else {
       if (motorStalled) { // reverse motor for 1 sec
         double curTime = RobotController.getFPGATime();
         if (curTime < stallStartTime + 1.5) { // motorStalled not set for 0.5 sec
@@ -132,10 +132,10 @@ public class CollectorSubsystem extends SubsystemBase {
         if (isMotorStalled()) {
           collectorMotor.set(ControlMode.PercentOutput, 0.0);
         } else {
-          collectorMotor.set(ControlMode.PercentOutput, -speed*0.5);
+          collectorMotor.set(ControlMode.PercentOutput, -speed);
         }
       }
-    }
+    // }
   }
 
 }

@@ -61,66 +61,66 @@ public class Thrustmaster extends Joystick {
   }
 
   public Button getTriggerButton() {
-    return mButtons[1];
+    return mButtons[0];
   }
 
   public Button getJoystickMiddleButton() {
-    return mButtons[2];
+    return mButtons[1];
   }
 
   public Button getJoystickLeftButton() {
-    return mButtons[3];
+    return mButtons[2];
   }
 
   public Button getJoystickRightButton() {
-    return mButtons[4];
+    return mButtons[3];
   }
 
   public Button getBottomLeftButtonLEFT() {
-    return mButtons[5];
+    return mButtons[4];
   }
 
   public Button getMiddleLeftButtonLEFT() {
-    return mButtons[6];
+    return mButtons[5];
   }
 
   public Button getTopLeftButtonLEFT() {
-    return mButtons[7];
+    return mButtons[6];
   }
 
   public Button getBottomRightButtonLEFT() {
-    return mButtons[8];
+    return mButtons[7];
   }
 
   public Button getMiddleRightButtonLEFT() {
-    return mButtons[9];
+    return mButtons[8];
   }
 
   public Button getTopRightButtonLeft() {
-    return mButtons[10];
+    return mButtons[9];
   }
 
   public Button getBottomRightButtonRIGHT() {
-    return mButtons[11];
+    return mButtons[10];
   }
 
   public Button getMiddleRightButtonRIGHT() {
-    return mButtons[12];
+    return mButtons[11];
   }
   
   public Button getTopRightButtonRIGHT() {
-    return mButtons[13];
+    return mButtons[12];
   }
 
   public Button getTopLeftButtonRIGHT() {
-    return mButtons[14];
+    return mButtons[13];
   }
 
   public Button getMiddleLeftButtonRIGHT() {
-    return mButtons[15];
+    return mButtons[14];
   }
 
   public Button getBottomLeftButtonRIGHT() {
-    return mButtons[16];
+    return mButtons[15];
   }
 }

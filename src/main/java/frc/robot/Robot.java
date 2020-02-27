@@ -36,9 +36,8 @@ public class Robot extends TimedRobot {
 
   private Command autoCommand = null;
 
-  private AutoTrajectories autoTrajectories = new AutoTrajectories(); // TODO: make restraints
-  private AutoSelector autoSelector = new AutoSelector(autoTrajectories);
-  //TODO: is this the right param?
+  private AutoTrajectories autoTrajectories; 
+  private AutoSelector autoSelector;
 
   /**
    * This function is run when the robot is first started up and should be used
@@ -46,6 +45,8 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
+    autoTrajectories = new AutoTrajectories();
+    autoSelector = new AutoSelector(autoTrajectories);
     compressor = new Compressor(Constants.actuatorModuleID);
     compressor.setClosedLoopControl(true);
 

@@ -42,7 +42,7 @@ public final class JoystickX3D extends Joystick {
 
     }
 
-    public Button getTriggerButton() {
+    public Button getTriggerButton() { //TODO: fix these numbers to start at 0
         return mButtons[1];
     }
 
