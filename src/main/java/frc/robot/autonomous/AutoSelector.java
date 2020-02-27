@@ -57,8 +57,8 @@ public class AutoSelector {
     Rotation2 startingOrientation = Rotation2.ZERO;
 
     SequentialCommandGroup group = new SequentialCommandGroup(new InstantCommand(() -> {
-      DriveTrainSubsystem.getInstance().gyroscope.setAdjustmentAngle(
-          DriveTrainSubsystem.getInstance().gyroscope.getUnadjustedAngle().rotateBy(startingOrientation));
+      // DriveTrainSubsystem.getInstance().gyroscope.setAdjustmentAngle(
+      //     DriveTrainSubsystem.getInstance().gyroscope.getUnadjustedAngle().rotateBy(startingOrientation));
     }));
     group.runsWhenDisabled();
     group.addCommands(

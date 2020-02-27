@@ -9,6 +9,8 @@ package frc.robot;
 
 import com.kauailabs.navx.frc.AHRS;
 
+import org.frcteam2910.common.robot.UpdateManager;
+
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.RobotState;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -25,6 +27,8 @@ import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.commands.*;
 
 public class RobotContainer {
+  public final UpdateManager updateManager;
+
   public XboxController xboxRobotControl = new XboxController(2);
   public XboxController xboxDriver = new XboxController(3); // not used unless driving with xbox controller
 
@@ -66,6 +70,8 @@ public class RobotContainer {
     if (!RobotState.isTest()) {
       saveZeroOffsetSubsystem = null;
 
+
+
       mCmdJoystickHolonomic = new CmdJoystickHolonomic(thrustmasterJoystick);
       mCmdTwoJoystickHolonomic = new CmdTwoJoystickHolonomic(x3DJoystick, thrustmasterJoystick);
       mCmdXboxHolonomic = new CmdXboxHolonomic(xboxDriver);
@@ -81,6 +87,7 @@ public class RobotContainer {
       mCollectorSubsystem = CollectorSubsystem.getInstance();
       mShooterSubsystem = ShooterSubsystem.getInstance();
 
+
       driveTrainSubsystem.setDefaultCommand(mCmdJoystickHolonomic);
       mClimberSubsystem.setDefaultCommand(mCmdRunClimbHook);
       // driveTrainSubsystem.setDefaultCommand(mCmdTwoJoystickHolonomic); 
@@ -88,9 +95,12 @@ public class RobotContainer {
       // mCollectorSubsystem.setDefaultCommand(mCmdRunCollectorXbox);
       // mCollectorSubsystem.setDefaultCommand(mCmdRunCollectorJoystick);
 
+      updateManager = new UpdateManager(driveTrainSubsystem);
+      updateManager.startLoop(5.0e-3);
       configureButtonBindings();
 
     } else {
+      updateManager = null; 
       mCmdJoystickHolonomic = null;
       mCmdTwoJoystickHolonomic = null;
       mCmdXboxHolonomic = null;

@@ -7,6 +7,7 @@
 
 package frc.robot.commands;
 
+import org.frcteam2910.common.math.Vector2;
 import org.frcteam2910.common.robot.Utilities;
 
 import edu.wpi.first.wpilibj.Preferences;
@@ -55,7 +56,7 @@ public class CmdJoystickHolonomic extends CommandBase {
     // Square the rotation stick
     rotation = Math.copySign(Math.pow(rotation, 2.0), rotation);
 
-    DriveTrainSubsystem.getInstance().drive(new Translation2d(forward, strafe), rotation, true);
+    DriveTrainSubsystem.getInstance().drive(new Vector2(forward, strafe), rotation, true);
   }
 
   // Called once the command ends or is interrupted.
