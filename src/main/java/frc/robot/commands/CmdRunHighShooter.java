@@ -27,7 +27,7 @@ public class CmdRunHighShooter extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    mShooterSubsystem.shoot(ShooterSubsystem.ShooterMode.kShootHi, 1.0, 0.5);
+    mShooterSubsystem.shoot(ShooterSubsystem.ShooterMode.kShootHi, 1.0, 1.0);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
