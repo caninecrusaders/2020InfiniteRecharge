@@ -91,10 +91,10 @@ public class CollectorSubsystem extends SubsystemBase {
    * the time is reset. This assumes the motorStalled flag is not
    * true and will just return motorStalled flag if it is true.
    *--------------------------------------------------------------*/
-  private boolean isMotorStalled() {
+  private boolean checkMotorStalled() {
     if (!motorStalled) {
-      if (collectorMotor.getStatorCurrent() > 10.0) {
-        double curTime = RobotController.getFPGATime();
+      if (collectorMotor.getStatorCurrent() > 40.0) {
+        double curTime = RobotController.getFPGATime()/1000000.0;
         if (stallStartTime == 0.0) {
           stallStartTime = curTime;
         } else if (curTime > stallStartTime + 0.5) {
@@ -121,7 +121,7 @@ public class CollectorSubsystem extends SubsystemBase {
     //   collectorMotor.set(ControlMode.PercentOutput, 0.0);
     // } else {
       if (motorStalled) { // reverse motor for 1 sec
-        double curTime = RobotController.getFPGATime();
+        double curTime = RobotController.getFPGATime()/1000000.0;
         if (curTime < stallStartTime + 1.5) { // motorStalled not set for 0.5 sec
           collectorMotor.set(ControlMode.PercentOutput, 1.0);
         } else { // reset motor stalled flag and time and start collecting again
@@ -129,7 +129,7 @@ public class CollectorSubsystem extends SubsystemBase {
           stallStartTime = 0.0;
         }
       } else { // normal operation
-        if (isMotorStalled()) {
+        if (checkMotorStalled()) {
           collectorMotor.set(ControlMode.PercentOutput, 0.0);
         } else {
           collectorMotor.set(ControlMode.PercentOutput, -speed);
