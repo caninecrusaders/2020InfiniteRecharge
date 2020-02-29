@@ -34,6 +34,7 @@ public class AutoTrajectories {
   private final Trajectory lowGoalToFrontTrench;
   private final Trajectory frontTrenchToRearCP; // CP = Control Panel
   private final Trajectory rearCPToFrontTrench;
+  private final Trajectory oneFootForward;
   // private final Trajectory frontTrenchToLowGoal;
 
   // private final Trajectory lowGoaToOpponentFrontTrench;
@@ -107,6 +108,12 @@ public class AutoTrajectories {
     rearCPToFrontTrench = new Trajectory(rearCPToFrontTrenchPath, constraints, 1.0e-2);
     // Path frontTrenchToLowGoalPath = new SplinePathBuilder
     // (new Vector2(0, y), initialHeading, initialRotation)
+
+
+    Path oneFootForwardPath = new SplinePathBuilder(new Vector2(0,0), Rotation2.ZERO, Rotation2.ZERO)
+        .hermite(new Vector2(0,12), Rotation2.ZERO).build();
+
+    oneFootForward = new Trajectory(oneFootForwardPath, constraints, 1.0e-2);
   }
 
 }

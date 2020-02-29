@@ -138,6 +138,7 @@ public class RobotContainer {
     xboxRobotControl.getRightBumperButton().whenPressed(new CmdClimbStartPosition());
     
     thrustmasterJoystick.getTriggerButton().whileHeld(new CmdRunCollectorJoystick(mCollectorSubsystem, thrustmasterJoystick));
+    thrustmasterJoystick.getJoystickLeftButton().whileHeld(new CmdReverseCollectorJoystick(mCollectorSubsystem, thrustmasterJoystick));
   }
 
   /**
