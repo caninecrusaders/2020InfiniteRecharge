@@ -36,14 +36,14 @@ public class CmdRunCollectorJoystick extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double speed = 0.3;
+    double speed = 0.35;
     double forward = mThrustmaster.getYAxis();
     double strafe = mThrustmaster.getXAxis();
     // double averageValue = (forward + strafe) / 2;
     Vector2 vector = new Vector2(forward, strafe);
     double vectorSpeed = vector.length;
     if(Math.abs(vectorSpeed) > 0 ) {
-      speed = (vectorSpeed/1.2);
+      speed = speed + (vectorSpeed/2);
       mCollectorSubsystem.collectFuel(speed);
     } else {
       mCollectorSubsystem.collectFuel(speed);

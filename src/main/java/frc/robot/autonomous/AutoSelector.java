@@ -52,6 +52,14 @@ public class AutoSelector {
     return group;
   }
 
+  private Command offAutoLine() {
+    SequentialCommandGroup group = new SequentialCommandGroup(
+      // new CmdFollowTrajectory(trajectories.oneFootForward)
+      new CmdFollowTrajectory(trajectories.oneFootForward)
+    );
+    return group;
+  }
+
   public Command getCommand() {
 
     Rotation2 startingOrientation = Rotation2.ZERO;
@@ -62,10 +70,10 @@ public class AutoSelector {
     }));
     group.runsWhenDisabled();
     group.addCommands(
-        new CmdFollowTrajectory(trajectories.testThreeFeetForward),
-        new CmdFollowTrajectory(trajectories.testThreeFeetForwardAndThreeFeetRight),
-        new CmdFollowTrajectory(trajectories.testThreeFeetLeft), 
-        new CmdFollowTrajectory(trajectories.testToZero));
+        new CmdFollowTrajectory(trajectories.testThreeFeetForward));
+        // new CmdFollowTrajectory(trajectories.testThreeFeetForwardAndThreeFeetRight),
+        // new CmdFollowTrajectory(trajectories.testThreeFeetLeft), 
+        // new CmdFollowTrajectory(trajectories.testToZero));
 
     return group;
 

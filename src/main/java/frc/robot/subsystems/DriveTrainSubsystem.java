@@ -143,7 +143,7 @@ public class DriveTrainSubsystem extends SubsystemBase implements UpdateManager.
 
   private final Object sensorLock = new Object();
   @GuardedBy("sensorLock")
-  private final NavX navX = new NavX(SPI.Port.kMXP);
+  public final NavX navX = new NavX(SPI.Port.kMXP);
 
   private final Object kinematicsLock = new Object();
   @GuardedBy("kinematicsLock")

@@ -30,11 +30,12 @@ public class AutoTrajectories {
   public Trajectory testThreeFeetLeft;
   public Trajectory testToZero;
 
+  public Trajectory oneFootForward;
+
   private final Trajectory autoLineToLowGoal;
   private final Trajectory lowGoalToFrontTrench;
   private final Trajectory frontTrenchToRearCP; // CP = Control Panel
   private final Trajectory rearCPToFrontTrench;
-  private final Trajectory oneFootForward;
   // private final Trajectory frontTrenchToLowGoal;
 
   // private final Trajectory lowGoaToOpponentFrontTrench;
