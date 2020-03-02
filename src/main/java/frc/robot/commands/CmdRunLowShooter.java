@@ -27,7 +27,7 @@ public class CmdRunLowShooter extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    mShooterSubsystem.shoot(ShooterSubsystem.ShooterMode.kShootLo, 0.5, 0.25);
+    mShooterSubsystem.shoot(ShooterSubsystem.ShooterMode.kShootLo, 0.75, 0.5);
   }
 
   // Called every time the scheduler runs while the command is scheduled.

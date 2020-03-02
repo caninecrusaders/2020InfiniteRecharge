@@ -29,6 +29,7 @@ public class CmdFollowTrajectory extends CommandBase {
    */
   public CmdFollowTrajectory(Trajectory trajectory) {
     this(() -> trajectory);
+    addRequirements(DriveTrainSubsystem.getInstance());
     // Use addRequirements() here to declare subsystem dependencies.
 
   }
