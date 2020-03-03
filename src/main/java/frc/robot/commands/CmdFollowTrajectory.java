@@ -7,15 +7,19 @@
 
 package frc.robot.commands;
 
+import java.util.Optional;
 import java.util.function.Supplier;
 
 import org.frcteam2910.common.control.Trajectory;
+import org.frcteam2910.common.util.HolonomicDriveSignal;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DriveTrainSubsystem;
 
 public class CmdFollowTrajectory extends CommandBase {
   private final Supplier<Trajectory> trajectorSupplier;
+  private double lastTimeStamp;
 
   private Trajectory trajectory;
 
@@ -39,12 +43,25 @@ public class CmdFollowTrajectory extends CommandBase {
   public void initialize() {
     trajectory = trajectorSupplier.get();
     DriveTrainSubsystem.getInstance().updateKinematics();
-    // DriveTrainSubsystem.getInstance().getFollower().follow(trajectory);
+    DriveTrainSubsystem.getInstance().getFollower().follow(trajectory);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    double timeStamp = Timer.getFPGATimestamp();
+    if(lastTimeStamp == 0) {
+      lastTimeStamp = timeStamp;
+    }
+    double dt = timeStamp - lastTimeStamp;
+    lastTimeStamp = timeStamp;
+    Optional<HolonomicDriveSignal> driveSignal = DriveTrainSubsystem.getInstance().getFollower().update(
+      DriveTrainSubsystem.getInstance().getPose(), 
+      DriveTrainSubsystem.getInstance().getVelocity(), 
+      DriveTrainSubsystem.getInstance().getAngularVelocity(), 
+      Timer.getFPGATimestamp(), 
+      dt);
+    DriveTrainSubsystem.getInstance().drive(driveSignal.get());
   }
 
   // Called once the command ends or is interrupted.
