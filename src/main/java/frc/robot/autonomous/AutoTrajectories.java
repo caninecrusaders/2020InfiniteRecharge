@@ -30,6 +30,8 @@ public class AutoTrajectories {
   public Trajectory testThreeFeetLeft;
   public Trajectory testToZero;
 
+  public Trajectory oneFootForward;
+
   private final Trajectory autoLineToLowGoal;
   private final Trajectory lowGoalToFrontTrench;
   private final Trajectory frontTrenchToRearCP; // CP = Control Panel
@@ -107,6 +109,12 @@ public class AutoTrajectories {
     rearCPToFrontTrench = new Trajectory(rearCPToFrontTrenchPath, constraints, 1.0e-2);
     // Path frontTrenchToLowGoalPath = new SplinePathBuilder
     // (new Vector2(0, y), initialHeading, initialRotation)
+
+
+    Path oneFootForwardPath = new SplinePathBuilder(new Vector2(0,0), Rotation2.ZERO, Rotation2.ZERO)
+        .hermite(new Vector2(0,12), Rotation2.ZERO).build();
+
+    oneFootForward = new Trajectory(oneFootForwardPath, constraints, 1.0e-2);
   }
 
 }

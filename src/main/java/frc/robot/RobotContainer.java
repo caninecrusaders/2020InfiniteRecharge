@@ -71,7 +71,6 @@ public class RobotContainer {
       saveZeroOffsetSubsystem = null;
 
 
-
       mCmdJoystickHolonomic = new CmdJoystickHolonomic(thrustmasterJoystick);
       mCmdTwoJoystickHolonomic = new CmdTwoJoystickHolonomic(x3DJoystick, thrustmasterJoystick);
       mCmdXboxHolonomic = new CmdXboxHolonomic(xboxDriver);
@@ -86,6 +85,7 @@ public class RobotContainer {
       mClimberSubsystem = ClimberSubsystem.getInstance();
       mCollectorSubsystem = CollectorSubsystem.getInstance();
       mShooterSubsystem = ShooterSubsystem.getInstance();
+      mShooterSubsystem.setJoystick(xboxRobotControl);
 
 
       driveTrainSubsystem.setDefaultCommand(mCmdJoystickHolonomic);
@@ -129,6 +129,7 @@ public class RobotContainer {
   private void configureButtonBindings() {
     xboxRobotControl.getAButton().whenPressed(new CmdRunLowShooter(mShooterSubsystem));
     xboxRobotControl.getYButton().whenPressed(new CmdRunHighShooter(mShooterSubsystem));
+    xboxRobotControl.getLeftJoystickButton().whenPressed(new CmdToggleShooterOveride(mShooterSubsystem));
 
     xboxRobotControl.getBButton().whenPressed(new CmdRetractCollector(mCollectorSubsystem));
     xboxRobotControl.getXButton().whenPressed(new CmdExtendCollector(mCollectorSubsystem));
@@ -138,6 +139,8 @@ public class RobotContainer {
     xboxRobotControl.getRightBumperButton().whenPressed(new CmdClimbStartPosition());
     
     thrustmasterJoystick.getTriggerButton().whileHeld(new CmdRunCollectorJoystick(mCollectorSubsystem, thrustmasterJoystick));
+    thrustmasterJoystick.getJoystickLeftButton().whileHeld(new CmdReverseCollectorJoystick(mCollectorSubsystem, thrustmasterJoystick));
+    thrustmasterJoystick.getJoystickRightButton().whenPressed(new CmdZeroYaw(driveTrainSubsystem.navX));
   }
 
   /**

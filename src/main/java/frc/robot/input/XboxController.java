@@ -2,6 +2,7 @@ package frc.robot.input;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.button.*;
+import frc.robot.RobotContainer;
 
 /**
  * <p>
@@ -21,7 +22,7 @@ import edu.wpi.first.wpilibj2.command.button.*;
  */
 
 public final class XboxController extends Joystick {
-
+    
     private final Button[] mButtons = { new JoystickButton(this, 1), // A Button
             new JoystickButton(this, 2), // B Button
             new JoystickButton(this, 3), // X Button
@@ -114,5 +115,15 @@ public final class XboxController extends Joystick {
     public Button getRightTriggerButton() {
         return mButtons[11];
     }
+
+    public void leftRumble(double rumble) {
+        this.setRumble(RumbleType.kLeftRumble, rumble);
+    }
+    
+    public void rightRumble(double rumble) {
+        this.setRumble(RumbleType.kRightRumble, rumble);
+    
+    }
+
 
 }

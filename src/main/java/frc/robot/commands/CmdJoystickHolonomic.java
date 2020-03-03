@@ -56,7 +56,7 @@ public class CmdJoystickHolonomic extends CommandBase {
     // Square the rotation stick
     rotation = Math.copySign(Math.pow(rotation, 2.0), rotation);
 
-    DriveTrainSubsystem.getInstance().drive(new Vector2(forward, strafe), rotation, true);
+    DriveTrainSubsystem.getInstance().drive(new Vector2(-forward, -strafe), -rotation/2, true);
   }
 
   // Called once the command ends or is interrupted.

@@ -15,18 +15,22 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandGroupBase;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.CmdFollowTrajectory;
 import frc.robot.subsystems.DriveTrainSubsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 
 /**
  * Add your docs here.
  */
 public class AutoSelector {
   private final AutoTrajectories trajectories;
+  SendableChooser<Command> chooser = new SendableChooser<Command>();
 
   // private static SendableChooser<Side> sideChooser;
   // private static SendableChooser<Rotation2> orientationChooser;
@@ -39,6 +43,9 @@ public class AutoSelector {
   // }
   public AutoSelector(AutoTrajectories trajectories) {
     this.trajectories = trajectories;
+    SmartDashboard.putData("Auto Mode", chooser);
+    chooser.setDefaultOption("OffAutoLine", offAutoLine());
+    chooser.addOption("3FtSquare", makeASquare());
   }
 
   private Command makeASquare() {
@@ -52,6 +59,14 @@ public class AutoSelector {
     return group;
   }
 
+  private Command offAutoLine() {
+    SequentialCommandGroup group = new SequentialCommandGroup(
+      // new CmdFollowTrajectory(trajectories.oneFootForward)
+      new CmdFollowTrajectory(trajectories.oneFootForward)
+    );
+    return group;
+  }
+
   public Command getCommand() {
 
     Rotation2 startingOrientation = Rotation2.ZERO;
@@ -62,10 +77,10 @@ public class AutoSelector {
     }));
     group.runsWhenDisabled();
     group.addCommands(
-        new CmdFollowTrajectory(trajectories.testThreeFeetForward),
-        new CmdFollowTrajectory(trajectories.testThreeFeetForwardAndThreeFeetRight),
-        new CmdFollowTrajectory(trajectories.testThreeFeetLeft), 
-        new CmdFollowTrajectory(trajectories.testToZero));
+        new CmdFollowTrajectory(trajectories.testThreeFeetForward));
+        // new CmdFollowTrajectory(trajectories.testThreeFeetForwardAndThreeFeetRight),
+        // new CmdFollowTrajectory(trajectories.testThreeFeetLeft), 
+        // new CmdFollowTrajectory(trajectories.testToZero));
 
     return group;
 

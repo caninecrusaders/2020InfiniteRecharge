@@ -132,10 +132,10 @@ public class DriveTrainSubsystem extends SubsystemBase implements UpdateManager.
   private final SwerveModule[] modules = { frontLeftModule, frontRightModule, backLeftModule, backRightModule };
 
   private final SwerveKinematics kinematics = new SwerveKinematics(
-      new Vector2(TRACKWIDTH / 2.0, WHEELBASE / 2.0),
-      new Vector2(TRACKWIDTH / 2.0, -WHEELBASE / 2.0), 
-      new Vector2(-TRACKWIDTH / 2.0, WHEELBASE / 2.0),
-      new Vector2(-TRACKWIDTH / 2.0, -WHEELBASE / 2.0));
+      new Vector2(TRACKWIDTH / 2.0, WHEELBASE / 2.0), //fl
+      new Vector2(TRACKWIDTH / 2.0, -WHEELBASE / 2.0), //fr
+      new Vector2(-TRACKWIDTH / 2.0, WHEELBASE / 2.0), //bl
+      new Vector2(-TRACKWIDTH / 2.0, -WHEELBASE / 2.0)); //br
 
   // public final Gyroscope gyroscope = new NavX(SPI.Port.kMXP);
   // public final Gyroscope gyroscope = new NavX(SerialPort.Port.kUSB1);
@@ -143,7 +143,7 @@ public class DriveTrainSubsystem extends SubsystemBase implements UpdateManager.
 
   private final Object sensorLock = new Object();
   @GuardedBy("sensorLock")
-  private final NavX navX = new NavX(SPI.Port.kMXP);
+  public final NavX navX = new NavX(SPI.Port.kMXP);
 
   private final Object kinematicsLock = new Object();
   @GuardedBy("kinematicsLock")
@@ -266,8 +266,6 @@ public class DriveTrainSubsystem extends SubsystemBase implements UpdateManager.
 
   @Override
   public void periodic() {
-    
-    
     // update(timestamp, dt);
     var pose = getPose();
     poseXEntry.setDouble(pose.translation.x);
