@@ -22,6 +22,7 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj.controller.PIDController;
 import frc.robot.Constants;
 
 import java.util.Optional;
@@ -46,6 +47,7 @@ import org.frcteam2910.common.math.Rotation2;
 import org.frcteam2910.common.math.Vector2;
 import org.frcteam2910.common.robot.drivers.Mk2SwerveModuleBuilder;
 import org.frcteam2910.common.robot.drivers.NavX;
+import org.frcteam2910.common.robot.drivers.NavX.Axis;
 import org.frcteam2910.common.util.DrivetrainFeedforwardConstants;
 import org.frcteam2910.common.util.HolonomicDriveSignal;
 import org.frcteam2910.common.util.HolonomicFeedforward;
@@ -57,6 +59,8 @@ import edu.wpi.first.wpilibj.TimedRobot;
 public class DriveTrainSubsystem extends SubsystemBase implements UpdateManager.Updatable {
   public static final double WHEELBASE = 18;
   public static final double TRACKWIDTH = 18;
+
+  private PIDController snapPID = new PIDController(0.2, 0.01, 0.0);
 
   public ChassisVelocity velocity;
 
@@ -300,6 +304,27 @@ public class DriveTrainSubsystem extends SubsystemBase implements UpdateManager.
     Preferences.getInstance().putDouble("Back Right Offset", offsetBR);
 
   }
+
+  public void setSnapRotation(double targetAngle) { // call from cmd initialize method
+    // init PID controller
+    snapPID.reset();
+    snapPID.enableContinuousInput(-180.0, 180.0);
+    snapPID.setIntegratorRange(-0.5, 0.5);
+    snapPID.setTolerance(0.5); 
+    snapPID.setSetpoint(targetAngle);
+  }
+
+  public void snapRotation() { // call from cmd execute method
+    // calculate rotation velocity
+    double rotationVelocity = snapPID.calculate(navX.getAxis(Axis.YAW));
+    // feed value to drive
+    DriveTrainSubsystem.getInstance().drive(Vector2.ZERO, rotationVelocity, true);
+  }
+
+  public boolean atSnapRotation() { // call from cmd isFinished method
+    return snapPID.atSetpoint();
+  }
+
   // public void setSnapRotation(double snapRotation) {
   // synchronized (lock) {
   // this.snapRotation = snapRotation;
