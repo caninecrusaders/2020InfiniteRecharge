@@ -22,6 +22,7 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj.controller.PIDController;
 import frc.robot.Constants;
 
 import java.util.Optional;
@@ -47,6 +48,7 @@ import org.frcteam2910.common.math.Rotation2;
 import org.frcteam2910.common.math.Vector2;
 import org.frcteam2910.common.robot.drivers.Mk2SwerveModuleBuilder;
 import org.frcteam2910.common.robot.drivers.NavX;
+import org.frcteam2910.common.robot.drivers.NavX.Axis;
 import org.frcteam2910.common.util.DrivetrainFeedforwardConstants;
 import org.frcteam2910.common.util.HolonomicDriveSignal;
 import org.frcteam2910.common.util.HolonomicFeedforward;
@@ -59,6 +61,12 @@ public class DriveTrainSubsystem extends SubsystemBase implements UpdateManager.
   public static final double WHEELBASE = 18;
   public static final double TRACKWIDTH = 18;
   private boolean fullSpeedTurn = false;
+
+  private PIDController snapPID = new PIDController(0.2, 0.01, 0.0);
+  public enum RotationMode {kManual, kZero, kBar};
+  private RotationMode rotationMode = RotationMode.kManual;
+
+
   public ChassisVelocity velocity;
 
   // public boolean enableDrive = true;
@@ -190,11 +198,13 @@ public class DriveTrainSubsystem extends SubsystemBase implements UpdateManager.
         .withPosition(7, 0).withSize(2, 3);
     moduleAngleEntries[3] = backRightModuleContainer.add("Angle", 0.0).getEntry();
 
-      snapRotationController.setInputRange(0.0, 2.0 * Math.PI);
-      snapRotationController.setContinuous(true);
-      snapRotationController.setOutputRange(-0.5, 0.5);
-    }
 
+    snapPID.enableContinuousInput(-180.0, 180.0);
+    snapPID.setIntegratorRange(-0.5, 0.5);
+    snapPID.setTolerance(0.5); 
+    snapPID.reset();
+  }
+  
   public RigidTransform2 getPose() {
     synchronized (kinematicsLock) {
       return pose;
@@ -316,6 +326,41 @@ public class DriveTrainSubsystem extends SubsystemBase implements UpdateManager.
   public boolean isFullSpeedTurn() {
     return fullSpeedTurn;
   }
+  public void setSnapRotation(double targetAngle) {
+    snapPID.reset();
+    snapPID.setSetpoint(targetAngle);
+  }
+
+  public double snapRotation() {
+    // calculate rotation velocity
+    return snapPID.calculate(navX.getAxis(Axis.YAW));
+  }
+
+  public double snapRotation(double targetAngle) {
+    // calculate rotation velocity
+    return snapPID.calculate(navX.getAxis(Axis.YAW), targetAngle);
+  }
+
+  public boolean atSnapRotation() {
+    return snapPID.atSetpoint();
+  }
+
+  public RotationMode getRotationMode() {
+    return rotationMode;
+  }
+
+  public void setRotationMode(RotationMode newRotationMode) {
+    // if rotation mode changed do necessary initilization
+    if (rotationMode != newRotationMode) {
+      if (newRotationMode == RotationMode.kZero) { // rotate to zero deg
+        setSnapRotation(0.0);
+      } else if (newRotationMode == RotationMode.kBar) { // rotate to bar angle
+        setSnapRotation(-22.5);
+      }
+    }
+    rotationMode = newRotationMode;
+  }
+
   // public void setSnapRotation(double snapRotation) {
   // synchronized (lock) {
   // this.snapRotation = snapRotation;
