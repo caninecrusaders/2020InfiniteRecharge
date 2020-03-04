@@ -16,17 +16,23 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.input.Thrustmaster;
 import frc.robot.subsystems.DriveTrainSubsystem;
+import frc.robot.subsystems.DriveTrainSubsystem.RotationMode;
+
+import org.frcteam2910.common.robot.drivers.NavX;
+import org.frcteam2910.common.robot.drivers.NavX.Axis;
 
 public class CmdJoystickHolonomic extends CommandBase {
   // private final DriveTrainSubsystem driveTrainSubsystem;
   private Thrustmaster joystick;
-
+  private DriveTrainSubsystem mDriveTrain;
+  private double prevPovAngle = -1.0; // not active
   /**
    * Creates a new cmdJoystickHolonomic.
    */
   public CmdJoystickHolonomic(Thrustmaster joystickIn) {
     joystick = joystickIn;
-    addRequirements(DriveTrainSubsystem.getInstance());
+    mDriveTrain = DriveTrainSubsystem.getInstance();
+    addRequirements(mDriveTrain);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -51,10 +57,30 @@ public class CmdJoystickHolonomic extends CommandBase {
     strafe = Math.copySign(Math.pow(strafe, 2.0), strafe);
     // Preferences.getInstance().putDouble("Strafe", strafe);
 
-    double rotation = -joystick.getZAxis();
-    rotation = Utilities.deadband(rotation);
-    // Square the rotation stick
-    rotation = Math.copySign(Math.pow(rotation, 2.0), rotation);
+//    double rotation = -joystick.getZAxis();
+//    rotation = Utilities.deadband(rotation);
+//    // Square the rotation stick
+//    rotation = Math.copySign(Math.pow(rotation, 2.0), rotation);
+
+    double rotation;
+    if (mDriveTrain.getRotationMode() == RotationMode.kManual) {
+      double newPovAngle = joystick.getPOV();
+      if (newPovAngle >=0.0) { // we have hat input
+        if (newPovAngle != prevPovAngle) { // if hat has changed
+          if (newPovAngle > 180.0) newPovAngle -= 360.0;
+          mDriveTrain.setSnapRotation(newPovAngle);
+        }
+        rotation = mDriveTrain.snapRotation();
+      } else {
+        rotation = -joystick.getZAxis();
+        rotation = Utilities.deadband(rotation);
+        // Square the rotation stick
+        rotation = Math.copySign(Math.pow(rotation, 2.0), rotation);
+      }
+      prevPovAngle = newPovAngle;
+    } else {
+      rotation = mDriveTrain.snapRotation();
+    }
 
     DriveTrainSubsystem.getInstance().drive(new Vector2(-forward, -strafe), -rotation/2, true);
   }

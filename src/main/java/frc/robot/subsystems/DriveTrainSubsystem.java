@@ -61,6 +61,9 @@ public class DriveTrainSubsystem extends SubsystemBase implements UpdateManager.
   public static final double TRACKWIDTH = 18;
 
   private PIDController snapPID = new PIDController(0.2, 0.01, 0.0);
+  public enum RotationMode {kManual, kZero, kBar};
+  private RotationMode rotationMode = RotationMode.kManual;
+
 
   public ChassisVelocity velocity;
 
@@ -189,6 +192,11 @@ public class DriveTrainSubsystem extends SubsystemBase implements UpdateManager.
     ShuffleboardLayout backRightModuleContainer = tab.getLayout("Back Right Module", BuiltInLayouts.kList)
         .withPosition(7, 0).withSize(2, 3);
     moduleAngleEntries[3] = backRightModuleContainer.add("Angle", 0.0).getEntry();
+
+    snapPID.enableContinuousInput(-180.0, 180.0);
+    snapPID.setIntegratorRange(-0.5, 0.5);
+    snapPID.setTolerance(0.5); 
+    snapPID.reset();
   }
 
   public RigidTransform2 getPose() {
@@ -305,24 +313,39 @@ public class DriveTrainSubsystem extends SubsystemBase implements UpdateManager.
 
   }
 
-  public void setSnapRotation(double targetAngle) { // call from cmd initialize method
-    // init PID controller
+  public void setSnapRotation(double targetAngle) {
     snapPID.reset();
-    snapPID.enableContinuousInput(-180.0, 180.0);
-    snapPID.setIntegratorRange(-0.5, 0.5);
-    snapPID.setTolerance(0.5); 
     snapPID.setSetpoint(targetAngle);
   }
 
-  public void snapRotation() { // call from cmd execute method
+  public double snapRotation() {
     // calculate rotation velocity
-    double rotationVelocity = snapPID.calculate(navX.getAxis(Axis.YAW));
-    // feed value to drive
-    DriveTrainSubsystem.getInstance().drive(Vector2.ZERO, rotationVelocity, true);
+    return snapPID.calculate(navX.getAxis(Axis.YAW));
   }
 
-  public boolean atSnapRotation() { // call from cmd isFinished method
+  public double snapRotation(double targetAngle) {
+    // calculate rotation velocity
+    return snapPID.calculate(navX.getAxis(Axis.YAW), targetAngle);
+  }
+
+  public boolean atSnapRotation() {
     return snapPID.atSetpoint();
+  }
+
+  public RotationMode getRotationMode() {
+    return rotationMode;
+  }
+
+  public void setRotationMode(RotationMode newRotationMode) {
+    // if rotation mode changed do necessary initilization
+    if (rotationMode != newRotationMode) {
+      if (newRotationMode == RotationMode.kZero) { // rotate to zero deg
+        setSnapRotation(0.0);
+      } else if (newRotationMode == RotationMode.kBar) { // rotate to bar angle
+        setSnapRotation(-22.5);
+      }
+    }
+    rotationMode = newRotationMode;
   }
 
   // public void setSnapRotation(double snapRotation) {

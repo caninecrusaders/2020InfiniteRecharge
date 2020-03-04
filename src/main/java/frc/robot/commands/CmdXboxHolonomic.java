@@ -14,15 +14,19 @@ import edu.wpi.first.wpilibj.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.input.XboxController;
 import frc.robot.subsystems.DriveTrainSubsystem;
+import frc.robot.subsystems.DriveTrainSubsystem.RotationMode;
 
 public class CmdXboxHolonomic extends CommandBase {
   private XboxController xboxController;
+  private DriveTrainSubsystem mDriveTrain = null;
+
   /**
    * Creates a new cmdXboxHolonomic.
    */
   public CmdXboxHolonomic(XboxController xboxIn) {
     xboxController = xboxIn;
-    addRequirements(DriveTrainSubsystem.getInstance());
+    mDriveTrain = DriveTrainSubsystem.getInstance();
+    addRequirements(mDriveTrain);
   }
 
   // Called when the command is initially scheduled.
@@ -44,11 +48,15 @@ public class CmdXboxHolonomic extends CommandBase {
     strafe = Math.copySign(Math.pow(strafe, 2.0), strafe);
 
     double rotation = xboxController.getRightXValue();
-    rotation = Utilities.deadband(rotation);
-    // Square the rotation stick
-    rotation = Math.copySign(Math.pow(rotation, 2.0), rotation);
+    if (mDriveTrain.getRotationMode() == RotationMode.kManual) {
+      rotation = Utilities.deadband(rotation);
+      // Square the rotation stick
+      rotation = Math.copySign(Math.pow(rotation, 2.0), rotation);
+    } else {
+      rotation = mDriveTrain.snapRotation();
+    }
 
-    DriveTrainSubsystem.getInstance().drive(new Vector2(forward, strafe), rotation, true);
+    mDriveTrain.drive(new Vector2(forward, strafe), rotation, true);
   }
 
   // Called once the command ends or is interrupted.
