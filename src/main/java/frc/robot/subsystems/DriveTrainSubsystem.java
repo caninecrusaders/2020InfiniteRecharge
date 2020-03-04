@@ -34,6 +34,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import org.frcteam2910.common.control.HolonomicMotionProfiledTrajectoryFollower;
 import org.frcteam2910.common.control.PidConstants;
+import org.frcteam2910.common.control.PidController;
 import org.frcteam2910.common.control.TrajectoryConstraint;
 import org.frcteam2910.common.drivers.Gyroscope;
 import org.frcteam2910.common.drivers.SwerveModule;
@@ -57,7 +58,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 public class DriveTrainSubsystem extends SubsystemBase implements UpdateManager.Updatable {
   public static final double WHEELBASE = 18;
   public static final double TRACKWIDTH = 18;
-
+  private boolean fullSpeedTurn = false;
   public ChassisVelocity velocity;
 
   // public boolean enableDrive = true;
@@ -74,11 +75,14 @@ public class DriveTrainSubsystem extends SubsystemBase implements UpdateManager.
   // // new MaxAccelerationConstraint(13.0 * 12.0),
   // // new CentripetalAccelerationConstraint(25.0 * 12.0)
   // };
-
+  private static final PidConstants SNAP_ROTATION_CONSTANTS = new PidConstants(0.3, 0.01, 0.0);
   private static final PidConstants FOLLOWER_TRANSLATION_CONSTANTS = new PidConstants(0.05, 0.01, 0.0);
   private static final PidConstants FOLLOWER_ROTATION_CONSTANTS = new PidConstants(0.2, 0.01, 0.0);
   private static final HolonomicFeedforward FOLLOWER_FEEDFORWARD_CONSTANTS = new HolonomicFeedforward(
       new DrivetrainFeedforwardConstants(1.0 / (14.0 * 12.0), 0.0, 0.0));
+
+  public PidController snapRotationController = new PidController(SNAP_ROTATION_CONSTANTS);
+  private double snapRotation = Double.NaN;
 
   // private final Object lock = new Object();
   // private double snapRotation = Double.NaN;
@@ -131,11 +135,10 @@ public class DriveTrainSubsystem extends SubsystemBase implements UpdateManager.
 
   private final SwerveModule[] modules = { frontLeftModule, frontRightModule, backLeftModule, backRightModule };
 
-  private final SwerveKinematics kinematics = new SwerveKinematics(
-      new Vector2(TRACKWIDTH / 2.0, WHEELBASE / 2.0), //fl
-      new Vector2(TRACKWIDTH / 2.0, -WHEELBASE / 2.0), //fr
-      new Vector2(-TRACKWIDTH / 2.0, WHEELBASE / 2.0), //bl
-      new Vector2(-TRACKWIDTH / 2.0, -WHEELBASE / 2.0)); //br
+  private final SwerveKinematics kinematics = new SwerveKinematics(new Vector2(TRACKWIDTH / 2.0, WHEELBASE / 2.0), // fl
+      new Vector2(TRACKWIDTH / 2.0, -WHEELBASE / 2.0), // fr
+      new Vector2(-TRACKWIDTH / 2.0, WHEELBASE / 2.0), // bl
+      new Vector2(-TRACKWIDTH / 2.0, -WHEELBASE / 2.0)); // br
 
   // public final Gyroscope gyroscope = new NavX(SPI.Port.kMXP);
   // public final Gyroscope gyroscope = new NavX(SerialPort.Port.kUSB1);
@@ -163,6 +166,7 @@ public class DriveTrainSubsystem extends SubsystemBase implements UpdateManager.
   public DriveTrainSubsystem() {
     synchronized (sensorLock) {
       navX.setInverted(true);
+      
     }
 
     ShuffleboardTab tab = Shuffleboard.getTab("Drivetrain");
@@ -185,7 +189,11 @@ public class DriveTrainSubsystem extends SubsystemBase implements UpdateManager.
     ShuffleboardLayout backRightModuleContainer = tab.getLayout("Back Right Module", BuiltInLayouts.kList)
         .withPosition(7, 0).withSize(2, 3);
     moduleAngleEntries[3] = backRightModuleContainer.add("Angle", 0.0).getEntry();
-  }
+
+      snapRotationController.setInputRange(0.0, 2.0 * Math.PI);
+      snapRotationController.setContinuous(true);
+      snapRotationController.setOutputRange(-0.5, 0.5);
+    }
 
   public RigidTransform2 getPose() {
     synchronized (kinematicsLock) {
@@ -300,6 +308,14 @@ public class DriveTrainSubsystem extends SubsystemBase implements UpdateManager.
     Preferences.getInstance().putDouble("Back Right Offset", offsetBR);
 
   }
+
+  public void enableFullSpeedTurn(boolean flag) {
+    fullSpeedTurn = flag;
+  }
+
+  public boolean isFullSpeedTurn() {
+    return fullSpeedTurn;
+  }
   // public void setSnapRotation(double snapRotation) {
   // synchronized (lock) {
   // this.snapRotation = snapRotation;
@@ -321,7 +337,7 @@ public class DriveTrainSubsystem extends SubsystemBase implements UpdateManager.
   // }
   public double getAngularVelocity() {
     return navX.getRate();
-    
+
   }
 
   public Vector2 getVelocity() {

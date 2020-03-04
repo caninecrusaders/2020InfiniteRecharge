@@ -53,7 +53,6 @@ public class RobotContainer {
   private final CollectorSubsystem mCollectorSubsystem;
   private final ShooterSubsystem mShooterSubsystem;
 
-
   private static boolean endgame = false;
 
   public DriveTrainSubsystem getDriveTrainSubsystem() {
@@ -63,21 +62,13 @@ public class RobotContainer {
   public SaveZeroOffsetSubsystem getSaveZeroOffsetSubsystem() {
     return saveZeroOffsetSubsystem;
   }
+
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
     if (!RobotState.isTest()) {
       saveZeroOffsetSubsystem = null;
-
-
-      mCmdJoystickHolonomic = new CmdJoystickHolonomic(thrustmasterJoystick);
-      mCmdTwoJoystickHolonomic = new CmdTwoJoystickHolonomic(x3DJoystick, thrustmasterJoystick);
-      mCmdXboxHolonomic = new CmdXboxHolonomic(xboxDriver);
-      mCmdRunClimbHook = new CmdRunClimbHook(xboxRobotControl);
-      mCmdRunCollectorXbox = new CmdRunCollectorXbox(xboxRobotControl);
-      // mCmdRunCollectorJoystick = new CmdRunCollectorJoystick(thrustmasterJoystick);
-      
 
       ledStrip = new LEDStrip(thrustmasterJoystick);
 
@@ -87,10 +78,16 @@ public class RobotContainer {
       mShooterSubsystem = ShooterSubsystem.getInstance();
       mShooterSubsystem.setJoystick(xboxRobotControl);
 
+      mCmdJoystickHolonomic = new CmdJoystickHolonomic(thrustmasterJoystick, driveTrainSubsystem);
+      mCmdTwoJoystickHolonomic = new CmdTwoJoystickHolonomic(x3DJoystick, thrustmasterJoystick);
+      mCmdXboxHolonomic = new CmdXboxHolonomic(xboxDriver);
+      mCmdRunClimbHook = new CmdRunClimbHook(xboxRobotControl);
+      mCmdRunCollectorXbox = new CmdRunCollectorXbox(xboxRobotControl);
+      // mCmdRunCollectorJoystick = new CmdRunCollectorJoystick(thrustmasterJoystick);
 
       driveTrainSubsystem.setDefaultCommand(mCmdJoystickHolonomic);
       mClimberSubsystem.setDefaultCommand(mCmdRunClimbHook);
-      // driveTrainSubsystem.setDefaultCommand(mCmdTwoJoystickHolonomic); 
+      // driveTrainSubsystem.setDefaultCommand(mCmdTwoJoystickHolonomic);
       // driveTrainSubsystem.setDefaultCommand(mCmdXboxHolonomic);
       // mCollectorSubsystem.setDefaultCommand(mCmdRunCollectorXbox);
       // mCollectorSubsystem.setDefaultCommand(mCmdRunCollectorJoystick);
@@ -100,7 +97,7 @@ public class RobotContainer {
       configureButtonBindings();
 
     } else {
-      updateManager = null; 
+      updateManager = null;
       mCmdJoystickHolonomic = null;
       mCmdTwoJoystickHolonomic = null;
       mCmdXboxHolonomic = null;
@@ -116,7 +113,7 @@ public class RobotContainer {
       mShooterSubsystem = null;
 
       saveZeroOffsetSubsystem = new SaveZeroOffsetSubsystem();
-      
+
     }
   }
 
@@ -137,10 +134,15 @@ public class RobotContainer {
     xboxRobotControl.getStartButton().whenPressed(new CmdWinchClimb(mClimberSubsystem));
     xboxRobotControl.getLeftBumperButton().whenPressed(new CmdCancelClimb());
     xboxRobotControl.getRightBumperButton().whenPressed(new CmdClimbStartPosition());
-    
-    thrustmasterJoystick.getTriggerButton().whileHeld(new CmdRunCollectorJoystick(mCollectorSubsystem, thrustmasterJoystick));
-    thrustmasterJoystick.getJoystickLeftButton().whileHeld(new CmdReverseCollectorJoystick(mCollectorSubsystem, thrustmasterJoystick));
-    thrustmasterJoystick.getJoystickRightButton().whenPressed(new CmdZeroYaw(driveTrainSubsystem.navX));
+
+    thrustmasterJoystick.getTriggerButton()
+        .whileHeld(new CmdRunCollectorJoystick(mCollectorSubsystem, thrustmasterJoystick));
+    thrustmasterJoystick.getJoystickLeftButton()
+        .whileHeld(new CmdReverseCollectorJoystick(mCollectorSubsystem, thrustmasterJoystick));
+    // thrustmasterJoystick.getTopLeftButtonRIGHT().whenPressed(new
+    // CmdZeroYaw(driveTrainSubsystem.navX));
+    thrustmasterJoystick.getJoystickMiddleButton().whenPressed(new CmdZeroRobot(driveTrainSubsystem.navX));
+    thrustmasterJoystick.getJoystickRightButton().whileHeld(new CmdEnableFullSpeedTurn(driveTrainSubsystem));
   }
 
   /**
@@ -152,11 +154,12 @@ public class RobotContainer {
   // // An ExampleCommand will run in autonomous
   // return m_autoCommand;
   // }
-  
-  public static void setEndgame(boolean flag){
+
+  public static void setEndgame(boolean flag) {
     endgame = flag;
   }
-  public static boolean isEndgame(){
+
+  public static boolean isEndgame() {
     return endgame;
   }
 }

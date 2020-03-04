@@ -14,18 +14,21 @@ import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.geometry.Translation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.RobotContainer;
 import frc.robot.input.Thrustmaster;
 import frc.robot.subsystems.DriveTrainSubsystem;
 
 public class CmdJoystickHolonomic extends CommandBase {
   // private final DriveTrainSubsystem driveTrainSubsystem;
   private Thrustmaster joystick;
+  DriveTrainSubsystem mDriveTrainSubsystem;
 
   /**
    * Creates a new cmdJoystickHolonomic.
    */
-  public CmdJoystickHolonomic(Thrustmaster joystickIn) {
+  public CmdJoystickHolonomic(Thrustmaster joystickIn, DriveTrainSubsystem driveTrain) {
     joystick = joystickIn;
+    mDriveTrainSubsystem = driveTrain;
     addRequirements(DriveTrainSubsystem.getInstance());
     // Use addRequirements() here to declare subsystem dependencies.
   }
@@ -55,8 +58,10 @@ public class CmdJoystickHolonomic extends CommandBase {
     rotation = Utilities.deadband(rotation);
     // Square the rotation stick
     rotation = Math.copySign(Math.pow(rotation, 2.0), rotation);
-
-    DriveTrainSubsystem.getInstance().drive(new Vector2(-forward, -strafe), -rotation/2, true);
+    if(mDriveTrainSubsystem.isFullSpeedTurn() == false) {
+      rotation = rotation/4.0;
+    }
+    DriveTrainSubsystem.getInstance().drive(new Vector2(-forward, -strafe), -rotation, true);
   }
 
   // Called once the command ends or is interrupted.
