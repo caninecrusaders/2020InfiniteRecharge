@@ -30,7 +30,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class AutoSelector {
   private final AutoTrajectories trajectories;
-  SendableChooser<Command> chooser = new SendableChooser<Command>();
+  // SendableChooser<Command> chooser = new SendableChooser<Command>();
 
   // private static SendableChooser<Side> sideChooser;
   // private static SendableChooser<Rotation2> orientationChooser;
@@ -43,9 +43,9 @@ public class AutoSelector {
   // }
   public AutoSelector(AutoTrajectories trajectories) {
     this.trajectories = trajectories;
-    SmartDashboard.putData("Auto Mode", chooser);
-    chooser.setDefaultOption("OffAutoLine", offAutoLine());
-    chooser.addOption("3FtSquare", makeASquare());
+    // SmartDashboard.putData("Auto Mode", chooser);
+    // chooser.setDefaultOption("OffAutoLine", offAutoLine());
+    // chooser.addOption("3FtSquare", makeASquare());
   }
 
   private Command makeASquare() {

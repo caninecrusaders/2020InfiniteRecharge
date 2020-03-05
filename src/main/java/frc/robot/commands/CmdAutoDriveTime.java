@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DriveTrainSubsystem;
 
-public class CmdAutoDrive extends CommandBase {
+public class CmdAutoDriveTime extends CommandBase {
   private double x , y;
   private double rotation;
   private double startTime;
@@ -22,7 +22,7 @@ public class CmdAutoDrive extends CommandBase {
   /**
    * Creates a new CmdAutoDrive.
    */
-  public CmdAutoDrive(double x, double y, double rotationAngle, double seconds) {
+  public CmdAutoDriveTime(double x, double y, double rotationAngle, double seconds) {
     this.x = x;
     this.y = y;
     rotation = rotationAngle;

@@ -60,29 +60,17 @@ import edu.wpi.first.wpilibj.TimedRobot;
 public class DriveTrainSubsystem extends SubsystemBase implements UpdateManager.Updatable {
   public static final double WHEELBASE = 18;
   public static final double TRACKWIDTH = 18;
+  private final double wheelDiameter = 4.1;
   private boolean fullSpeedTurn = false;
 
   private PIDController snapPID = new PIDController(0.2, 0.01, 0.0);
   public enum RotationMode {kManual, kZero, kBar};
   private RotationMode rotationMode = RotationMode.kManual;
-
-
   public ChassisVelocity velocity;
 
-  // public boolean enableDrive = true;
-  // public boolean enableAngle = true;
-
+  private double startRotations[] = {0,0,0,0};
   public static DriveTrainSubsystem instance;
-  // public static Mk2SwerveModule mk2SwerveModule;
-  // public static SwerveModule swerveModule;
-
-  // public static final TrajectoryConstraint[] CONSTRAINTS = { // TODO: need to
-  // create constraints
-
-  // // new MaxVelocityConstraint(MAX_VELOCITY),
-  // // new MaxAccelerationConstraint(13.0 * 12.0),
-  // // new CentripetalAccelerationConstraint(25.0 * 12.0)
-  // };
+  
   private static final PidConstants SNAP_ROTATION_CONSTANTS = new PidConstants(0.3, 0.01, 0.0);
   private static final PidConstants FOLLOWER_TRANSLATION_CONSTANTS = new PidConstants(0.05, 0.01, 0.0);
   private static final PidConstants FOLLOWER_ROTATION_CONSTANTS = new PidConstants(0.2, 0.01, 0.0);
@@ -92,15 +80,7 @@ public class DriveTrainSubsystem extends SubsystemBase implements UpdateManager.
   public PidController snapRotationController = new PidController(SNAP_ROTATION_CONSTANTS);
   private double snapRotation = Double.NaN;
 
-  // private final Object lock = new Object();
-  // private double snapRotation = Double.NaN;
-
-  // public SwerveOdometry mSwerveOdometry;
-
-  // public SwerveOdometry getSwerveOdometry() {
-  // return mSwerveOdometry;
-  // }
-
+  
   private HolonomicMotionProfiledTrajectoryFollower follower = new HolonomicMotionProfiledTrajectoryFollower(
       FOLLOWER_TRANSLATION_CONSTANTS, FOLLOWER_ROTATION_CONSTANTS, FOLLOWER_FEEDFORWARD_CONSTANTS);
 
@@ -374,52 +354,30 @@ public class DriveTrainSubsystem extends SubsystemBase implements UpdateManager.
   // }
   // }
 
-  // public void drive(Vector2 translationalVelocity, double rotationalVelocity,
-  // boolean fieldOriented) {
-  // synchronized (stateLock) {
-  // driveSignal = new HolonomicDriveSignal(translationalVelocity,
-  // rotationalVelocity, fieldOriented);
-  // }
-  // }
   public double getAngularVelocity() {
     return navX.getRate();
-
   }
 
   public Vector2 getVelocity() {
     return velocity.getTranslationalVelocity();
   }
 
-  public void updateKinematics() { // TODO: need to clean this up, and localSignal might not be initizalized right
-    // RigidTransform2 currentPose = new RigidTransform2(
-    // getKinematicPosition(),
-    // gyroscope.getAngle());
-    // Optional<HolonomicDriveSignal> optSignal = follower.update(currentPose, ,
-    // rotationalVelocity, time, dt)
+  public void updateKinematics() {
     HolonomicDriveSignal localSignal = new HolonomicDriveSignal(new Vector2(0, 0.05), 0, true);
+  }
 
-    // getSwerveOdometry().resetPose(Vector2.ZERO, Rotation2.ZERO); //TODO: Might
-    // need to put this back lol
+  public void resetDistance() {
+    for (int i = 0; i < 4; i++) {
+      startRotations[i] = modules[i].getCurrentDistance();
+    }
+  }
 
-    // if (Math.abs(localSignal.getRotation()) < 0.1 &&
-    // Double.isFinite(localSnapRotation)) {
-    // snapRotationController.setSetpoint(localSnapRotation);
-
-    // localSignal = new HolonomicDriveSignal(localSignal.getTranslation(),
-    // snapRotationController.calculate(getGyroscope().getAngle().toRadians(), dt),
-    // localSignal.isFieldOriented());
-    // } else {
-    // synchronized (lock) {
-    // snapRotation = Double.NaN;
-    // }
-    // }
-
-    // Translation2d tmpTrans = new Translation2d(localSignal.getTranslation().x,
-    // localSignal.getTranslation().y);
-
-    // drive(tmpTrans, localSignal.getRotation(), localSignal.isFieldOriented());
-    // TODO: figure out how to get a translation from the Translation2D class not
-    // Vector2 from their common
+  public double getDistance() {
+    double sum = 0;
+    for (int i = 0; i < 4; i++) {
+      sum += (modules[i].getCurrentDistance() - startRotations[i]);
+    }
+    return (sum/4.0) * (Math.PI * wheelDiameter);
   }
 
 }
