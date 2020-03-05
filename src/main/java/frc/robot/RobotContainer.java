@@ -139,8 +139,10 @@ public class RobotContainer {
         .whileHeld(new CmdRunCollectorJoystick(mCollectorSubsystem, thrustmasterJoystick));
     thrustmasterJoystick.getJoystickLeftButton()
         .whileHeld(new CmdReverseCollectorJoystick(mCollectorSubsystem, thrustmasterJoystick));
-    // thrustmasterJoystick.getTopLeftButtonRIGHT().whenPressed(new
-    // CmdZeroYaw(driveTrainSubsystem.navX));
+        
+    thrustmasterJoystick.getTopLeftButtonRIGHT().whenPressed(new
+    CmdZeroYaw(driveTrainSubsystem.navX));
+
     thrustmasterJoystick.getJoystickMiddleButton().whenPressed(new CmdZeroRobot(driveTrainSubsystem.navX));
     thrustmasterJoystick.getJoystickRightButton().whileHeld(new CmdEnableFullSpeedTurn(driveTrainSubsystem));
   }

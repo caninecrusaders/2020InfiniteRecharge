@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.RobotState;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.autonomous.AutoClassic;
 import frc.robot.autonomous.AutoSelector;
 import frc.robot.autonomous.AutoTrajectories;
 import frc.robot.subsystems.CollectorSubsystem;
@@ -36,8 +37,9 @@ public class Robot extends TimedRobot {
 
   private Command autoCommand = null;
 
-  private AutoTrajectories autoTrajectories; 
-  private AutoSelector autoSelector;
+  // private AutoTrajectories autoTrajectories; 
+  // private AutoSelector autoSelector;
+  private AutoClassic autoClassic;
 
   /**
    * This function is run when the robot is first started up and should be used
@@ -45,8 +47,9 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
-    autoTrajectories = new AutoTrajectories();
-    autoSelector = new AutoSelector(autoTrajectories);
+    // autoTrajectories = new AutoTrajectories();
+    // autoSelector = new AutoSelector(autoTrajectories);
+    autoClassic = new AutoClassic();
     compressor = new Compressor(Constants.actuatorModuleID);
     compressor.setClosedLoopControl(true);
 
@@ -105,7 +108,8 @@ public class Robot extends TimedRobot {
     if (autoCommand != null) {
       autoCommand.cancel();
     }
-    autoCommand = autoSelector.getCommand();
+    // autoCommand = autoSelector.getCommand();
+    autoCommand = autoClassic.getCommand();
     CommandScheduler.getInstance().schedule(autoCommand);
 
     // m_autonomousCommand = m_robotContainer.getAutonomousCommand();

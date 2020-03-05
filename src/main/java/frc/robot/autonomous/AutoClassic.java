@@ -1,0 +1,34 @@
+/*----------------------------------------------------------------------------*/
+/* Copyright (c) 2018-2019 FIRST. All Rights Reserved.                        */
+/* Open Source Software - may be modified and shared by FRC teams. The code   */
+/* must be accompanied by the FIRST BSD license file in the root directory of */
+/* the project.                                                               */
+/*----------------------------------------------------------------------------*/
+
+package frc.robot.autonomous;
+
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.commands.CmdAutoDrive;
+
+/**
+ * Add your docs here.
+ */
+public class AutoClassic {
+
+  public AutoClassic() {
+
+  }
+
+  private Command offAutoLine() {
+    SequentialCommandGroup group = new SequentialCommandGroup(
+      new CmdAutoDrive(-0.2, 0, 0, 0.5)
+    );
+    return group;
+
+  }
+
+  public Command getCommand() {
+    return offAutoLine();
+  }
+}

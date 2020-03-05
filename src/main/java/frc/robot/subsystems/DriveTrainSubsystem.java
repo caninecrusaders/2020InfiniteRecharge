@@ -289,6 +289,7 @@ public class DriveTrainSubsystem extends SubsystemBase implements UpdateManager.
     poseXEntry.setDouble(pose.translation.x);
     poseYEntry.setDouble(pose.translation.y);
     poseAngleEntry.setDouble(pose.rotation.toDegrees());
+    SmartDashboard.putNumber("Yaw", navX.getAxis(Axis.YAW));
 
     for (int i = 0; i < modules.length; i++) {
       var module = modules[i];
